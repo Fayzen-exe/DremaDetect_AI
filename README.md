@@ -28,11 +28,12 @@
 4. [How It Works](#-how-it-works)
 5. [Medical Ethics & Privacy Safeguards](#-medical-ethics--privacy-safeguards)
 6. [System Architecture & Security](#-system-architecture--security)
-7. [Technology Stack](#-technology-stack)
-8. [Getting Started Locally](#-getting-started-locally)
-9. [Deployment Guide](#-deployment-guide)
-10. [Authors & Acknowledgments](#-authors--acknowledgments)
-11. [Clinical Disclaimer](#-clinical-disclaimer)
+7. [Project Directory & File Structure](#-project-directory--file-structure)
+8. [Technology Stack](#-technology-stack)
+9. [Getting Started Locally](#-getting-started-locally)
+10. [Deployment Guide](#-deployment-guide)
+11. [Authors & Acknowledgments](#-authors--acknowledgments)
+12. [Clinical Disclaimer](#-clinical-disclaimer)
 
 ---
 
@@ -185,6 +186,71 @@ DermaDetect AI utilizes an enterprise-grade, defense-in-depth security model des
    - **Tier 3**: Autonomous, deterministic clinical knowledge engine that ensures zero downtime even during provider outages.
 7. **Dual-Deployment Compatibility**:
    - Can run as a persistent Node.js/Express service (Docker, Cloud Run, Render, Railway) or as a serverless backend on Vercel via [`vercel.json`](vercel.json) and [`api/index.ts`](api/index.ts).
+
+---
+
+## 📂 Project Directory & File Structure
+
+Here is an architectural map of all project folders, components, and services:
+
+```text
+DremaDetect_AI/
+├── 📁 api/                                # Vercel serverless functions
+│   └── index.ts                          # Exported Express app entrypoint for serverless runtime
+├── 📁 docs/                               # Project documentation & visual assets
+│   └── 📁 screenshots/                   # Walkthrough UI screenshots
+│       ├── hero-section.png              # Landing hero & assessment start
+│       ├── clinical-capabilities.png     # Three clinical capability cards
+│       ├── three-simple-steps.png        # Workflow steps from question to report
+│       ├── how-it-works.png              # 24/7 AI physician consultation (Dr. Fizza)
+│       └── privacy-patient-safety.png    # Medical privacy & emergency red-flag standards
+├── 📁 public/                            # Static public browser assets
+│   └── 📁 assets/                        # Public video demonstrations & logos
+├── 📁 src/                               # Frontend Application Source Code
+│   ├── 📁 assets/                        # Medical image samples & consultation media
+│   ├── 📁 components/                    # Reusable React clinical UI components
+│   │   ├── AIDoctorConsultation.tsx      # Bedside AI Chatbot widget (Dr. Fizza, MD)
+│   │   ├── DoctorClinicalReplay.tsx      # Clinical history session playback
+│   │   ├── DoctorDiscussionSummary.tsx   # Formatted physician preparation card
+│   │   ├── EmergencyChecklistModal.tsx   # High-priority red-flag emergency alert modal
+│   │   ├── Header.tsx                    # Top navigation with rapid triage buttons
+│   │   ├── MedicalDisclaimerFooter.tsx   # Comprehensive medical ethics & authorship footer
+│   │   ├── ProfessionalMedicalReport.tsx # Hospital-grade structured report renderer
+│   │   └── 📁 ui/                        # Accessible UI design tokens & buttons
+│   ├── 📁 data/                          # Curated clinical evaluation cases
+│   │   └── sampleCases.ts                # Benchmark cases (Eczema, Melanoma, Cardiac EMG)
+│   ├── 📁 pages/                         # Application route views
+│   │   ├── HomePage.tsx                  # Interactive landing experience
+│   │   ├── SymptomCheckerPage.tsx        # Multi-step systemic intake questionnaire
+│   │   ├── SkinDetectionPage.tsx         # Computer vision skin photograph analyzer
+│   │   ├── DrFizzaPage.tsx               # Dedicated full-page AI doctor consultation
+│   │   ├── AnalysisResultsPage.tsx       # Clinical assessment report presentation
+│   │   ├── DemoCasesPage.tsx             # Interactive evaluation benchmark lab
+│   │   ├── HealthSafetyPage.tsx          # Patient privacy & clinical safety protocols
+│   │   ├── AboutPage.tsx                 # Team & mission overview
+│   │   └── PrivacyPage.tsx               # Data privacy & zero-retention policy
+│   ├── 📁 services/                      # API communication & autonomous engines
+│   │   ├── api.ts                        # Type-safe client HTTP fetch service
+│   │   └── clinicalEngine.ts             # Deterministic fallback clinical knowledge engine
+│   ├── 📁 types/                         # TypeScript interfaces & medical schemas
+│   │   └── health.ts                     # Patient intake, symptoms, and report data types
+│   ├── 📁 utils/                         # Client utilities & export generators
+│   │   └── pdfReportGenerator.ts         # High-resolution printable PDF export engine
+│   ├── App.tsx                           # Master application router & state coordinator
+│   ├── index.css                         # Tailwind CSS v4 design tokens & base styling
+│   ├── main.tsx                          # React 19 DOM client mount point
+│   └── vite-env.d.ts                     # TypeScript module declarations
+├── .env.example                          # Safe environment variable configuration template
+├── .gitignore                            # Secret, build, and IDE exclusion patterns
+├── bun.lock                              # Dependency lockfile
+├── index.html                            # HTML5 entrypoint with SEO metadata
+├── metadata.json                         # Project descriptor & capability declarations
+├── package.json                          # Scripts & dependencies configuration
+├── server.ts                             # Hardened Express backend proxy with Gemini 3.8 Flash
+├── tsconfig.json                         # TypeScript compiler configuration
+├── vercel.json                           # Vercel serverless routing configuration
+└── vite.config.ts                        # Vite 8 bundling & development server settings
+```
 
 ---
 

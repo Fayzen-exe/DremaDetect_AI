@@ -1,0 +1,103 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --color-navy: #153B50;
+  --color-teal: #249A96;
+  --color-light-teal: #E9F7F5;
+  --color-bg: #F7FAFC;
+  --color-white: #FFFFFF;
+  --color-text-primary: #253746;
+  --color-text-secondary: #687986;
+  --color-warning: #E7A23B;
+  --color-urgent: #C83F49;
+}
+
+@layer base {
+  html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: #F7FAFC;
+    color: #253746;
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  .dark body {
+    background-color: #0F1E29;
+    color: #F1F5F9;
+  }
+
+  h1, h2, h3, h4, h5, h6, .font-display {
+    font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+    letter-spacing: -0.015em;
+  }
+
+  /* Subtle dark mode surface mappings */
+  .dark .bg-white {
+    background-color: #152A38;
+  }
+  .dark .bg-\[\#F7FAFC\],
+  .dark .bg-slate-50,
+  .dark .bg-neutral-50 {
+    background-color: #0F1E29;
+  }
+  .dark .border-\[\#E3EAF0\],
+  .dark .border-\[\#E2E8F0\],
+  .dark .border-\[\#DDE5ED\],
+  .dark .border-slate-200 {
+    border-color: #243E50;
+  }
+  .dark .text-\[\#153B50\],
+  .dark .text-\[\#253746\],
+  .dark .text-\[\#102A43\],
+  .dark .text-\[\#172B4D\],
+  .dark .text-slate-900 {
+    color: #F8FAFC;
+  }
+  .dark .text-\[\#687986\],
+  .dark .text-\[\#62748A\],
+  .dark .text-slate-600 {
+    color: #94A3B8;
+  }
+  .dark .bg-\[\#E9F7F5\],
+  .dark .bg-\[\#DDF5F1\] {
+    background-color: rgba(36, 154, 150, 0.18);
+  }
+  .dark .text-\[\#249A96\],
+  .dark .text-\[\#087F8C\] {
+    color: #5EEAD4;
+  }
+
+  /* Print optimization for clinical summary */
+  @media print {
+    nav, footer, .no-print, header {
+      display: none !important;
+    }
+    body {
+      background: white !important;
+      color: black !important;
+    }
+    .print-only {
+      display: block !important;
+    }
+  }
+}

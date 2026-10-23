@@ -1,0 +1,8 @@
+{
+  "name": "DermaDetect AI — Caring Skin & Symptom Companion",
+  "description": "Warm, human-centered AI Symptom Checker and Skin Analyzer designed to help you understand your skin and symptoms in minutes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

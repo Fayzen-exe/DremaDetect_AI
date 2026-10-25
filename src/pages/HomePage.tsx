@@ -375,22 +375,11 @@ export const HomePage: React.FC<HomeProps> = ({
         <div className="absolute inset-0 bg-dot-grid-white opacity-25 pointer-events-none" />
 
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-semibold shadow-sm"
-          >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>AI Health Platform • Powered by Google Gemini</span>
-          </motion.div>
-
           {/* Headline */}
           <motion.h1
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.08 }}
+            transition={{ duration: 0.6 }}
             className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.08] font-display"
           >
             AI That Understands Your

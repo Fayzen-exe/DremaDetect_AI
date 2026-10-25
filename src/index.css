@@ -679,12 +679,51 @@
 }
 
 .footer-watermark {
-  font-size: clamp(5rem, 15vw, 13rem);
-  line-height: 0.8;
+  font-size: clamp(4.5rem, 15vw, 12.5rem);
+  line-height: 0.85;
   letter-spacing: -0.04em;
   font-weight: 900;
-  color: rgba(216, 30, 91, 0.035);
   user-select: none;
+  pointer-events: none;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.075) 50%, rgba(255, 255, 255, 0.02) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 9s infinite linear;
+}
+
+@keyframes gradient-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.footer-animated-border {
+  background: linear-gradient(90deg, #d81e5b, #fa4b4b, #ff7843, #ffa85a, #fa4b4b, #d81e5b);
+  background-size: 300% 100%;
+  animation: gradient-flow 6s ease infinite;
+}
+
+.footer-glow-orb-1 {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(216, 30, 91, 0.18) 0%, rgba(216, 30, 91, 0) 70%);
+  filter: blur(60px);
+  animation: float-orb 12s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.footer-glow-orb-2 {
+  position: absolute;
+  width: 450px;
+  height: 450px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 120, 67, 0.15) 0%, rgba(255, 120, 67, 0) 70%);
+  filter: blur(65px);
+  animation: float-orb 10s ease-in-out infinite alternate-reverse;
   pointer-events: none;
 }
 

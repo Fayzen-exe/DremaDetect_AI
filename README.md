@@ -4,10 +4,10 @@
 ### Caring Skin & Symptom Companion
 
 **AI-Powered Healthcare Awareness, Symptom Triage & Dermatological Screening Platform**  
-*Powered by Google Gemini 3.8 Flash via Google GenAI SDK*
+*Powered by Google Gemini (Gemini 2.5 / 3.8 Flash via Google GenAI SDK)*
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-dermadetect.ai.studio-008080?style=for-the-badge&logo=googlechrome&logoColor=white)](https://dermadetect.ai.studio)
-[![Google Gemini](https://img.shields.io/badge/AI%20Engine-Gemini%203.8%20Flash-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://aistudio.google.com/)
+[![Google Gemini](https://img.shields.io/badge/AI%20Engine-Gemini%20Flash%20%7C%20GenAI-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://aistudio.google.com/)
 [![React](https://img.shields.io/badge/Frontend-React%2019%20%7C%20TypeScript-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 [![Security](https://img.shields.io/badge/Security-Zero%20Key%20Leakage%20%7C%20Proxy%20Hardened-success?style=for-the-badge&logo=shield)](https://github.com/Fayzen-exe/DremaDetect_AI)
 
@@ -181,11 +181,19 @@ DermaDetect AI utilizes an enterprise-grade, defense-in-depth security model des
 5. **CORS Hardening**:
    - Configurable domain restrictions via `ALLOWED_ORIGINS` environment variable.
 6. **Multi-Tier High Availability**:
-   - **Tier 1**: Google Gemini 3.8 Flash with structured JSON schemas (`@google/genai`).
-   - **Tier 2**: High-availability secondary failover cluster.
-   - **Tier 3**: Autonomous, deterministic clinical knowledge engine that ensures zero downtime even during provider outages.
-7. **Dual-Deployment Compatibility**:
-   - Can run as a persistent Node.js/Express service (Docker, Cloud Run, Render, Railway) or as a serverless backend on Vercel via [`vercel.json`](vercel.json) and [`api/index.ts`](api/index.ts).
+   - **Tier 1**: Google Gemini 2.5 / 3.8 Flash with structured JSON schemas (`@google/genai`).
+   - **Tier 2**: High-availability secondary failover cluster (OpenRouter candidates including `nvidia/nemotron-3-ultra`, `google/gemma-4`, and lightweight fallbacks).
+   - **Tier 3**: Autonomous, deterministic clinical knowledge engine that ensures zero downtime and instant emergency triage even during provider network outages.
+7. **Adversarial Hardening & Prompt Injection Defense**:
+   - Isolates patient-submitted intake notes inside untrusted input boundary markers (`=== PATIENT REPORTED INTAKE ===`).
+   - System prompts explicitly enforce clinical persona boundaries and prohibit execution of user instructions attempting to override clinical safety rules.
+8. **Strict Medical Citation Validation**:
+   - Validates all search grounding URIs against strict web protocol standards (`http:`, `https:`), explicitly rejecting malicious schemes (`javascript:`, `data:`).
+9. **Information Leakage Prevention**:
+   - Centralized error handler catches unhandled exceptions without leaking server stack traces, local system paths, or environment data.
+   - Comprehensive 404 handlers for unregistered API routes.
+10. **Dual-Deployment Compatibility**:
+    - Can run as a persistent Node.js/Express service (Docker, Cloud Run, Render, Railway) or as a serverless backend on Vercel via [`vercel.json`](vercel.json) and [`api/index.ts`](api/index.ts).
 
 ---
 

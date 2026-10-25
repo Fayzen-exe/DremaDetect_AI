@@ -68,7 +68,19 @@ async function loadImageAsDataUrl(src?: string | null, format: 'PNG' | 'JPEG' = 
         clearTimeout(timeout);
         resolve(null);
       };
-      img.src = src.startsWith('data:') ? src : new URL(src, window.location.origin).href;
+      const isDataImage = src.startsWith('data:image/');
+      const isHttp = /^https?:\/\//i.test(src);
+      if (isDataImage) {
+        img.src = src;
+      } else if (isHttp) {
+        img.src = src;
+      } else if (src.startsWith('/')) {
+        img.src = new URL(src, window.location.origin).href;
+      } else {
+        clearTimeout(timeout);
+        resolve(null);
+        return;
+      }
     } catch {
       clearTimeout(timeout);
       resolve(null);

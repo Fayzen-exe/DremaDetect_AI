@@ -262,14 +262,11 @@ export const DoctorClinicalReplay: React.FC<DoctorClinicalReplayProps> = ({
   return (
     <div className="space-y-4">
       {/* Top Consultation Note Toolbar */}
-      <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#E3EDF2]">
+      <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#E7EDF5]">
         <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-[#249A96]" />
-          <span className="text-[11px] font-bold uppercase tracking-wider text-[#153B50]">
+          <span className="w-2 h-2 rounded-full bg-[#2458F5]" />
+          <span className="text-[11px] font-bold uppercase tracking-wider text-[#10264D]">
             Dr. Fizza • Clinical Consultation Note
-          </span>
-          <span className="hidden sm:inline-block text-[11px] font-medium text-[#249A96] bg-[#E9F7F5] px-2 py-0.5 rounded-md border border-[#249A96]/20">
-            Patient-Friendly Summary
           </span>
         </div>
 
@@ -279,17 +276,17 @@ export const DoctorClinicalReplay: React.FC<DoctorClinicalReplayProps> = ({
               <button
                 type="button"
                 onClick={togglePauseSpeech}
-                className="px-2.5 py-1 rounded-lg bg-[#F7FAFC] hover:bg-[#E9F7F5] text-[#153B50] border border-[#DCE6ED] text-[11px] font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+                className="px-2.5 py-1 rounded-lg bg-[#F7FAFF] hover:bg-[#EAF2FF] text-[#10264D] border border-[#E7EDF5] text-[11px] font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
                 title="Listen to Dr. Fizza read this note aloud"
               >
                 {isSpeaking && !isPaused ? (
                   <>
-                    <Pause className="w-3 h-3 text-[#249A96]" />
+                    <Pause className="w-3 h-3 text-[#2458F5]" />
                     <span>Pause Audio</span>
                   </>
                 ) : (
                   <>
-                    <Volume2 className="w-3 h-3 text-[#249A96]" />
+                    <Volume2 className="w-3 h-3 text-[#2458F5]" />
                     <span>{isPaused ? 'Resume Audio' : 'Listen Aloud'}</span>
                   </>
                 )}
@@ -310,7 +307,7 @@ export const DoctorClinicalReplay: React.FC<DoctorClinicalReplayProps> = ({
           <button
             type="button"
             onClick={handleCopyNote}
-            className="px-2.5 py-1 rounded-lg bg-[#F7FAFC] hover:bg-[#E9F7F5] text-[#153B50] border border-[#DCE6ED] text-[11px] font-semibold flex items-center gap-1 transition-colors cursor-pointer"
+            className="px-2.5 py-1 rounded-lg bg-[#F7FAFF] hover:bg-[#EAF2FF] text-[#10264D] border border-[#E7EDF5] text-[11px] font-semibold flex items-center gap-1 transition-colors cursor-pointer"
           >
             {copiedNote ? (
               <>
@@ -319,7 +316,7 @@ export const DoctorClinicalReplay: React.FC<DoctorClinicalReplayProps> = ({
               </>
             ) : (
               <>
-                <Copy className="w-3 h-3 text-[#687986]" />
+                <Copy className="w-3 h-3 text-[#64748B]" />
                 <span>Copy Note</span>
               </>
             )}
@@ -336,7 +333,7 @@ export const DoctorClinicalReplay: React.FC<DoctorClinicalReplayProps> = ({
                 {section.lines.map((line, lIdx) => (
                   <p
                     key={lIdx}
-                    className="text-sm sm:text-[15px] text-[#253746] leading-relaxed font-normal"
+                    className="text-sm sm:text-[15px] text-[#17253B] leading-relaxed font-normal"
                   >
                     {line}
                   </p>
@@ -349,18 +346,18 @@ export const DoctorClinicalReplay: React.FC<DoctorClinicalReplayProps> = ({
             return (
               <div
                 key={sIdx}
-                className="rounded-xl bg-[#F7FAFC] border border-[#DCE6ED] p-4 space-y-3"
+                className="rounded-xl bg-[#F7FAFF] border border-[#E7EDF5] p-4 space-y-3"
               >
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-lg bg-[#E9F7F5] text-[#249A96] flex items-center justify-center shrink-0">
+                    <div className="w-7 h-7 rounded-lg bg-[#EAF2FF] text-[#2458F5] flex items-center justify-center shrink-0">
                       <Stethoscope className="w-4 h-4" />
                     </div>
-                    <h4 className="text-xs sm:text-sm font-bold text-[#153B50] uppercase tracking-wider">
+                    <h4 className="text-xs sm:text-sm font-bold text-[#10264D] uppercase tracking-wider">
                       {section.title}
                     </h4>
                   </div>
-                  <span className="text-[11px] font-semibold text-[#249A96] bg-[#E9F7F5] px-2.5 py-0.5 rounded-md">
+                  <span className="text-[11px] font-semibold text-[#2458F5] bg-[#EAF2FF] px-2.5 py-0.5 rounded-md">
                     Possible Explanations • Not a Confirmed Diagnosis
                   </span>
                 </div>
@@ -376,20 +373,20 @@ export const DoctorClinicalReplay: React.FC<DoctorClinicalReplayProps> = ({
                       return (
                         <div
                           key={lIdx}
-                          className="p-3 rounded-xl bg-white border border-[#E3EDF2] shadow-2xs flex items-start gap-3"
+                          className="p-3 rounded-xl bg-white border border-[#E7EDF5] shadow-2xs flex items-start gap-3"
                         >
-                          <span className="w-6 h-6 rounded-full bg-[#153B50] text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
+                          <span className="w-6 h-6 rounded-full bg-[#10264D] text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
                             {num}
                           </span>
                           <div className="text-xs sm:text-sm leading-relaxed">
-                            <span className="font-bold text-[#153B50]">{label}</span>
-                            {body && <span className="text-[#253746]"> — {body}</span>}
+                            <span className="font-bold text-[#10264D]">{label}</span>
+                            {body && <span className="text-[#17253B]"> — {body}</span>}
                           </div>
                         </div>
                       );
                     }
                     return (
-                      <p key={lIdx} className="text-xs sm:text-sm text-[#253746] leading-relaxed">
+                      <p key={lIdx} className="text-xs sm:text-sm text-[#17253B] leading-relaxed">
                         {line}
                       </p>
                     );
@@ -403,13 +400,13 @@ export const DoctorClinicalReplay: React.FC<DoctorClinicalReplayProps> = ({
             return (
               <div
                 key={sIdx}
-                className="rounded-xl bg-[#E9F7F5]/55 border border-[#249A96]/25 p-4 space-y-2.5"
+                className="rounded-xl bg-[#EAF2FF]/55 border border-[#2458F5]/25 p-4 space-y-2.5"
               >
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-lg bg-[#249A96] text-white flex items-center justify-center shrink-0">
+                  <div className="w-7 h-7 rounded-lg bg-[#2458F5] text-white flex items-center justify-center shrink-0">
                     <HeartHandshake className="w-4 h-4" />
                   </div>
-                  <h4 className="text-xs sm:text-sm font-bold text-[#153B50] uppercase tracking-wider">
+                  <h4 className="text-xs sm:text-sm font-bold text-[#10264D] uppercase tracking-wider">
                     {section.title}
                   </h4>
                 </div>
@@ -419,9 +416,9 @@ export const DoctorClinicalReplay: React.FC<DoctorClinicalReplayProps> = ({
                     return (
                       <div
                         key={lIdx}
-                        className="flex items-start gap-2.5 bg-white/90 p-2.5 rounded-lg border border-[#249A96]/15 text-xs sm:text-sm text-[#253746] leading-relaxed"
+                        className="flex items-start gap-2.5 bg-white/90 p-2.5 rounded-lg border border-[#2458F5]/15 text-xs sm:text-sm text-[#17253B] leading-relaxed"
                       >
-                        <CheckCircle2 className="w-4 h-4 text-[#249A96] shrink-0 mt-0.5" />
+                        <CheckCircle2 className="w-4 h-4 text-[#2458F5] shrink-0 mt-0.5" />
                         <span>{cleanedLine}</span>
                       </div>
                     );
@@ -435,18 +432,18 @@ export const DoctorClinicalReplay: React.FC<DoctorClinicalReplayProps> = ({
             return (
               <div
                 key={sIdx}
-                className="rounded-xl bg-white border border-[#DCE6ED] p-4 space-y-2.5"
+                className="rounded-xl bg-white border border-[#E7EDF5] p-4 space-y-2.5"
               >
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-lg bg-[#153B50] text-white flex items-center justify-center shrink-0">
+                    <div className="w-7 h-7 rounded-lg bg-[#10264D] text-white flex items-center justify-center shrink-0">
                       <HelpCircle className="w-4 h-4" />
                     </div>
-                    <h4 className="text-xs sm:text-sm font-bold text-[#153B50] uppercase tracking-wider">
+                    <h4 className="text-xs sm:text-sm font-bold text-[#10264D] uppercase tracking-wider">
                       {section.title}
                     </h4>
                   </div>
-                  <span className="text-[11px] text-[#687986]">Click to check off for your visit</span>
+                  <span className="text-[11px] text-[#64748B]">Click to check off for your visit</span>
                 </div>
                 <div className="space-y-2">
                   {section.lines.map((line, lIdx) => {
@@ -462,15 +459,15 @@ export const DoctorClinicalReplay: React.FC<DoctorClinicalReplayProps> = ({
                         }
                         className={`w-full text-left p-2.5 rounded-lg border text-xs sm:text-sm flex items-start gap-2.5 transition-colors cursor-pointer ${
                           checked
-                            ? 'bg-[#E9F7F5] border-[#249A96]/40 text-[#153B50] line-through'
-                            : 'bg-[#F7FAFC] border-[#E3EDF2] text-[#253746] hover:bg-white'
+                            ? 'bg-[#EAF2FF] border-[#2458F5]/40 text-[#10264D] line-through'
+                            : 'bg-[#F7FAFF] border-[#E7EDF5] text-[#17253B] hover:bg-white'
                         }`}
                       >
                         <input
                           type="checkbox"
                           checked={checked}
                           onChange={() => {}}
-                          className="mt-1 rounded text-[#249A96] cursor-pointer"
+                          className="mt-1 rounded text-[#2458F5] cursor-pointer"
                         />
                         <span className="leading-relaxed">{cleanedLine}</span>
                       </button>
@@ -507,14 +504,14 @@ export const DoctorClinicalReplay: React.FC<DoctorClinicalReplayProps> = ({
           return (
             <div
               key={sIdx}
-              className="rounded-xl bg-[#F7FAFC] border border-[#E3EDF2] p-4 space-y-2"
+              className="rounded-xl bg-[#F7FAFF] border border-[#E7EDF5] p-4 space-y-2"
             >
-              <h4 className="text-xs font-bold text-[#153B50] uppercase tracking-wider flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-[#249A96]" />
+              <h4 className="text-xs font-bold text-[#10264D] uppercase tracking-wider flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-[#2458F5]" />
                 {section.title}
               </h4>
               {section.lines.map((line, lIdx) => (
-                <p key={lIdx} className="text-xs sm:text-sm text-[#253746] leading-relaxed">
+                <p key={lIdx} className="text-xs sm:text-sm text-[#17253B] leading-relaxed">
                   {line}
                 </p>
               ))}
@@ -525,9 +522,9 @@ export const DoctorClinicalReplay: React.FC<DoctorClinicalReplayProps> = ({
 
       {/* Interactive Follow-Up Chips */}
       {onSelectFollowUp && (
-        <div className="pt-2 border-t border-[#E3EDF2]">
-          <div className="text-[11px] font-semibold text-[#687986] mb-2 flex items-center gap-1.5">
-            <MessageSquarePlus className="w-3.5 h-3.5 text-[#249A96]" />
+        <div className="pt-2 border-t border-[#E7EDF5]">
+          <div className="text-[11px] font-semibold text-[#64748B] mb-2 flex items-center gap-1.5">
+            <MessageSquarePlus className="w-3.5 h-3.5 text-[#2458F5]" />
             <span>Ask Dr. Fizza a follow-up question:</span>
           </div>
           <div className="flex flex-wrap gap-1.5">
@@ -536,7 +533,7 @@ export const DoctorClinicalReplay: React.FC<DoctorClinicalReplayProps> = ({
                 key={prompt}
                 type="button"
                 onClick={() => onSelectFollowUp(prompt)}
-                className="text-left text-xs px-3 py-1.5 rounded-xl bg-[#F7FAFC] hover:bg-[#E9F7F5] text-[#153B50] hover:text-[#249A96] border border-[#DCE6ED] hover:border-[#249A96]/40 font-medium transition-colors cursor-pointer"
+                className="text-left text-xs px-3 py-1.5 rounded-xl bg-[#F7FAFF] hover:bg-[#EAF2FF] text-[#10264D] hover:text-[#2458F5] border border-[#E7EDF5] hover:border-[#2458F5]/40 font-medium transition-colors cursor-pointer"
               >
                 {prompt}
               </button>

@@ -56,30 +56,30 @@ export const AnalysisResultsPage: React.FC<AnalysisResultsPageProps> = ({
     'Not Specified';
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-10">
       {/* Page Header */}
       <motion.div
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45 }}
-        className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#DCE6ED] pb-8"
+        className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#E7EDF5] pb-8"
       >
         <div className="max-w-2xl space-y-3 text-left">
-          <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#249A96]">
-            <Sparkles className="w-3.5 h-3.5 text-[#249A96]" />
-            <span>AI-Generated Clinical Report Explorer · 12-Section Structure</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EAF2FF] border border-[#2458F5]/20 text-[#2458F5] text-xs font-semibold tracking-wide">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>AI-Generated Clinical Report Explorer · 12-Section Architecture</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-[#153B50] tracking-tight font-display">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-[#10264D] tracking-tight font-display">
             Analysis Results & Clinical Reports
           </h1>
-          <p className="text-base text-[#687986] leading-relaxed">
-            Review and export your 12-section health report as a formatted PDF, HTML, or plain-text summary—complete with patient details, symptoms, recovery guidance, and warning signs.
+          <p className="text-base text-[#64748B] leading-relaxed">
+            Review and export your comprehensive 12-section health report as an official clinical document or digital summary—complete with clinical findings, patient context, care guidance, and red flag warnings.
           </p>
         </div>
 
         <div className="flex flex-wrap gap-3">
           <MedicalButton
-            variant="teal"
+            variant="blue"
             size="md"
             onClick={() => onNavigate('symptoms')}
             icon={<Stethoscope className="w-4 h-4" />}
@@ -90,62 +90,62 @@ export const AnalysisResultsPage: React.FC<AnalysisResultsPageProps> = ({
             variant="navy"
             size="md"
             onClick={() => onNavigate('skin')}
-            icon={<Camera className="w-4 h-4 text-[#E9F7F5]" />}
+            icon={<Camera className="w-4 h-4 text-[#EAF2FF]" />}
           >
             New Skin Analysis
           </MedicalButton>
         </div>
       </motion.div>
 
-      {/* Visual System Legend Bar: Consistent Icon Set for Symptoms, Recovery & Warnings */}
-      <div className="bg-white border border-[#DCE6ED] rounded-2xl p-4 sm:px-6 grid grid-cols-1 sm:grid-cols-4 gap-4 text-xs">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-[#E9F7F5] text-[#249A96] flex items-center justify-center shrink-0">
-            <Sparkles className="w-4 h-4" />
+      {/* Visual System Legend Bar */}
+      <div className="bg-white border border-[#E7EDF5] rounded-3xl p-5 sm:px-8 grid grid-cols-1 sm:grid-cols-4 gap-5 text-xs shadow-[0_8px_30px_rgb(0,0,0,0.03)]">
+        <div className="flex items-center gap-3.5">
+          <div className="w-10 h-10 rounded-2xl bg-[#EAF2FF] text-[#2458F5] flex items-center justify-center shrink-0">
+            <Sparkles className="w-5 h-5" />
           </div>
           <div>
-            <strong className="text-[#153B50] block font-display">AI-Generated Badge</strong>
-            <span className="text-[#687986]">Non-diagnostic clinical synthesis</span>
+            <strong className="text-[#10264D] block font-display text-sm font-bold">AI-Generated Badge</strong>
+            <span className="text-[#64748B]">Non-diagnostic clinical synthesis</span>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-[#E9F7F5] text-[#249A96] flex items-center justify-center shrink-0">
-            <Stethoscope className="w-4 h-4" />
+        <div className="flex items-center gap-3.5">
+          <div className="w-10 h-10 rounded-2xl bg-[#EAF2FF] text-[#2458F5] flex items-center justify-center shrink-0">
+            <Stethoscope className="w-5 h-5" />
           </div>
           <div>
-            <strong className="text-[#153B50] block font-display">Symptoms & Features</strong>
-            <span className="text-[#687986]">Reported vs. visible findings</span>
+            <strong className="text-[#10264D] block font-display text-sm font-bold">Symptoms & Features</strong>
+            <span className="text-[#64748B]">Reported vs. visible findings</span>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-[#E9F7F5] text-[#249A96] flex items-center justify-center shrink-0">
-            <HeartPulse className="w-4 h-4" />
+        <div className="flex items-center gap-3.5">
+          <div className="w-10 h-10 rounded-2xl bg-[#EAF2FF] text-[#2458F5] flex items-center justify-center shrink-0">
+            <HeartPulse className="w-5 h-5" />
           </div>
           <div>
-            <strong className="text-[#153B50] block font-display">Recovery & Self-Care</strong>
-            <span className="text-[#687986]">Evidence-based comfort steps</span>
+            <strong className="text-[#10264D] block font-display text-sm font-bold">Recovery & Self-Care</strong>
+            <span className="text-[#64748B]">Evidence-based comfort steps</span>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-rose-50 text-[#C83F49] flex items-center justify-center shrink-0">
-            <ShieldAlert className="w-4 h-4" />
+        <div className="flex items-center gap-3.5">
+          <div className="w-10 h-10 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center shrink-0 border border-red-200">
+            <ShieldAlert className="w-5 h-5" />
           </div>
           <div>
-            <strong className="text-[#153B50] block font-display">Warnings & Red Flags</strong>
-            <span className="text-[#687986]">Cautions & urgent care signs</span>
+            <strong className="text-[#10264D] block font-display text-sm font-bold">Warnings & Red Flags</strong>
+            <span className="text-[#64748B]">Cautions & urgent care signs</span>
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left Sidebar: Live Session & Sample Report Selector */}
+        {/* Left Sidebar */}
         <div className="lg:col-span-4 space-y-3">
           {hasLatestLiveReport && (
-            <div className="space-y-2 pb-3 border-b border-[#DCE6ED]">
-              <h2 className="text-xs font-bold uppercase tracking-wider text-[#249A96] px-1">
+            <div className="space-y-2 pb-3 border-b border-[#E7EDF5]">
+              <h2 className="text-xs font-bold uppercase tracking-wider text-[#2458F5] px-1">
                 Your Recent Session Report
               </h2>
               <button
@@ -153,32 +153,32 @@ export const AnalysisResultsPage: React.FC<AnalysisResultsPageProps> = ({
                 onClick={() => setSelectedSource('live')}
                 className={`w-full text-left p-4 rounded-2xl border transition-all cursor-pointer ${
                   selectedSource === 'live'
-                    ? 'bg-[#153B50] border-[#153B50] text-white shadow-xs'
-                    : 'bg-white border-[#249A96] text-[#253746] hover:bg-[#E9F7F5]/40'
+                    ? 'bg-[#10264D] border-[#10264D] text-white shadow-md'
+                    : 'bg-white border-[#2458F5] text-[#17253B] hover:bg-[#EAF2FF]/50'
                 }`}
               >
-                <div className="flex items-center justify-between gap-2 mb-1.5 text-[11px] font-semibold">
+                <div className="flex items-center justify-between gap-2 mb-1.5 text-xs font-semibold">
                   <span
-                    className={`inline-flex items-center gap-1 ${
-                      selectedSource === 'live' ? 'text-[#E9F7F5]' : 'text-[#249A96]'
+                    className={`inline-flex items-center gap-1.5 ${
+                      selectedSource === 'live' ? 'text-[#EAF2FF]' : 'text-[#2458F5]'
                     }`}
                   >
-                    <Sparkles className="w-3 h-3" />
-                    <span>Live AI-Generated Assessment</span>
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>Live AI Assessment</span>
                   </span>
                 </div>
                 <h3
                   className={`font-bold text-base font-display ${
-                    selectedSource === 'live' ? 'text-white' : 'text-[#153B50]'
+                    selectedSource === 'live' ? 'text-white' : 'text-[#10264D]'
                   }`}
                 >
                   {latestSkinReport ? 'Latest Skin Analysis Report' : 'Latest Symptom Report'}
                 </h3>
                 <div
-                  className={`mt-2 pt-2 border-t text-xs flex items-center gap-2 ${
+                  className={`mt-2.5 pt-2 border-t text-xs flex items-center gap-2 ${
                     selectedSource === 'live'
-                      ? 'border-white/15 text-slate-200'
-                      : 'border-[#DCE6ED] text-[#687986]'
+                      ? 'border-white/15 text-slate-300'
+                      : 'border-[#E7EDF5] text-[#64748B]'
                   }`}
                 >
                   <User className="w-3.5 h-3.5 shrink-0" />
@@ -190,7 +190,7 @@ export const AnalysisResultsPage: React.FC<AnalysisResultsPageProps> = ({
             </div>
           )}
 
-          <h2 className="text-xs font-bold uppercase tracking-wider text-[#687986] px-1">
+          <h2 className="text-xs font-bold uppercase tracking-wider text-[#64748B] px-1">
             Select a Sample Clinical Report
           </h2>
           {DEMO_CASES.map((item, idx) => {
@@ -202,48 +202,48 @@ export const AnalysisResultsPage: React.FC<AnalysisResultsPageProps> = ({
                 onClick={() => setSelectedSource(idx)}
                 className={`w-full text-left p-4 rounded-2xl border transition-all cursor-pointer ${
                   isSelected
-                    ? 'bg-[#153B50] border-[#153B50] text-white shadow-xs'
-                    : 'bg-white border-[#DCE6ED] text-[#253746] hover:border-[#249A96]'
+                    ? 'bg-[#10264D] border-[#10264D] text-white shadow-md'
+                    : 'bg-white border-[#E7EDF5] text-[#17253B] hover:border-[#2458F5]/60 hover:shadow-xs'
                 }`}
               >
-                <div className="flex items-center justify-between gap-2 mb-1.5 text-[11px] font-semibold">
+                <div className="flex items-center justify-between gap-2 mb-1.5 text-xs font-semibold">
                   <span
-                    className={`inline-flex items-center gap-1 ${
-                      isSelected ? 'text-[#E9F7F5]' : 'text-[#249A96]'
+                    className={`inline-flex items-center gap-1.5 ${
+                      isSelected ? 'text-[#EAF2FF]' : 'text-[#2458F5]'
                     }`}
                   >
                     {item.type === 'skin' ? (
-                      <Camera className="w-3 h-3" />
+                      <Camera className="w-3.5 h-3.5" />
                     ) : (
-                      <Stethoscope className="w-3 h-3" />
+                      <Stethoscope className="w-3.5 h-3.5" />
                     )}
                     <span>{item.type === 'skin' ? 'Skin Analysis' : 'Symptom Triage'}</span>
                   </span>
                   <span
                     className={`inline-flex items-center gap-1 ${
-                      isSelected ? 'text-slate-300' : 'text-[#687986]'
+                      isSelected ? 'text-slate-300' : 'text-[#64748B]'
                     }`}
                   >
                     {item.urgency === 'emergency' ? (
-                      <ShieldAlert className="w-3 h-3 text-[#C83F49]" />
+                      <ShieldAlert className="w-3.5 h-3.5 text-red-500" />
                     ) : item.urgency === 'prompt' ? (
-                      <AlertTriangle className="w-3 h-3 text-[#E7A23B]" />
+                      <AlertTriangle className="w-3.5 h-3.5 text-amber-500" />
                     ) : (
-                      <ShieldCheck className="w-3 h-3 text-[#249A96]" />
+                      <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
                     )}
                     <span>{item.badge}</span>
                   </span>
                 </div>
                 <h3
                   className={`font-bold text-base mb-1 font-display ${
-                    isSelected ? 'text-white' : 'text-[#153B50]'
+                    isSelected ? 'text-white' : 'text-[#10264D]'
                   }`}
                 >
                   {item.title}
                 </h3>
                 <p
-                  className={`text-xs line-clamp-2 ${
-                    isSelected ? 'text-slate-200' : 'text-[#687986]'
+                  className={`text-xs line-clamp-2 leading-relaxed ${
+                    isSelected ? 'text-slate-300' : 'text-[#64748B]'
                   }`}
                 >
                   {item.subtitle}
@@ -251,8 +251,8 @@ export const AnalysisResultsPage: React.FC<AnalysisResultsPageProps> = ({
                 <div
                   className={`mt-2.5 pt-2 border-t text-[11px] flex items-center gap-1.5 ${
                     isSelected
-                      ? 'border-white/15 text-[#E9F7F5]'
-                      : 'border-[#DCE6ED] text-[#687986]'
+                      ? 'border-white/15 text-[#EAF2FF]'
+                      : 'border-[#E7EDF5] text-[#64748B]'
                   }`}
                 >
                   <User className="w-3 h-3 shrink-0" />
@@ -267,7 +267,7 @@ export const AnalysisResultsPage: React.FC<AnalysisResultsPageProps> = ({
           })}
         </div>
 
-        {/* Right Panel: Full 12-Section Professional Medical Report */}
+        {/* Right Panel: Full 12-Section Report */}
         <div className="lg:col-span-8">
           {selectedSource === 'live' && hasLatestLiveReport ? (
             latestSkinReport ? (

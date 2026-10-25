@@ -6,6 +6,7 @@ import {
   CheckCircle2,
   Building2,
   Send,
+  Sparkles,
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import {
@@ -57,53 +58,54 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12 text-center">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-12 text-center">
       {/* Centered Page Header */}
       <motion.div
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45 }}
-        className="space-y-3 max-w-3xl mx-auto flex flex-col items-center text-center"
+        className="space-y-3.5 max-w-3xl mx-auto flex flex-col items-center text-center"
       >
-        <div className="text-xs font-bold uppercase tracking-widest text-[#249A96]">
-          Clinical Feedback · Institutional & Research Inquiries
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EAF2FF] border border-[#2458F5]/20 text-[#2458F5] text-xs font-semibold tracking-wide uppercase">
+          <Sparkles className="w-3.5 h-3.5" />
+          <span>Clinical Feedback · Institutional & Research Inquiries</span>
         </div>
-        <h1 className="text-3xl sm:text-5xl font-extrabold text-[#153B50] tracking-tight text-center">
+        <h1 className="text-3xl sm:text-5xl font-extrabold text-[#10264D] tracking-tight font-display text-center leading-[1.15]">
           Contact DermaDetect AI
         </h1>
-        <p className="text-base text-[#687986] leading-relaxed max-w-2xl mx-auto text-center">
-          Have questions about our clinical triage methodology, privacy architecture, or the UnivaBio competition submission? Reach out to our clinical engineering team below.
+        <p className="text-base text-[#64748B] leading-relaxed max-w-2xl mx-auto text-center">
+          Have questions about our clinical triage methodology, privacy architecture, or the UnivaBio initiative? Reach out to our clinical engineering team below.
         </p>
       </motion.div>
 
-      {/* 3 Centered Communication Channel Cards */}
+      {/* 3 Communication Channel Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <MedicalCard padding="sm" className="flex flex-col items-center text-center space-y-2.5">
-          <div className="w-11 h-11 rounded-xl bg-[#E9F7F5] text-[#249A96] flex items-center justify-center mx-auto">
-            <Mail className="w-5 h-5" />
+        <MedicalCard padding="md" className="flex flex-col items-center text-center space-y-2.5 rounded-3xl border-[#E7EDF5] shadow-[0_4px_20px_rgb(0,0,0,0.02)]">
+          <div className="w-12 h-12 rounded-2xl bg-[#EAF2FF] text-[#2458F5] flex items-center justify-center mx-auto shadow-2xs">
+            <Mail className="w-6 h-6" />
           </div>
-          <div className="font-bold text-[#153B50] text-sm">Clinical & Research Team</div>
-          <p className="text-[#687986] text-xs font-mono">
+          <div className="font-bold text-[#10264D] text-sm font-display">Clinical & Research Team</div>
+          <p className="text-[#64748B] text-xs font-mono">
             research@dermadetect-univabio.org
           </p>
         </MedicalCard>
 
-        <MedicalCard padding="sm" className="flex flex-col items-center text-center space-y-2.5">
-          <div className="w-11 h-11 rounded-xl bg-[#E9F7F5] text-[#249A96] flex items-center justify-center mx-auto">
-            <Building2 className="w-5 h-5" />
+        <MedicalCard padding="md" className="flex flex-col items-center text-center space-y-2.5 rounded-3xl border-[#E7EDF5] shadow-[0_4px_20px_rgb(0,0,0,0.02)]">
+          <div className="w-12 h-12 rounded-2xl bg-[#EAF2FF] text-[#2458F5] flex items-center justify-center mx-auto shadow-2xs">
+            <Building2 className="w-6 h-6" />
           </div>
-          <div className="font-bold text-[#153B50] text-sm">Initiative & Evaluation</div>
-          <p className="text-[#687986] text-xs">
+          <div className="font-bold text-[#10264D] text-sm font-display">Initiative & Evaluation</div>
+          <p className="text-[#64748B] text-xs">
             UnivaBio — AI for Human Health Division
           </p>
         </MedicalCard>
 
-        <MedicalCard padding="sm" className="flex flex-col items-center text-center space-y-2.5">
-          <div className="w-11 h-11 rounded-xl bg-[#E9F7F5] text-[#249A96] flex items-center justify-center mx-auto">
-            <Clock className="w-5 h-5" />
+        <MedicalCard padding="md" className="flex flex-col items-center text-center space-y-2.5 rounded-3xl border-[#E7EDF5] shadow-[0_4px_20px_rgb(0,0,0,0.02)]">
+          <div className="w-12 h-12 rounded-2xl bg-[#EAF2FF] text-[#2458F5] flex items-center justify-center mx-auto shadow-2xs">
+            <Clock className="w-6 h-6" />
           </div>
-          <div className="font-bold text-[#153B50] text-sm">Response Window</div>
-          <p className="text-[#687986] text-xs">
+          <div className="font-bold text-[#10264D] text-sm font-display">Response Window</div>
+          <p className="text-[#64748B] text-xs">
             Within 24–48 hours for non-clinical inquiries
           </p>
         </MedicalCard>
@@ -111,18 +113,18 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
 
       {/* Centered Contact Form Card */}
       <div className="max-w-3xl mx-auto">
-        <MedicalCard padding="lg" hoverEffect={false} className="space-y-6 text-center">
+        <MedicalCard padding="lg" hoverEffect={false} className="space-y-6 text-center rounded-3xl border-[#E7EDF5] shadow-[0_8px_30px_rgb(0,0,0,0.03)]">
           {submitted ? (
             <div className="py-8 text-center space-y-5">
-              <div className="w-14 h-14 rounded-2xl bg-[#E9F7F5] text-[#249A96] flex items-center justify-center mx-auto">
-                <CheckCircle2 className="w-8 h-8" />
+              <div className="w-16 h-16 rounded-2xl bg-[#EAF2FF] text-[#2458F5] flex items-center justify-center mx-auto shadow-xs">
+                <CheckCircle2 className="w-9 h-9" />
               </div>
               <div className="space-y-2 max-w-md mx-auto">
-                <h2 className="text-2xl font-bold text-[#153B50] text-center">
+                <h2 className="text-2xl font-extrabold text-[#10264D] text-center font-display">
                   Thank you, {fullName}
                 </h2>
-                <p className="text-sm text-[#687986] leading-relaxed text-center">
-                  Your inquiry under <strong>{role}</strong> has been logged. A confirmation note has been prepared for <span className="font-mono text-[#153B50]">{email}</span>.
+                <p className="text-sm text-[#64748B] leading-relaxed text-center">
+                  Your inquiry under <strong>{role}</strong> has been logged. A confirmation note has been prepared for <span className="font-mono text-[#10264D] font-medium">{email}</span>.
                 </p>
               </div>
               <div className="pt-2 flex items-center justify-center gap-3">
@@ -137,10 +139,10 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
           ) : (
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="text-center space-y-1">
-                <h2 className="text-2xl font-bold text-[#153B50] text-center">
+                <h2 className="text-2xl font-extrabold text-[#10264D] text-center font-display">
                   Send a Message
                 </h2>
-                <p className="text-xs text-[#687986] text-center">
+                <p className="text-xs text-[#64748B] text-center">
                   All fields marked with * are required. Do not include sensitive medical record numbers.
                 </p>
               </div>
@@ -170,17 +172,17 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div className="space-y-1.5 text-left">
-                  <label className="block text-sm font-semibold text-[#153B50]">
+                  <label className="block text-sm font-semibold text-[#10264D]">
                     Your Role
                   </label>
                   <select
                     value={role}
                     onChange={(e) => setRole(e.target.value)}
-                    className="w-full min-h-[46px] px-4 py-2.5 text-sm rounded-xl border border-[#DDE5ED] bg-white text-[#253746] focus:outline-none focus:ring-2 focus:ring-[#249A96]"
+                    className="w-full min-h-[46px] px-4 py-2.5 text-sm rounded-xl border border-[#E7EDF5] bg-white text-[#17253B] focus:outline-none focus:border-[#2458F5] focus:ring-2 focus:ring-[#2458F5]/15 transition-all cursor-pointer"
                   >
                     <option value="Patient / General User">Patient / General User</option>
                     <option value="Physician / Dermatologist">Physician / Dermatologist</option>
-                    <option value="UnivaBio Competition Judge">UnivaBio Competition Judge</option>
+                    <option value="Clinical Evaluator / Healthcare Partner">Clinical Evaluator / Healthcare Partner</option>
                     <option value="Healthcare Researcher">Healthcare Researcher</option>
                   </select>
                 </div>
@@ -202,14 +204,14 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
               />
 
               <div className="pt-3 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <span className="text-xs text-[#687986] flex items-center gap-1.5">
-                  <ShieldCheck className="w-4 h-4 text-[#249A96]" />
+                <span className="text-xs text-[#64748B] flex items-center gap-1.5">
+                  <ShieldCheck className="w-4 h-4 text-[#2458F5]" />
                   <span>Encrypted transmission · Zero third-party sharing</span>
                 </span>
 
                 <MedicalButton
                   type="submit"
-                  variant="teal"
+                  variant="blue"
                   size="lg"
                   icon={<Send className="w-4 h-4" />}
                 >

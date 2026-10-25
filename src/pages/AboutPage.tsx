@@ -4,6 +4,7 @@ import {
   HeartPulse,
   CheckCircle2,
   ShieldCheck,
+  Sparkles,
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import {
@@ -19,7 +20,7 @@ import {
 
 export const AboutPage: React.FC = () => {
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-16">
       {/* Editorial Hero Banner */}
       <motion.div
         initial={{ opacity: 0, y: 18 }}
@@ -32,22 +33,22 @@ export const AboutPage: React.FC = () => {
             src="https://res.cloudinary.com/dtz0urit6/image/upload/q_auto:best,f_jpg/cloudinary-tools-uploads/h5qnasixn5rqevzjq5xo"
             alt="DermaDetect AI Official Logo"
             referrerPolicy="no-referrer"
-            className="w-16 h-16 rounded-2xl object-contain bg-white p-1 border border-[#DCE6ED] shadow-sm"
+            className="w-16 h-16 rounded-2xl object-contain bg-white p-1 border border-[#E7EDF5] shadow-sm"
           />
         </div>
-        <div className="inline-flex items-center justify-center gap-2 text-xs font-semibold text-[#249A96] tracking-wider uppercase">
-          <Award className="w-4 h-4 text-[#249A96]" />
-          <span>UnivaBio Initiative · Health Literacy & Patient Care</span>
+        <div className="inline-flex items-center justify-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EAF2FF] border border-[#2458F5]/20 text-[#2458F5] text-xs font-semibold tracking-wide uppercase">
+          <Award className="w-3.5 h-3.5" />
+          <span>Clinical AI Initiative · Health Literacy & Patient Empowerment</span>
         </div>
-        <h1 className="text-3xl sm:text-5xl font-extrabold text-[#153B50] tracking-tight">
+        <h1 className="text-3xl sm:text-5xl font-extrabold text-[#10264D] tracking-tight font-display leading-[1.15]">
           About DermaDetect AI
         </h1>
-        <p className="text-base sm:text-lg text-[#687986] leading-relaxed max-w-2xl mx-auto">
-          A thoughtful health-awareness platform created to help individuals understand unfamiliar symptoms and skin concerns calmly before visiting a licensed physician.
+        <p className="text-base sm:text-lg text-[#64748B] leading-relaxed max-w-2xl mx-auto">
+          A patient-centered health intelligence platform created to help individuals understand unfamiliar symptoms and skin concerns calmly before consulting a physician.
         </p>
       </motion.div>
 
-      {/* All 3 Clinical Videos Running Automatically in a Smooth Visual Showcase */}
+      {/* 3 Clinical Videos Running in Visual Showcase */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <MedicalVideoShowcase
           src={clinicalOverviewVideo}
@@ -70,15 +71,18 @@ export const AboutPage: React.FC = () => {
       </div>
 
       {/* Mission Statement Card */}
-      <MedicalCard padding="lg" className="space-y-4 text-center">
-        <MedicalBadge tone="teal">Our Mission</MedicalBadge>
-        <h2 className="text-2xl sm:text-3xl font-bold text-[#153B50]">
+      <MedicalCard padding="lg" className="space-y-4 text-center rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.03)] border-[#E7EDF5]">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EAF2FF] text-[#2458F5] text-xs font-bold uppercase tracking-wider mx-auto">
+          <Sparkles className="w-3.5 h-3.5" />
+          Our Mission
+        </div>
+        <h2 className="text-2xl sm:text-3xl font-extrabold text-[#10264D] font-display">
           Why We Built DermaDetect AI
         </h2>
-        <p className="text-sm sm:text-base text-[#253746] leading-relaxed max-w-3xl mx-auto">
+        <p className="text-sm sm:text-base text-[#17253B] leading-relaxed max-w-3xl mx-auto">
           Millions of people notice unfamiliar skin spots or physical symptoms each year. Searching online often leads to overwhelming or alarming results—causing unnecessary worry or delaying care when a doctor visit is truly needed.
         </p>
-        <p className="text-sm sm:text-base text-[#687986] leading-relaxed max-w-3xl mx-auto">
+        <p className="text-sm sm:text-base text-[#64748B] leading-relaxed max-w-3xl mx-auto">
           <strong>DermaDetect AI</strong> was created as a calm, supportive companion. By combining visual skin observation with step-by-step symptom questions, it offers balanced educational insights that prepare patients for productive conversations with their doctors.
         </p>
       </MedicalCard>
@@ -86,11 +90,11 @@ export const AboutPage: React.FC = () => {
       {/* 4 Core Clinical Commitments */}
       <section className="space-y-6">
         <div className="space-y-2 max-w-2xl mx-auto text-center">
-          <div className="text-xs font-semibold uppercase tracking-wider text-[#249A96] inline-flex items-center gap-1.5">
+          <div className="text-xs font-semibold uppercase tracking-wider text-[#2458F5] inline-flex items-center gap-1.5">
             <HeartPulse className="w-4 h-4" />
             <span>Patient Care Standards</span>
           </div>
-          <h3 className="text-2xl sm:text-3xl font-extrabold text-[#153B50]">
+          <h3 className="text-2xl sm:text-3xl font-extrabold text-[#10264D] font-display">
             Ethical & Clinical Guardrails
           </h3>
         </div>
@@ -114,12 +118,12 @@ export const AboutPage: React.FC = () => {
               desc: 'When urgent symptoms such as chest pain, severe breathing difficulty, or facial swelling are reported, we immediately direct users to emergency care.',
             },
           ].map((item) => (
-            <MedicalCard key={item.title} className="space-y-3 text-left">
-              <div className="w-10 h-10 rounded-xl bg-[#E9F7F5] text-[#249A96] flex items-center justify-center">
+            <MedicalCard key={item.title} className="space-y-3 text-left rounded-3xl p-6 border-[#E7EDF5] shadow-[0_4px_20px_rgb(0,0,0,0.02)]">
+              <div className="w-11 h-11 rounded-2xl bg-[#EAF2FF] text-[#2458F5] flex items-center justify-center shadow-2xs">
                 <CheckCircle2 className="w-5 h-5" />
               </div>
-              <h4 className="text-base font-bold text-[#153B50]">{item.title}</h4>
-              <p className="text-xs sm:text-sm text-[#687986] leading-relaxed">
+              <h4 className="text-base font-bold text-[#10264D] font-display">{item.title}</h4>
+              <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed">
                 {item.desc}
               </p>
             </MedicalCard>
@@ -128,15 +132,16 @@ export const AboutPage: React.FC = () => {
       </section>
 
       {/* Privacy & Clinical Scope Banner */}
-      <div className="bg-[#153B50] text-white rounded-3xl p-8 sm:p-10 space-y-4 text-center">
-        <div className="w-12 h-12 rounded-2xl bg-[#249A96]/30 text-[#E9F7F5] flex items-center justify-center mx-auto">
-          <ShieldCheck className="w-6 h-6" />
+      <div className="relative bg-[#10264D] text-white rounded-3xl p-8 sm:p-12 space-y-4 text-center overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
+        <div className="absolute top-0 right-0 w-80 h-80 bg-[#2458F5]/20 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
+        <div className="w-13 h-13 rounded-2xl bg-white/10 text-[#EAF2FF] flex items-center justify-center mx-auto border border-white/15 shadow-sm">
+          <ShieldCheck className="w-7 h-7 text-[#2458F5]" />
         </div>
-        <h3 className="text-2xl font-bold text-white">
-          Private by Design
+        <h3 className="text-2xl font-extrabold text-white font-display">
+          Private by Design · Zero Data Retention
         </h3>
-        <p className="text-sm text-[#E9F7F5]/90 leading-relaxed max-w-3xl mx-auto">
-          All symptom answers and uploaded skin photographs are reviewed in temporary memory and cleared immediately after your summary is generated. DermaDetect AI is an educational resource and does not replace a physical examination by a licensed physician.
+        <p className="text-sm text-slate-300 leading-relaxed max-w-3xl mx-auto">
+          All symptom answers and uploaded skin photographs are evaluated in real time with confidential zero-storage privacy and cleared immediately after your clinical report is generated. DermaDetect AI is an educational resource and does not replace a physical examination by a licensed physician.
         </p>
       </div>
     </div>

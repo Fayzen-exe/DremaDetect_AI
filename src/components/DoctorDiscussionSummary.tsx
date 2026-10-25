@@ -115,11 +115,11 @@ export const DoctorDiscussionSummary: React.FC<DoctorSummaryProps> = ({
   <meta charset="UTF-8" />
   <title>Doctor Visit Summary — ${patientName}</title>
   <style>
-    body { font-family: 'Inter', -apple-system, sans-serif; color: #253746; padding: 28px; line-height: 1.55; }
-    h1 { color: #153B50; font-size: 20px; margin: 0 0 4px; }
-    .meta { background: #F7FAFC; border: 1px solid #DCE6ED; border-radius: 10px; padding: 12px 16px; margin: 14px 0; font-size: 13px; }
+    body { font-family: 'Inter', -apple-system, sans-serif; color: #17253B; padding: 28px; line-height: 1.55; }
+    h1 { color: #10264D; font-size: 20px; margin: 0 0 4px; }
+    .meta { background: #F7FAFF; border: 1px solid #E7EDF5; border-radius: 10px; padding: 12px 16px; margin: 14px 0; font-size: 13px; }
     .sec { margin-top: 16px; }
-    .sec h3 { color: #153B50; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid #DCE6ED; padding-bottom: 4px; }
+    .sec h3 { color: #10264D; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid #E7EDF5; padding-bottom: 4px; }
     pre { white-space: pre-wrap; font-family: inherit; font-size: 13px; }
   </style>
 </head>
@@ -157,27 +157,27 @@ export const DoctorDiscussionSummary: React.FC<DoctorSummaryProps> = ({
   };
 
   return (
-    <div className="bg-white border border-[#DCE6ED] rounded-2xl p-6 shadow-2xs print:border-none print:shadow-none print:p-0">
+    <div className="bg-white border border-[#E7EDF5] rounded-2xl p-6 shadow-2xs print:border-none print:shadow-none print:p-0">
       {/* Header with PDF, Print, Export and Copy CTAs */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#DCE6ED] no-print print:hidden">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#E7EDF5] no-print print:hidden">
         <div className="flex items-center gap-3">
           <img
             src={BRAND_LOGO_URL}
             alt="DermaDetect AI Logo"
             referrerPolicy="no-referrer"
-            className="w-10 h-10 rounded-xl object-contain p-0.5 border border-[#DCE6ED] bg-white shrink-0"
+            className="w-10 h-10 rounded-xl object-contain p-0.5 border border-[#E7EDF5] bg-white shrink-0"
           />
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="text-base font-bold text-[#153B50]">
+              <h3 className="text-base font-bold text-[#10264D]">
                 Doctor Discussion Summary Sheet
               </h3>
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#E9F7F5] text-[#153B50] border border-[#249A96]/25 text-[11px] font-semibold">
-                <Sparkles className="w-3 h-3 text-[#249A96]" />
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#EAF2FF] text-[#10264D] border border-[#2458F5]/25 text-[11px] font-semibold">
+                <Sparkles className="w-3 h-3 text-[#2458F5]" />
                 <span>AI-Generated</span>
               </span>
             </div>
-            <p className="text-xs text-[#687986]">
+            <p className="text-xs text-[#64748B]">
               Download as PDF, export text, or print to review with your physician.
             </p>
           </div>
@@ -188,7 +188,7 @@ export const DoctorDiscussionSummary: React.FC<DoctorSummaryProps> = ({
             type="button"
             onClick={handleDownloadPdf}
             disabled={isGeneratingPdf}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-white bg-[#249A96] hover:bg-[#1d807c] rounded-xl transition-colors shadow-2xs cursor-pointer whitespace-nowrap"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-white bg-[#2458F5] hover:bg-[#1a3fcc] rounded-xl transition-colors shadow-2xs cursor-pointer whitespace-nowrap"
           >
             {pdfSuccess ? (
               <>
@@ -206,21 +206,21 @@ export const DoctorDiscussionSummary: React.FC<DoctorSummaryProps> = ({
           <button
             type="button"
             onClick={handleExportTxt}
-            className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-[#153B50] bg-[#E9F7F5] hover:bg-[#d5f0ec] border border-[#249A96]/30 rounded-xl transition-colors cursor-pointer whitespace-nowrap"
+            className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-[#10264D] bg-[#EAF2FF] hover:bg-[#dde8ff] border border-[#2458F5]/30 rounded-xl transition-colors cursor-pointer whitespace-nowrap"
           >
-            <Download className="w-3.5 h-3.5 text-[#249A96]" />
+            <Download className="w-3.5 h-3.5 text-[#2458F5]" />
             <span>Export (.txt)</span>
           </button>
 
           <button
             type="button"
             onClick={handleCopyText}
-            className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-[#253746] bg-[#F7FAFC] hover:bg-slate-100 border border-[#DCE6ED] rounded-xl transition-colors cursor-pointer whitespace-nowrap"
+            className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-[#17253B] bg-[#F7FAFF] hover:bg-slate-100 border border-[#E7EDF5] rounded-xl transition-colors cursor-pointer whitespace-nowrap"
           >
             {copied ? (
-              <Check className="w-3.5 h-3.5 text-[#249A96]" />
+              <Check className="w-3.5 h-3.5 text-[#2458F5]" />
             ) : (
-              <Copy className="w-3.5 h-3.5 text-[#687986]" />
+              <Copy className="w-3.5 h-3.5 text-[#64748B]" />
             )}
             <span>{copied ? 'Copied' : 'Copy Text'}</span>
           </button>
@@ -228,7 +228,7 @@ export const DoctorDiscussionSummary: React.FC<DoctorSummaryProps> = ({
           <button
             type="button"
             onClick={handlePrint}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-white bg-[#153B50] hover:bg-[#1c4c66] rounded-xl transition-colors cursor-pointer whitespace-nowrap"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-white bg-[#10264D] hover:bg-[#0c1e3d] rounded-xl transition-colors cursor-pointer whitespace-nowrap"
           >
             <Printer className="w-3.5 h-3.5" />
             <span>Print Sheet</span>
@@ -239,101 +239,101 @@ export const DoctorDiscussionSummary: React.FC<DoctorSummaryProps> = ({
       {/* Printable Sheet Content */}
       <div className="pt-6 space-y-6">
         {/* Document Header & Patient Record */}
-        <div className="flex flex-wrap items-start justify-between gap-4 border-b border-[#DCE6ED] pb-4">
+        <div className="flex flex-wrap items-start justify-between gap-4 border-b border-[#E7EDF5] pb-4">
           <div className="flex items-center gap-3">
             <img
               src={BRAND_LOGO_URL}
               alt="DermaDetect AI Logo"
               referrerPolicy="no-referrer"
-              className="w-9 h-9 rounded-lg object-contain p-0.5 border border-[#DCE6ED] shrink-0"
+              className="w-9 h-9 rounded-lg object-contain p-0.5 border border-[#E7EDF5] shrink-0"
             />
             <div>
-              <h2 className="text-lg font-bold text-[#153B50]">
+              <h2 className="text-lg font-bold text-[#10264D]">
                 Patient Clinical Preparation Sheet
               </h2>
-              <p className="text-xs text-[#687986] mt-0.5">
+              <p className="text-xs text-[#64748B] mt-0.5">
                 Generated via DermaDetect AI · Preliminary Health Awareness
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-1.5 text-xs text-[#687986] tabular-nums">
-            <Calendar className="w-3.5 h-3.5 text-[#249A96]" />
+          <div className="flex items-center gap-1.5 text-xs text-[#64748B] tabular-nums">
+            <Calendar className="w-3.5 h-3.5 text-[#2458F5]" />
             <span>{currentDate}</span>
           </div>
         </div>
 
         {/* Patient Demographics Bar */}
-        <div className="bg-[#F7FAFC] p-4 rounded-xl border border-[#DCE6ED] grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+        <div className="bg-[#F7FAFF] p-4 rounded-xl border border-[#E7EDF5] grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
           <div className="flex items-center gap-2">
-            <User className="w-4 h-4 text-[#249A96] shrink-0" />
+            <User className="w-4 h-4 text-[#2458F5] shrink-0" />
             <div>
-              <span className="text-[#687986] block">Patient Name</span>
-              <strong className="text-[#153B50] text-sm">{patientName}</strong>
+              <span className="text-[#64748B] block">Patient Name</span>
+              <strong className="text-[#10264D] text-sm">{patientName}</strong>
             </div>
           </div>
           <div>
-            <span className="text-[#687986] block">Age</span>
-            <strong className="text-[#153B50] text-sm tabular-nums">{patientAge}</strong>
+            <span className="text-[#64748B] block">Age</span>
+            <strong className="text-[#10264D] text-sm tabular-nums">{patientAge}</strong>
           </div>
           <div>
-            <span className="text-[#687986] block">Gender</span>
-            <strong className="text-[#153B50] text-sm capitalize">{patientGender}</strong>
+            <span className="text-[#64748B] block">Gender</span>
+            <strong className="text-[#10264D] text-sm capitalize">{patientGender}</strong>
           </div>
         </div>
 
         {/* 1. Patient Reported History */}
-        <div className="bg-[#F7FAFC] p-4 rounded-xl border border-[#DCE6ED] space-y-2">
-          <h4 className="text-xs font-bold text-[#153B50] uppercase tracking-wider">
+        <div className="bg-[#F7FAFF] p-4 rounded-xl border border-[#E7EDF5] space-y-2">
+          <h4 className="text-xs font-bold text-[#10264D] uppercase tracking-wider">
             01. Patient-Reported Chronology
           </h4>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
             <div>
-              <span className="text-[#687986] font-medium">Type of Concern:</span>{' '}
-              <span className="text-[#153B50] font-semibold">
+              <span className="text-[#64748B] font-medium">Type of Concern:</span>{' '}
+              <span className="text-[#10264D] font-semibold">
                 {type === 'symptom' ? 'Systemic Symptoms' : 'Cutaneous Skin Spot / Lesion'}
               </span>
             </div>
             <div>
-              <span className="text-[#687986] font-medium">Reported Duration:</span>{' '}
-              <span className="text-[#153B50] font-semibold tabular-nums">
+              <span className="text-[#64748B] font-medium">Reported Duration:</span>{' '}
+              <span className="text-[#10264D] font-semibold tabular-nums">
                 {reportedDuration || 'Not stated'}
               </span>
             </div>
           </div>
           {reportedSymptoms.length > 0 && (
             <div className="text-xs pt-1">
-              <span className="text-[#687986] font-medium">Noted Symptoms/Sensations:</span>{' '}
-              <span className="text-[#253746]">{reportedSymptoms.join(', ')}</span>
+              <span className="text-[#64748B] font-medium">Noted Symptoms/Sensations:</span>{' '}
+              <span className="text-[#17253B]">{reportedSymptoms.join(', ')}</span>
             </div>
           )}
           {reportedDescription && (
             <div className="text-xs pt-1">
-              <span className="text-[#687986] font-medium">Patient Notes:</span>{' '}
-              <span className="text-[#253746] italic">"{reportedDescription}"</span>
+              <span className="text-[#64748B] font-medium">Patient Notes:</span>{' '}
+              <span className="text-[#17253B] italic">"{reportedDescription}"</span>
             </div>
           )}
         </div>
 
         {/* 2. Objective AI Observations & Educational Differentials */}
         <div className="space-y-3">
-          <h4 className="text-xs font-bold text-[#153B50] uppercase tracking-wider">
+          <h4 className="text-xs font-bold text-[#10264D] uppercase tracking-wider">
             02. Preliminary Differential Topics for Discussion
           </h4>
 
           {type === 'symptom' && symptomReport && (
             <div className="space-y-2 text-xs">
-              <p className="text-[#253746] leading-relaxed bg-[#E9F7F5]/60 p-3.5 rounded-xl border border-[#249A96]/25">
-                <span className="font-bold text-[#153B50]">Summary: </span>
+              <p className="text-[#17253B] leading-relaxed bg-[#EAF2FF]/60 p-3.5 rounded-xl border border-[#2458F5]/25">
+                <span className="font-bold text-[#10264D]">Summary: </span>
                 {symptomReport.summary}
               </p>
               <div className="space-y-1.5 pt-1">
-                <span className="font-bold text-[#153B50]">
+                <span className="font-bold text-[#10264D]">
                   Possible explanations to consider with physician:
                 </span>
-                <ul className="list-disc list-inside space-y-1 text-[#253746] pl-1">
+                <ul className="list-disc list-inside space-y-1 text-[#17253B] pl-1">
                   {symptomReport.possibleCauses.map((cause, idx) => (
                     <li key={idx}>
-                      <span className="font-bold text-[#153B50]">{cause.name}:</span>{' '}
+                      <span className="font-bold text-[#10264D]">{cause.name}:</span>{' '}
                       {cause.description} ({cause.likelihoodNote})
                     </li>
                   ))}
@@ -344,39 +344,39 @@ export const DoctorDiscussionSummary: React.FC<DoctorSummaryProps> = ({
 
           {type === 'skin' && skinReport && (
             <div className="space-y-2 text-xs">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 p-3.5 bg-[#F7FAFC] rounded-xl border border-[#DCE6ED]">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 p-3.5 bg-[#F7FAFF] rounded-xl border border-[#E7EDF5]">
                 <div>
-                  <span className="font-bold text-[#153B50]">Pigment & Color:</span>{' '}
-                  <span className="text-[#253746]">
+                  <span className="font-bold text-[#10264D]">Pigment & Color:</span>{' '}
+                  <span className="text-[#17253B]">
                     {skinReport.visibleFeatures.colorAndPigmentation}
                   </span>
                 </div>
                 <div>
-                  <span className="font-bold text-[#153B50]">Border & Contour:</span>{' '}
-                  <span className="text-[#253746]">
+                  <span className="font-bold text-[#10264D]">Border & Contour:</span>{' '}
+                  <span className="text-[#17253B]">
                     {skinReport.visibleFeatures.shapeAndBorders}
                   </span>
                 </div>
                 <div>
-                  <span className="font-bold text-[#153B50]">Surface Texture:</span>{' '}
-                  <span className="text-[#253746]">
+                  <span className="font-bold text-[#10264D]">Surface Texture:</span>{' '}
+                  <span className="text-[#17253B]">
                     {skinReport.visibleFeatures.textureAndSurface}
                   </span>
                 </div>
                 <div>
-                  <span className="font-bold text-[#153B50]">Lesion Arrangement:</span>{' '}
-                  <span className="text-[#253746]">{skinReport.visibleFeatures.distribution}</span>
+                  <span className="font-bold text-[#10264D]">Lesion Arrangement:</span>{' '}
+                  <span className="text-[#17253B]">{skinReport.visibleFeatures.distribution}</span>
                 </div>
               </div>
 
               <div className="space-y-1.5 pt-1">
-                <span className="font-bold text-[#153B50]">
+                <span className="font-bold text-[#10264D]">
                   Differential categories to discuss with dermatologist:
                 </span>
-                <ul className="list-disc list-inside space-y-1 text-[#253746] pl-1">
+                <ul className="list-disc list-inside space-y-1 text-[#17253B] pl-1">
                   {skinReport.possibleConditions.map((cond, idx) => (
                     <li key={idx}>
-                      <span className="font-bold text-[#153B50]">{cond.name}:</span>{' '}
+                      <span className="font-bold text-[#10264D]">{cond.name}:</span>{' '}
                       {cond.description}
                     </li>
                   ))}
@@ -387,12 +387,12 @@ export const DoctorDiscussionSummary: React.FC<DoctorSummaryProps> = ({
         </div>
 
         {/* 3. Recommended Questions to Ask the Doctor */}
-        <div className="border border-[#249A96]/30 bg-[#E9F7F5]/50 p-4 rounded-xl space-y-2">
-          <div className="flex items-center gap-1.5 text-xs font-bold text-[#153B50] uppercase tracking-wider">
-            <HelpCircle className="w-4 h-4 text-[#249A96]" />
+        <div className="border border-[#2458F5]/30 bg-[#EAF2FF]/50 p-4 rounded-xl space-y-2">
+          <div className="flex items-center gap-1.5 text-xs font-bold text-[#10264D] uppercase tracking-wider">
+            <HelpCircle className="w-4 h-4 text-[#2458F5]" />
             <span>03. Recommended Questions for Your Doctor</span>
           </div>
-          <ul className="list-disc list-inside space-y-1.5 text-xs text-[#253746] pl-1">
+          <ul className="list-disc list-inside space-y-1.5 text-xs text-[#17253B] pl-1">
             {type === 'symptom' ? (
               <>
                 <li>
@@ -436,7 +436,7 @@ export const DoctorDiscussionSummary: React.FC<DoctorSummaryProps> = ({
         </div>
 
         {/* Legal Disclaimer Note on Printout */}
-        <p className="text-[11px] text-[#687986] pt-2 border-t border-[#DCE6ED]">
+        <p className="text-[11px] text-[#64748B] pt-2 border-t border-[#E7EDF5]">
           Note: This document was produced by DermaDetect AI (Developed by Fizza Amin and Muhammad Faizan Ud Din) for patient consultation preparation only. It does not constitute a medical diagnosis or laboratory finding.
         </p>
       </div>

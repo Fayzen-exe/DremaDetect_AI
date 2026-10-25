@@ -1,211 +1,213 @@
 import React from 'react';
-import { ShieldCheck, AlertTriangle, Code2 } from 'lucide-react';
+import { ShieldCheck, AlertTriangle, Code2, Heart, Mail, ExternalLink } from 'lucide-react';
 import { BRAND_LOGO_URL } from './Header';
 
 interface FooterProps {
   onNavigate: (tab: string) => void;
 }
 
+const NavLink: React.FC<{ onClick: () => void; children: React.ReactNode }> = ({ onClick, children }) => (
+  <li>
+    <button
+      type="button"
+      onClick={onClick}
+      className="text-[#94A3B8] hover:text-white transition-colors duration-150 cursor-pointer text-left flex items-center gap-1.5 group"
+    >
+      <span className="w-0 group-hover:w-3 h-0.5 bg-[#2458F5] rounded-full transition-all duration-200 overflow-hidden" />
+      {children}
+    </button>
+  </li>
+);
+
 export const MedicalDisclaimerFooter: React.FC<FooterProps> = ({ onNavigate }) => {
   return (
-    <footer className="bg-[#153B50] text-slate-200 border-t border-[#102d3e] text-sm mt-20 no-print print:hidden">
-      {/* Clinical & Safety Disclaimer Banner */}
-      <div className="border-b border-white/10 bg-[#102d3e] py-5 px-4 sm:px-6 lg:px-8">
+    <footer className="bg-[#10264D] text-slate-300 mt-20 no-print print:hidden">
+
+      {/* ── Clinical Disclaimer Banner ── */}
+      <div className="border-b border-white/8 bg-[#0c1e3d] py-4 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <div className="flex items-start sm:items-center gap-3.5">
-            <div className="w-9 h-9 rounded-xl bg-[#E7A23B]/20 border border-[#E7A23B]/40 text-[#E7A23B] flex items-center justify-center shrink-0">
+          <div className="flex items-start sm:items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-amber-500/15 border border-amber-500/30 text-amber-400 flex items-center justify-center shrink-0">
               <AlertTriangle className="w-4 h-4" />
             </div>
-            <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
-              <strong className="text-white">Clinical Disclaimer: </strong>
-              This tool gives information, not a medical diagnosis. Please consult a qualified physician or dermatologist for serious medical concerns.
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <strong className="text-white font-semibold">Clinical Disclaimer: </strong>
+              DermaDetect AI provides educational health information, not medical diagnoses. Please consult a qualified physician for serious health concerns.
             </p>
           </div>
-          <span className="text-xs text-[#E9F7F5] font-medium whitespace-nowrap shrink-0">
-            Zero Photo Retention · Private In-Memory Triage
-          </span>
+          <div className="flex items-center gap-1.5 text-xs text-[#2458F5] bg-[#2458F5]/10 border border-[#2458F5]/20 px-3 py-1.5 rounded-full shrink-0 font-medium whitespace-nowrap">
+            <ShieldCheck className="w-3.5 h-3.5" />
+            Zero Photo Retention · Private
+          </div>
         </div>
       </div>
 
-      {/* Main Footer Navigation Mirroring All Pages */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Brand Column */}
-          <div className="space-y-3.5 md:col-span-1">
-            <div className="flex items-center gap-3">
+      {/* ── Main Footer Grid ── */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
+
+          {/* ── Brand Column ── */}
+          <div className="sm:col-span-2 lg:col-span-1 space-y-5">
+            <button
+              type="button"
+              onClick={() => onNavigate('home')}
+              className="flex items-center gap-3 cursor-pointer group text-left"
+            >
               <img
                 src={BRAND_LOGO_URL}
                 alt="DermaDetect AI Logo"
-                className="w-10 h-10 rounded-xl object-contain p-0.5 border border-white/20 bg-white shrink-0"
+                className="w-10 h-10 rounded-xl object-contain border border-white/15 bg-white/10 shrink-0 transition-transform group-hover:scale-105"
               />
-              <span className="text-base font-extrabold text-white tracking-tight font-display">
-                DermaDetect AI
-              </span>
-            </div>
-            <p className="text-slate-300 text-xs leading-relaxed">
-              Premium medical SaaS platform for preliminary symptom assessment and dermatological morphology screening.
+              <div>
+                <span className="block text-base font-extrabold text-white tracking-tight font-display">
+                  DermaDetect AI
+                </span>
+                <span className="block text-xs text-[#2458F5] font-medium">AI Health Platform</span>
+              </div>
+            </button>
+
+            <p className="text-sm text-slate-400 leading-relaxed">
+              An AI-powered platform for preliminary symptom assessment and dermatological screening. Designed to help you understand your health better.
             </p>
-            <div className="flex items-center gap-2 text-xs text-[#E9F7F5] pt-1">
-              <ShieldCheck className="w-4 h-4 text-[#249A96]" />
+
+            <div className="flex items-center gap-2 text-xs text-[#64748B]">
+              <ShieldCheck className="w-4 h-4 text-[#2458F5]" />
               <span>HIPAA-Conscious Ephemeral Design</span>
             </div>
-            <div className="pt-2 border-t border-white/10 text-xs text-slate-300 space-y-1">
-              <div className="flex items-center gap-1.5 text-[#E9F7F5] font-semibold">
-                <Code2 className="w-3.5 h-3.5 text-[#249A96]" />
-                <span>Lead Developers</span>
+
+            <div className="pt-1 border-t border-white/8 space-y-2">
+              <div className="flex items-center gap-1.5 text-xs text-[#64748B]">
+                <Code2 className="w-3.5 h-3.5 text-[#2458F5]" />
+                <span className="text-white/60">Developed by</span>
               </div>
-              <p className="text-white font-semibold">
+              <p className="text-sm font-semibold text-white">
                 Fizza Amin &amp; Muhammad Faizan Ud Din
               </p>
             </div>
           </div>
 
-          {/* Column 2: Clinical Screening Pages */}
-          <div className="space-y-2.5">
-            <h4 className="text-xs font-bold text-white uppercase tracking-wider">
-              Clinical Screening
+          {/* ── Column 2: Clinical Tools ── */}
+          <div className="space-y-4">
+            <h4 className="text-xs font-bold text-white uppercase tracking-widest">
+              Clinical Tools
             </h4>
-            <ul className="space-y-2 text-xs text-slate-300">
-              <li>
-                <button
-                  type="button"
-                  onClick={() => onNavigate('home')}
-                  className="hover:text-[#E9F7F5] transition-colors cursor-pointer"
-                >
-                  Home
-                </button>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  onClick={() => onNavigate('symptoms')}
-                  className="hover:text-[#E9F7F5] transition-colors cursor-pointer"
-                >
-                  AI Symptom Checker
-                </button>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  onClick={() => onNavigate('skin')}
-                  className="hover:text-[#E9F7F5] transition-colors cursor-pointer"
-                >
-                  AI Skin Analysis
-                </button>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  onClick={() => onNavigate('results')}
-                  className="hover:text-[#E9F7F5] transition-colors cursor-pointer"
-                >
-                  Analysis Results
-                </button>
-              </li>
+            <ul className="space-y-3 text-sm">
+              <NavLink onClick={() => onNavigate('home')}>Home</NavLink>
+              <NavLink onClick={() => onNavigate('symptoms')}>AI Symptom Checker</NavLink>
+              <NavLink onClick={() => onNavigate('skin')}>AI Skin Analysis</NavLink>
+              <NavLink onClick={() => onNavigate('doctor')}>Dr. Fizza (AI MD)</NavLink>
+              <NavLink onClick={() => onNavigate('results')}>Analysis Results</NavLink>
+              <NavLink onClick={() => onNavigate('demo')}>Sample Cases</NavLink>
             </ul>
           </div>
 
-          {/* Column 3: Governance & Safety Pages */}
-          <div className="space-y-2.5">
-            <h4 className="text-xs font-bold text-white uppercase tracking-wider">
-              Governance & Trust
+          {/* ── Column 3: Trust & Policy ── */}
+          <div className="space-y-4">
+            <h4 className="text-xs font-bold text-white uppercase tracking-widest">
+              Trust &amp; Policy
             </h4>
-            <ul className="space-y-2 text-xs text-slate-300">
-              <li>
-                <button
-                  type="button"
-                  onClick={() => onNavigate('about')}
-                  className="hover:text-[#E9F7F5] transition-colors cursor-pointer"
-                >
-                  About DermaDetect AI
-                </button>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  onClick={() => onNavigate('safety')}
-                  className="hover:text-[#E9F7F5] transition-colors cursor-pointer"
-                >
-                  Health Information and Safety
-                </button>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  onClick={() => onNavigate('privacy')}
-                  className="hover:text-[#E9F7F5] transition-colors cursor-pointer"
-                >
-                  Privacy Policy
-                </button>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  onClick={() => onNavigate('contact')}
-                  className="hover:text-[#E9F7F5] transition-colors cursor-pointer"
-                >
-                  Contact
-                </button>
-              </li>
+            <ul className="space-y-3 text-sm">
+              <NavLink onClick={() => onNavigate('about')}>About DermaDetect AI</NavLink>
+              <NavLink onClick={() => onNavigate('safety')}>Health &amp; Safety Info</NavLink>
+              <NavLink onClick={() => onNavigate('privacy')}>Privacy Policy</NavLink>
+              <NavLink onClick={() => onNavigate('contact')}>Contact Us</NavLink>
             </ul>
           </div>
 
-          {/* Column 4: Clinical Support & Benchmarks */}
-          <div className="space-y-2.5">
-            <h4 className="text-xs font-bold text-white uppercase tracking-wider">
-              Clinical Resources
+          {/* ── Column 4: Health Resources ── */}
+          <div className="space-y-4">
+            <h4 className="text-xs font-bold text-white uppercase tracking-widest">
+              Health Resources
             </h4>
-            <ul className="space-y-2 text-xs text-slate-300">
+            <ul className="space-y-3 text-sm">
               <li>
-                <button
-                  type="button"
-                  onClick={() => onNavigate('doctor')}
-                  className="hover:text-[#E9F7F5] transition-colors cursor-pointer"
+                <a
+                  href="https://medlineplus.gov"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#94A3B8] hover:text-white transition-colors flex items-center gap-1.5 group"
                 >
-                  Consult Dr. Fizza (AI MD)
-                </button>
+                  MedlinePlus (NIH)
+                  <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </a>
               </li>
               <li>
-                <button
-                  type="button"
-                  onClick={() => onNavigate('demo')}
-                  className="hover:text-[#E9F7F5] transition-colors cursor-pointer"
+                <a
+                  href="https://www.cdc.gov"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#94A3B8] hover:text-white transition-colors flex items-center gap-1.5 group"
                 >
-                  Standardized Sample Cases
-                </button>
+                  CDC Health Topics
+                  <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.aad.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#94A3B8] hover:text-white transition-colors flex items-center gap-1.5 group"
+                >
+                  AAD Dermatology
+                  <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.who.int"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#94A3B8] hover:text-white transition-colors flex items-center gap-1.5 group"
+                >
+                  WHO Health Topics
+                  <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </a>
               </li>
             </ul>
+
+            <div className="pt-2 space-y-2">
+              <h5 className="text-xs font-semibold text-white/60 uppercase tracking-widest">Contact</h5>
+              <a
+                href="mailto:dermadetect@example.com"
+                className="text-sm text-[#94A3B8] hover:text-white transition-colors flex items-center gap-2"
+              >
+                <Mail className="w-3.5 h-3.5 text-[#2458F5]" />
+                Get in touch
+              </a>
+            </div>
           </div>
         </div>
 
-        {/* Bottom Copyright & Developer Credit Bar */}
-        <div className="mt-10 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-300">
-          <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-3 text-center sm:text-left">
+        {/* ── Bottom Bar ── */}
+        <div className="mt-12 pt-6 border-t border-white/8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#64748B]">
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-center sm:text-left">
             <p>© {new Date().getFullYear()} DermaDetect AI. All rights reserved.</p>
-            <span className="hidden sm:inline text-white/30">|</span>
-            <p className="text-[#E9F7F5] font-medium">
-              Developed by <strong className="text-white">Fizza Amin</strong> and{' '}
-              <strong className="text-white">Muhammad Faizan Ud Din</strong>
+            <span className="hidden sm:inline text-white/15">|</span>
+            <p className="flex items-center gap-1.5">
+              Made with <Heart className="w-3 h-3 text-red-400 fill-red-400" /> by{' '}
+              <strong className="text-white/70">Fizza Amin</strong> &amp;{' '}
+              <strong className="text-white/70">Muhammad Faizan Ud Din</strong>
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-4">
+          <div className="flex items-center gap-4">
             <button
               type="button"
               onClick={() => onNavigate('safety')}
               className="hover:text-white transition-colors cursor-pointer"
             >
-              Health & Safety
+              Health &amp; Safety
             </button>
-            <span aria-hidden="true">·</span>
+            <span className="text-white/15">·</span>
             <button
               type="button"
               onClick={() => onNavigate('privacy')}
               className="hover:text-white transition-colors cursor-pointer"
             >
-              Privacy Policy
+              Privacy
             </button>
-            <span aria-hidden="true">·</span>
+            <span className="text-white/15">·</span>
             <button
               type="button"
               onClick={() => onNavigate('contact')}

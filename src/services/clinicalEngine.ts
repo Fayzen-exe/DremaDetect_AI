@@ -638,13 +638,26 @@ export function generateClinicalSymptomReport(data: {
 
   const combinedText = `${mainComplaint} ${symptoms.join(' ')} ${desc}`.toLowerCase();
 
+  // Multi-System Clinical Syndromes & Anatomical Keyword Classifiers (with word boundaries to prevent substring collisions)
+  const isEar = /\b(ear|ears|earache|earaches|otitis|tinnitus|eardrum|eardrums|plugged ear|blocked ear|ear fullness|ear pain)\b/i.test(combinedText);
+  const isEye = /\b(eye|eyes|eyelid|eyelids|vision|pink eye|conjunctivitis|blurry vision|dry eye|stye|itchy eye|red eye|watery eye|photophobia|gritty eye)\b/i.test(combinedText);
+  const isUrinary = /\b(urine|urinary|urinate|urinating|urination|dysuria|bladder|peeing|frequent urination|kidney pain)\b/i.test(combinedText) || /burning.*pee/i.test(combinedText);
+  const isBackOrNeck = /\b(back pain|lower back|lumbar|neck pain|stiff neck|cervical|spine|pinched nerve|sciatica|lumbago)\b/i.test(combinedText);
+  const isJointOrMuscle = /\b(joint|joints|knee|knees|shoulder|shoulders|hip|hips|wrist|wrists|ankle|ankles|elbow|arthritis|muscle pain|myalgia|cramp|sprain|strain|tendon|gout)\b/i.test(combinedText);
+  const isDizzyOrVertigo = /\b(dizzy|dizziness|vertigo|spinning|lightheaded|unsteady|loss of balance|faint|presyncope)\b/i.test(combinedText);
+  const isDentalOrOral = /\b(tooth|teeth|dental|dentist|gum|gums|mouth ulcer|canker sore|jaw pain|toothache|toothaches|swollen cheek|cavity|pulpitis)\b/i.test(combinedText);
+  const isSinusOrAllergy = /\b(sinus|sinuses|sinusitis|allergy|allergies|allergic|hay fever|dust mite|pollen|nasal drip|post-nasal)\b/i.test(combinedText);
+  const isChestOrPalpitations = /\b(heartburn|acid reflux|gerd|palpitation|palpitations|racing heart|fluttering|costochondritis|chest burning)\b/i.test(combinedText);
+  const isMentalStress = /\b(anxiety|panic|nervous|stress|insomnia|panic attack|sleep debt|racing thoughts)\b/i.test(combinedText);
+  const isFatigueOrWeakness = /\b(fatigue|exhausted|exhaustion|lethargy|low energy|run down|malaise|brain fog)\b/i.test(combinedText);
   const isResp =
     combinedText.includes('cough') ||
     combinedText.includes('sore throat') ||
     combinedText.includes('runny nose') ||
     combinedText.includes('congestion') ||
     combinedText.includes('sneezing') ||
-    combinedText.includes('phlegm');
+    combinedText.includes('phlegm') ||
+    combinedText.includes('throat');
   const isHeadache =
     combinedText.includes('headache') ||
     combinedText.includes('migraine') ||
@@ -661,17 +674,219 @@ export function generateClinicalSymptomReport(data: {
     combinedText.includes('diarrhea') ||
     combinedText.includes('stomach') ||
     combinedText.includes('abdominal') ||
-    combinedText.includes('cramping');
+    combinedText.includes('cramping') ||
+    combinedText.includes('indigestion') ||
+    combinedText.includes('bloat');
   const isSkin =
     combinedText.includes('rash') ||
     combinedText.includes('itch') ||
     combinedText.includes('skin') ||
     combinedText.includes('hives') ||
-    combinedText.includes('redness');
+    combinedText.includes('redness') ||
+    combinedText.includes('eczema') ||
+    combinedText.includes('dermatitis');
 
   const possibleCauses: PossibleCause[] = [];
 
-  if (isResp || isFever) {
+  if (isEar) {
+    possibleCauses.push({
+      name: 'Acute Otitis Media or Otitis Externa (Ear Canal / Middle Ear Irritation)',
+      description:
+        'Inflammation of the outer ear canal (Swimmer’s ear) or middle ear space behind the eardrum, often triggered by water exposure, upper airway congestion, or localized inflammation.',
+      likelihoodNote: 'Plausible Explanation (Consistent with ear pain or fullness)',
+      matchingSymptoms: symptoms.filter((s) => /ear|pain|fever|hearing|tinnitus/i.test(s)),
+      keyDifferentiators: 'Ear pain increased by pulling on the outer ear points to otitis externa; middle ear congestion often follows a cold.',
+      urgencyLevel: 'Prompt Care (24-48h)',
+      commonCauses: ['Eustachian tube dysfunction following a viral cold', 'Water retention in ear canal after bathing or swimming', 'Localized bacterial or fungal inflammation'],
+      typicalSymptoms: ['Ear pain or throbbing', 'Sensation of ear fullness or muffled hearing', 'Tenderness when touching the outer ear'],
+      howClinicianEvaluates: 'A physician uses an illuminated otoscope to inspect the tympanic membrane (eardrum) for redness, fluid buildup, or canal swelling.',
+    });
+    possibleCauses.push({
+      name: 'Impacted Cerumen (Earwax Occlusion) with Eustachian Dysfunction',
+      description:
+        'Accumulation of natural earwax that blocks the ear canal, causing ear pressure, mild ache, reduced hearing, or ringing sounds.',
+      likelihoodNote: 'Possible Explanation (Very common mechanical cause of ear blockage)',
+      matchingSymptoms: symptoms.filter((s) => /ear|hearing|tinnitus/i.test(s)),
+      keyDifferentiators: 'Gradual onset of ear plugging without severe systemic fever; readily resolved with professional ear irrigation or cerumenolysis.',
+      urgencyLevel: 'Routine Outpatient',
+    });
+  } else if (isEye) {
+    possibleCauses.push({
+      name: 'Acute Conjunctivitis (Viral or Allergic "Pink Eye")',
+      description:
+        'Inflammation of the clear membrane lining the eyelid and eye surface, causing redness, irritation, tearing, or mild gritty sensation.',
+      likelihoodNote: 'Plausible Explanation (Common cause of eye redness and irritation)',
+      matchingSymptoms: symptoms.filter((s) => /eye|vision|redness|itch|discharge/i.test(s)),
+      keyDifferentiators: 'Itching and clear watery discharge favor allergic causes; sticky morning eyelids favor viral or bacterial conjunctivitis.',
+      urgencyLevel: 'Prompt Care (24-48h)',
+      commonCauses: ['Adenovirus or common respiratory viruses', 'Seasonal airborne allergens (pollen, dust mites, pet dander)', 'Contact lens overuse or irritants'],
+      typicalSymptoms: ['Pink or red discoloration of sclera', 'Watery or mild mucous discharge', 'Itchy, burning, or gritty sensation'],
+      howClinicianEvaluates: 'An eye specialist or physician examines the conjunctiva, checks visual acuity, and uses a slit lamp or fluorescein stain to verify the cornea is clear.',
+    });
+    possibleCauses.push({
+      name: 'Digital Eye Strain (Asthenopia) & Tear Film Instability / Dry Eye',
+      description:
+        'Eye fatigue, dryness, and mild burning caused by reduced blinking during prolonged screen exposure or dry indoor environments.',
+      likelihoodNote: 'Possible Explanation (Frequent contributor in computer users)',
+      matchingSymptoms: symptoms.filter((s) => /eye|vision|fatigue|headache/i.test(s)),
+      keyDifferentiators: 'Symptoms peak after hours of screen use and improve with resting the eyes and preservative-free lubricating drops.',
+      urgencyLevel: 'Routine Outpatient',
+    });
+  } else if (isUrinary) {
+    possibleCauses.push({
+      name: 'Acute Uncomplicated Lower Urinary Tract Infection (Cystitis)',
+      description:
+        'Superficial bacterial colonization and inflammation of the bladder lining, causing burning with urination (dysuria), urinary frequency, and lower pelvic pressure.',
+      likelihoodNote: 'Plausible Explanation (Leading cause of acute urinary burning and urgency)',
+      matchingSymptoms: symptoms.filter((s) => /urin|pee|dysuria|bladder|pain|frequency/i.test(s)),
+      keyDifferentiators: 'Localized burning discomfort with urination without high fever, flank pain, or systemic chills (which would suggest upper kidney involvement).',
+      urgencyLevel: 'Prompt Care (24-48h)',
+      commonCauses: ['Uropathogenic E. coli bacteria entering the lower urethra', 'Dehydration and infrequent voiding', 'Hormonal or anatomical factors'],
+      typicalSymptoms: ['Sharp burning sensation during urination', 'Needing to urinate frequently with small volumes', 'Cloudy or strong-smelling urine'],
+      howClinicianEvaluates: 'A clinician performs an immediate in-office urine dipstick and urinalysis to check for leukocyte esterase and nitrites, followed by urine culture.',
+    });
+    possibleCauses.push({
+      name: 'Urethral or Bladder Trigonum Irritation (Non-Infectious Cystopathy)',
+      description:
+        'Irritation of the urinary mucosa caused by concentrated acidic urine, soaps, bubble baths, synthetic underwear, or dietary irritants (caffeine, spicy foods).',
+      likelihoodNote: 'Alternative Possibility (Consider when urine cultures show no bacterial growth)',
+      matchingSymptoms: symptoms.filter((s) => /urin|burning|discomfort/i.test(s)),
+      keyDifferentiators: 'Mild intermittent discomfort that improves with generous hydration and removing scented hygiene products.',
+      urgencyLevel: 'Routine Outpatient',
+    });
+  } else if (isBackOrNeck) {
+    possibleCauses.push({
+      name: 'Acute Lumbar or Cervical Musculoskeletal Strain (Lumbago / Cervicalgia)',
+      description:
+        'Micro-tearing or tension in the paraspinous muscles and supporting spinal ligaments, typically triggered by bending, lifting, sudden twisting, or sustained poor posture.',
+      likelihoodNote: 'Plausible Explanation (Most common etiology of acute back or neck pain)',
+      matchingSymptoms: symptoms.filter((s) => /back|neck|spine|muscle|stiffness|pain/i.test(s)),
+      keyDifferentiators: 'Localized aching or muscle spasm without shooting nerve pain down the leg (sciatica) or loss of bowel/bladder control.',
+      urgencyLevel: 'Routine Outpatient',
+      commonCauses: ['Lifting heavy objects with rounded spine', 'Prolonged sitting at non-ergonomic desks or computers', 'Sudden unconditioned physical exertion'],
+      typicalSymptoms: ['Dull or sharp localized ache in lower back or neck', 'Stiffness and muscle guarding when bending or turning', 'Pain that improves with gentle rest and warmth'],
+      howClinicianEvaluates: 'A physician palpates paraspinal muscles, evaluates active range of motion, and tests reflexes, sensation, and motor strength in the lower/upper extremities.',
+    });
+    possibleCauses.push({
+      name: 'Lumbar / Cervical Radicular Nerve Irritation (Sciatica / Radiculopathy)',
+      description:
+        'Mechanical compression or chemical irritation of an exiting spinal nerve root (e.g., from an intervertebral disc bulge), causing radiating nerve symptoms.',
+      likelihoodNote: 'Possible Explanation (Consider if pain radiates past the knee or down the arm)',
+      matchingSymptoms: symptoms.filter((s) => /back|neck|sciatica|leg|arm|tingling/i.test(s)),
+      keyDifferentiators: 'Sharp shooting "electric" sensation radiating down a specific nerve pathway, often aggravated by coughing or straight leg raising.',
+      urgencyLevel: 'Prompt Care (24-48h)',
+    });
+  } else if (isJointOrMuscle) {
+    possibleCauses.push({
+      name: 'Patellofemoral Pain Syndrome, Tendinopathy, or Mechanical Joint Strain',
+      description:
+        'Mechanical irritation or inflammation of tendons, ligaments, or joint capsules around the knee, shoulder, ankle, or wrist following activity or repetitive motion.',
+      likelihoodNote: 'Plausible Explanation (Frequent cause of localized joint aching and stiffness)',
+      matchingSymptoms: symptoms.filter((s) => /joint|knee|shoulder|ankle|wrist|muscle|pain/i.test(s)),
+      keyDifferentiators: 'Pain corresponds directly with joint motion, stairs, or load; absence of hot, red, intensely swollen joint (which requires urgent evaluation).',
+      urgencyLevel: 'Routine Outpatient',
+      commonCauses: ['Repetitive overuse or impact exercise', 'Muscle imbalance or suboptimal footwear/biomechanics', 'Minor sprain or twist'],
+      typicalSymptoms: ['Aching or stiffness around the joint', 'Discomfort during loading or stairs', 'Mild local tenderness without joint effusion'],
+      howClinicianEvaluates: 'A clinician performs joint palpation, ligamentous stability maneuvers, and tests passive and active range of motion.',
+    });
+    possibleCauses.push({
+      name: 'Early Osteoarthritis or Localized Bursitis',
+      description:
+        'Gradual wearing of joint cartilage or inflammation of the fluid-filled bursa cushioning tendons, leading to morning stiffness and aching after exertion.',
+      likelihoodNote: 'Possible Explanation (More common in adults over 40 or following prior joint injuries)',
+      matchingSymptoms: symptoms.filter((s) => /joint|stiffness|ache/i.test(s)),
+      keyDifferentiators: 'Stiffness typically lasts less than 30 minutes in the morning and increases after periods of prolonged inactivity.',
+      urgencyLevel: 'Routine Outpatient',
+    });
+  } else if (isDizzyOrVertigo) {
+    possibleCauses.push({
+      name: 'Benign Paroxysmal Positional Vertigo (BPPV)',
+      description:
+        'A common inner ear disorder caused by tiny calcium carbonate crystals (otoconia) shifting into the semicircular canals, triggering brief spinning sensations with head turns.',
+      likelihoodNote: 'Plausible Explanation (Leading cause of true spinning vertigo triggered by head motion)',
+      matchingSymptoms: symptoms.filter((s) => /dizzy|vertigo|spinning|balance|nausea/i.test(s)),
+      keyDifferentiators: 'Spinning episodes last under 60 seconds and are provoked specifically by tilting the head, rolling in bed, or looking up.',
+      urgencyLevel: 'Prompt Care (24-48h)',
+      commonCauses: ['Displacement of inner ear otoconia crystals into semicircular canals', 'Minor head trauma or prior vestibular infection', 'Age-related inner ear changes'],
+      typicalSymptoms: ['Brief intense spinning sensation lasting seconds', 'Mild nausea or unsteadiness during head motion', 'Absence of hearing loss or speech difficulty'],
+      howClinicianEvaluates: 'A clinician performs the Dix-Hallpike maneuver to elicit characteristic nystagmus (eye movement) and treats it with repositioning maneuvers (Epley maneuver).',
+    });
+    possibleCauses.push({
+      name: 'Orthostatic Hypotension or Dehydration-Related Lightheadedness',
+      description:
+        'A temporary drop in blood pressure when standing up quickly, causing a transient "lightheaded" or woozy feeling without the room actually spinning.',
+      likelihoodNote: 'Possible Explanation (Very common when dehydrated, fatigued, or on blood pressure medicines)',
+      matchingSymptoms: symptoms.filter((s) => /dizzy|lightheaded|faint|weakness/i.test(s)),
+      keyDifferentiators: 'Occurs primarily upon transitioning from sitting/lying to standing and resolves within seconds of pausing.',
+      urgencyLevel: 'Routine Outpatient',
+    });
+  } else if (isDentalOrOral) {
+    possibleCauses.push({
+      name: 'Dental Caries with Pulpitis or Periapical Sensitivity',
+      description:
+        'Irritation or infection of the inner nerve and vascular pulp of a tooth, commonly caused by tooth decay, a cracked filling, or enamel erosion.',
+      likelihoodNote: 'Plausible Explanation (Primary etiology of localized tooth pain and temperature sensitivity)',
+      matchingSymptoms: symptoms.filter((s) => /tooth|dental|pain|gum|jaw/i.test(s)),
+      keyDifferentiators: 'Pain triggered by hot, cold, or chewing; requires professional dentist inspection and intraoral radiography.',
+      urgencyLevel: 'Prompt Care (24-48h)',
+      commonCauses: ['Bacterial dental plaque and acid erosion', 'Cracked tooth or failing dental restoration', 'Bruxism (teeth clenching or grinding)'],
+      typicalSymptoms: ['Throbbing or sharp tooth pain', 'Sensitivity to hot, cold, or sugary foods', 'Discomfort when biting down'],
+      howClinicianEvaluates: 'A dentist performs cold sensitivity testing, tooth percussion, and takes dental X-rays to check tooth root and alveolar bone integrity.',
+    });
+    possibleCauses.push({
+      name: 'Recurrent Aphthous Stomatitis (Canker Sore) or Gingival Irritation',
+      description:
+        'Small, shallow, non-contagious ulcers that develop on the inside of the lips, cheeks, or base of the gums, causing localized stinging when eating.',
+      likelihoodNote: 'Possible Explanation (Common cause of painful mouth sores)',
+      matchingSymptoms: symptoms.filter((s) => /ulcer|mouth|sore|gum/i.test(s)),
+      keyDifferentiators: 'Round ulcer with a white/yellow center and red border; self-resolving over 7–10 days with gentle oral hygiene.',
+      urgencyLevel: 'Routine Outpatient',
+    });
+  } else if (isSinusOrAllergy) {
+    possibleCauses.push({
+      name: 'Acute Viral Rhinosinusitis (Sinus Congestion & Facial Pressure)',
+      description:
+        'Inflammation and swelling of the nasal mucous membranes and paranasal sinus ostia, leading to facial fullness, forehead pressure, and nasal congestion.',
+      likelihoodNote: 'Plausible Explanation (Consistent with sinus pressure and nasal symptoms)',
+      matchingSymptoms: symptoms.filter((s) => /sinus|congestion|headache|nose|pressure|face/i.test(s)),
+      keyDifferentiators: 'Facial pressure centered around cheeks, forehead, or between eyes; viral causes predominate in the first 7–10 days.',
+      urgencyLevel: 'Routine Outpatient',
+      commonCauses: ['Viral airway infection causing sinus ostial blockage', 'Allergic mucosal swelling', 'Environmental air changes or irritants'],
+      typicalSymptoms: ['Facial pressure that increases when bending forward', 'Nasal obstruction and post-nasal drainage', 'Mild dull headache and fatigue'],
+      howClinicianEvaluates: 'A clinician inspects nasal mucosa for swelling and purulence, palpates maxillary and frontal sinuses, and checks for dental source involvement.',
+    });
+    possibleCauses.push({
+      name: 'Allergic Rhinitis (Environmental / Pollen Allergy)',
+      description:
+        'IgE-mediated inflammatory reaction of the nasal passages triggered by airborne allergens (pollen, animal dander, mold, or dust mites).',
+      likelihoodNote: 'Possible Explanation (Consider if sneezing, clear watery drainage, and itchy eyes are present)',
+      matchingSymptoms: symptoms.filter((s) => /allergy|sneezing|nose|itch/i.test(s)),
+      keyDifferentiators: 'Frequent sneezing paroxysms, watery nasal discharge, absence of fever, and seasonal/exposure correlation.',
+      urgencyLevel: 'Routine Outpatient',
+    });
+  } else if (isChestOrPalpitations) {
+    possibleCauses.push({
+      name: 'Gastroesophageal Reflux Disease (GERD) / Acid Dyspepsia',
+      description:
+        'Backflow of stomach acid into the esophagus, producing a burning retrosternal sensation (heartburn), sour taste, or chest fullness after meals or when lying down.',
+      likelihoodNote: 'Plausible Explanation (Frequent non-cardiac cause of burning chest discomfort)',
+      matchingSymptoms: symptoms.filter((s) => /chest|burning|heartburn|reflux|stomach|pain/i.test(s)),
+      keyDifferentiators: 'Worse after large, spicy, or acidic meals or when reclining; relieved by antacids or upright posture. Always requires medical evaluation to rule out cardiac disease.',
+      urgencyLevel: 'Prompt Care (24-48h)',
+      commonCauses: ['Transient lower esophageal sphincter relaxation', 'Dietary triggers (spicy foods, caffeine, chocolate, alcohol)', 'Eating close to bedtime or elevated intra-abdominal pressure'],
+      typicalSymptoms: ['Burning retrosternal chest discomfort', 'Acidic or bitter fluid regurgitation', 'Relief when standing or after taking an antacid'],
+      howClinicianEvaluates: 'A clinician takes a detailed symptom history, checks vital signs and ECG to exclude cardiac etiology, and may trial acid suppression therapy.',
+    });
+    possibleCauses.push({
+      name: 'Costochondritis or Musculoskeletal Chest Wall Strain',
+      description:
+        'Benign inflammation of the costochondral cartilage connecting ribs to the sternum (breastbone), causing localized chest wall tenderness.',
+      likelihoodNote: 'Possible Explanation (Very common cause of sharp chest wall pain)',
+      matchingSymptoms: symptoms.filter((s) => /chest|pain|rib|breath/i.test(s)),
+      keyDifferentiators: 'Pain is sharply reproduced by pressing directly on the rib junctions or twisting the torso, and does not radiate like cardiac angina.',
+      urgencyLevel: 'Routine Outpatient',
+    });
+  } else if (isResp || isFever) {
     possibleCauses.push({
       name: 'Acute Viral Upper Respiratory Tract Infection (Common Cold / Viral Pharyngitis)',
       description:
@@ -696,21 +911,15 @@ export function generateClinicalSymptomReport(data: {
       matchingSymptoms: symptoms.filter((s) => /throat|cough|fever/i.test(s)),
       keyDifferentiators: 'Prominent throat pain when swallowing or persistent fever; bacterial causes require a rapid antigen test or culture before considering antibiotics.',
       urgencyLevel: 'Prompt Care (24-48h)',
-      commonCauses: [
-        'Viral airway irritation or Group A Streptococcus bacteria',
-        'Droplet transmission in households, schools, or workplaces',
-      ],
-      typicalSymptoms: ['Painful swallowing', 'Fever', 'Swollen tender neck lymph nodes', 'Dry or productive cough'],
-      howClinicianEvaluates: 'Evaluated via throat inspection for tonsillar exudates, neck lymph node palpation, lung auscultation, and a rapid strep test or throat culture.',
     });
     possibleCauses.push({
-      name: 'Allergic Rhinitis with Post-Nasal Irritation',
+      name: 'Seasonal Influenza or Acute Bronchitis',
       description:
-        'An allergic response of the nasal passages to environmental triggers (pollen, dust mites, pet dander) causing nasal drainage that can irritate the throat and trigger a cough.',
-      likelihoodNote: 'Alternative Possibility (More common when fever is absent)',
-      matchingSymptoms: symptoms.filter((s) => /nose|cough|throat/i.test(s)),
-      keyDifferentiators: 'Absence of fever, clear nasal secretions, and correlation with environmental or seasonal exposures.',
-      urgencyLevel: 'Routine Outpatient',
+        'Viral lower or systemic airway illness marked by more abrupt onset of body aches, cough, headache, chills, and pronounced fatigue.',
+      likelihoodNote: 'Alternative Possibility (Consider if systemic aches and fever are prominent)',
+      matchingSymptoms: symptoms.filter((s) => /cough|fever|fatigue|ache/i.test(s)),
+      keyDifferentiators: 'More pronounced constitutional symptoms (chills, muscle aches, exhaustion) compared to typical head colds.',
+      urgencyLevel: 'Prompt Care (24-48h)',
     });
   } else if (isHeadache) {
     possibleCauses.push({
@@ -736,20 +945,23 @@ export function generateClinicalSymptomReport(data: {
     });
   } else if (isGI) {
     possibleCauses.push({
-      name: 'Acute Viral Gastroenteritis',
+      name: 'Acute Viral Gastroenteritis (Stomach Bug)',
       description:
-        'Temporary inflammation of the stomach and intestines caused by a common virus, leading to nausea, abdominal cramping, or loose stools.',
+        'Temporary inflammation of the stomach and intestines caused by a common virus, leading to nausea, abdominal cramping, loose stools, or mild fever.',
       likelihoodNote: 'Plausible Explanation (Common cause of acute digestive upset)',
       matchingSymptoms: symptoms.filter((s) => /nausea|stomach|vomit|diarrhea|cramp/i.test(s)),
       keyDifferentiators: 'Acute onset of generalized stomach discomfort and nausea; primary clinical focus is preventing dehydration.',
       urgencyLevel: 'Prompt Care (24-48h)',
+      commonCauses: ['Norovirus, rotavirus, or enteric adenoviruses', 'Contaminated food or water or close contact with sick individuals'],
+      typicalSymptoms: ['Watery diarrhea', 'Abdominal cramping and nausea', 'Occasional vomiting and low fever'],
+      howClinicianEvaluates: 'A physician evaluates abdominal tenderness, checks mucous membrane hydration and orthostatic vitals, and tests electrolytes if dehydrated.',
     });
     possibleCauses.push({
       name: 'Gastritis or Functional Dyspepsia (Indigestion)',
       description:
         'Irritation of the upper stomach lining triggered by acidic/spicy foods, stress, caffeine, or anti-inflammatory pain relievers (NSAIDs).',
       likelihoodNote: 'Possible Explanation (Consider if discomfort is centered in the upper abdomen)',
-      matchingSymptoms: symptoms.filter((s) => /stomach|nausea/i.test(s)),
+      matchingSymptoms: symptoms.filter((s) => /stomach|nausea|indigestion/i.test(s)),
       keyDifferentiators: 'Upper abdominal burning or fullness after meals without systemic fever.',
       urgencyLevel: 'Routine Outpatient',
     });
@@ -759,36 +971,80 @@ export function generateClinicalSymptomReport(data: {
       description:
         'Superficial inflammation of the skin barrier triggered by dryness, soaps, fragrances, fabrics, or environmental allergens.',
       likelihoodNote: 'Plausible Explanation (Consistent with localized redness and itching)',
-      matchingSymptoms: symptoms.filter((s) => /rash|redness|itch/i.test(s)),
+      matchingSymptoms: symptoms.filter((s) => /rash|redness|itch|skin/i.test(s)),
       keyDifferentiators: 'Localized itchy redness without systemic fever or spreading warmth.',
       urgencyLevel: 'Routine Outpatient',
+      commonCauses: ['Direct contact with irritants (detergents, harsh soaps, metals)', 'Dry skin barrier breakdown', 'Allergic sensitization'],
+      typicalSymptoms: ['Red, itchy patches on skin surface', 'Dry flaking or mild scaling', 'Papules or small blisters in contact areas'],
+      howClinicianEvaluates: 'A clinician performs visual morphology inspection of lesion borders, evaluates distribution pattern, and may perform patch testing.',
     });
     possibleCauses.push({
       name: 'Acute Urticaria (Hives)',
       description:
         'Raised, itchy red or skin-colored welts triggered by histamine release in response to a food, medication, viral illness, or environmental factor.',
       likelihoodNote: 'Possible Explanation (Consider if raised itchy welts appear and shift locations)',
-      matchingSymptoms: symptoms.filter((s) => /rash|itch|redness/i.test(s)),
+      matchingSymptoms: symptoms.filter((s) => /rash|itch|redness|hives/i.test(s)),
       keyDifferentiators: 'Individual welts often appear quickly and fade or move within 24 hours.',
       urgencyLevel: 'Prompt Care (24-48h)',
     });
-  } else {
+  } else if (isMentalStress) {
     possibleCauses.push({
-      name: 'Non-Specific Viral Prodrome or Systemic Fatigue',
+      name: 'Somatic Stress Response & Muscular Hypertonicity',
       description:
-        'Early immune response or physical exhaustion causing general achiness, low energy, and mild discomfort.',
-      likelihoodNote: 'Plausible Explanation (Warrants observation and clinical review if persistent)',
-      matchingSymptoms: symptoms,
-      keyDifferentiators: 'Requires in-person physical exam and basic blood work if symptoms persist beyond several days.',
+        'Physical manifestation of psychological stress and autonomic nervous system arousal, causing tension in the neck/shoulders, shallow breathing, mild tremor, or fatigue.',
+      likelihoodNote: 'Plausible Explanation (Common physiological reaction to sustained stress or life demands)',
+      matchingSymptoms: symptoms.filter((s) => /stress|anxiety|tension|fatigue|sleep/i.test(s)),
+      keyDifferentiators: 'Symptoms fluctuate with stress levels and improve with restorative relaxation and diaphragmatic breathing.',
       urgencyLevel: 'Routine Outpatient',
     });
     possibleCauses.push({
-      name: 'Musculoskeletal Strain or Restorative Sleep Deficit',
+      name: 'Primary Sleep Onset / Maintenance Insomnia with Daytime Fatigue',
       description:
-        'Physical tension or fatigue related to posture, activity changes, dehydration, or insufficient restorative rest.',
-      likelihoodNote: 'Alternative Possibility (Common contributor to body aches and fatigue)',
-      matchingSymptoms: symptoms.filter((s) => /fatigue|muscle|joint/i.test(s)),
-      keyDifferentiators: 'Improves with hydration, gentle rest, and ergonomic relief.',
+        'Difficulty falling or staying asleep leading to daytime cognitive fog, physical tiredness, and irritability.',
+      likelihoodNote: 'Possible Explanation (Frequent cause of daytime low energy and tension)',
+      matchingSymptoms: symptoms.filter((s) => /insomnia|sleep|fatigue|tired/i.test(s)),
+      keyDifferentiators: 'Direct correlation between disrupted nighttime sleep hours and next-day physical exhaustion.',
+      urgencyLevel: 'Routine Outpatient',
+    });
+  } else if (isFatigueOrWeakness) {
+    possibleCauses.push({
+      name: 'Post-Viral Fatigue or Acute Convalescent Malaise',
+      description:
+        'Lingering exhaustion and reduced stamina following an immune response to a recent mild viral infection.',
+      likelihoodNote: 'Plausible Explanation (Common during the 1–3 weeks following viral illnesses)',
+      matchingSymptoms: symptoms.filter((s) => /fatigue|weakness|tired|exhaustion/i.test(s)),
+      keyDifferentiators: 'Follows a recent cold, sore throat, or fever, with gradual steady recovery week by week.',
+      urgencyLevel: 'Routine Outpatient',
+    });
+    possibleCauses.push({
+      name: 'Cumulative Sleep Deprivation and Physiological Stress Fatigue',
+      description:
+        'Physical and cognitive fatigue resulting from chronic sleep deficit, irregular sleep schedules, or prolonged physical/mental exertion.',
+      likelihoodNote: 'Possible Explanation (Frequent cause of persistent daily tiredness)',
+      matchingSymptoms: symptoms.filter((s) => /fatigue|tired|weakness/i.test(s)),
+      keyDifferentiators: 'Absence of localized organ pain or systemic fevers; responsive to consistent sleep hygiene and hydration.',
+      urgencyLevel: 'Routine Outpatient',
+    });
+  } else {
+    possibleCauses.push({
+      name: `Clinical Evaluation Consideration for: ${mainComplaint}`,
+      description:
+        `An individualized clinical assessment is recommended for your reported concern of "${mainComplaint}". Common benign, inflammatory, or lifestyle factors are considered alongside specific clinical etiologies.`,
+      likelihoodNote: 'Needs Clinical Evaluation (Warrants in-person assessment)',
+      matchingSymptoms: symptoms.length > 0 ? symptoms : [mainComplaint],
+      keyDifferentiators: 'A focused in-person physical exam and clinical history are necessary to formulate an accurate diagnosis.',
+      urgencyLevel: 'Routine Outpatient',
+      commonCauses: ['Individualized physiological, environmental, or lifestyle factors', 'Recent activity changes, dietary factors, or local tissue strain'],
+      typicalSymptoms: symptoms.length > 0 ? symptoms : ['Reported physical discomfort or change'],
+      howClinicianEvaluates: 'A clinician takes a detailed timeline of symptoms, examines the affected anatomical area, and orders baseline tests if indicated.',
+    });
+    possibleCauses.push({
+      name: 'Physiological Stress, Muscle Strain, or Sleep Deprivation',
+      description:
+        'Physical tension, low energy, or discomfort related to posture, hydration status, recent activity shifts, or sleep quality.',
+      likelihoodNote: 'Alternative Possibility (Common contributor to generalized physical discomfort)',
+      matchingSymptoms: symptoms.filter((s) => /fatigue|muscle|ache|pain|tired/i.test(s)),
+      keyDifferentiators: 'Symptoms tend to fluctuate and respond positively to rest, adequate hydration, and ergonomic support.',
       urgencyLevel: 'Routine Outpatient',
     });
   }
@@ -1248,13 +1504,323 @@ Medication suitability cannot be determined safely from the information provided
     };
   }
 
-  // 5. Headache & Migraine vs. Tension Headache
+  // 5. Ear Complaints & Otitis / Earache / Fullness / Tinnitus
+  if (
+    /\b(ear|ears|earache|earaches|otitis|tinnitus|ringing in ear|plugged ear|blocked ear|muffled hearing|ear fullness|ear pain|outer ear|eardrum)\b/i.test(
+      textLower
+    )
+  ) {
+    return {
+      reply: `${patientGreeting} Ear discomfort, muffled hearing, or a feeling of fullness in the ear are very common complaints that physicians evaluate based on canal inspection, eardrum movement, and recent respiratory history.
+
+PRIMARY WORKING DIAGNOSIS & POSSIBLE EXPLANATIONS
+1. Acute Otitis Media (Middle Ear Irritation — Possible Explanation): Often develops when a recent head cold, viral infection, or allergy causes the Eustachian tube to swell, trapping fluid behind the eardrum. This creates ear pressure, dull or sharp pain, and muffled hearing.
+2. Otitis Externa ("Swimmer's Ear" / Ear Canal Inflammation — Possible Explanation): Involves redness, itchiness, or tenderness in the outer ear canal, commonly triggered by water retention after bathing or swimming, or trauma from cotton swabs. A classic sign is pain when pulling gently on the earlobe or tragus.
+3. Impacted Cerumen (Earwax Plug) or Eustachian Dysfunction (Possible Explanation): Natural earwax can accumulate or become pushed inward, causing sudden fullness, reduced hearing, or ringing sounds without signs of active infection.
+
+PHYSIOLOGICAL SUPPORT & COMFORT MEASURES
+1. Keep the Ear Canal Dry: Prevent water, shampoo, or swimming water from entering the ear canal while symptoms are active.
+2. Avoid Cotton Swabs or Probing: Never insert cotton swabs, hairpins, or objects into the ear canal, as this can compact earwax, scratch delicate canal skin, or puncture the eardrum.
+3. Warm Compress for Discomfort: Hold a warm (not hot) damp washcloth against the outside of the ear for 10 to 15 minutes to soothe throbbing.
+4. Ear Drop Caution: Avoid putting over-the-counter or leftover ear drops into the ear unless an in-person doctor has inspected your eardrum to verify it is intact (not perforated).
+
+QUESTIONS FOR YOUR DOCTOR
+1. When you examine my ear canal and eardrum with an otoscope, do you see signs of fluid, infection, or impacted cerumen?
+2. If ear drops or medications are recommended, what specific type is safe for my eardrum?
+3. How long should I expect the sensation of ear fullness or hearing dampening to last?
+
+URGENT CARE & RED-FLAG REMINDER
+Seek prompt or urgent medical evaluation if you experience sudden hearing loss, fluid/pus/blood draining from the ear, severe dizziness or spinning (vertigo), swelling or redness behind the ear over the bone (mastoid area), or high fever with ear pain.`,
+      sources: [
+        { title: 'CDC — Ear Infections (Otitis Media) in Children and Adults', uri: 'https://www.cdc.gov' },
+        { title: 'MedlinePlus — Ear Disorders & Earache', uri: 'https://medlineplus.gov/earinfections.html' },
+        { title: 'American Academy of Otolaryngology — Head and Neck Surgery (ENT)', uri: 'https://www.enthealth.org' },
+      ],
+    };
+  }
+
+  // 6. Eye Symptoms & Conjunctivitis / Eye Strain / Redness / Irritation
+  if (
+    /\b(eye|eyes|eyelid|eyelids|vision|pink eye|conjunctivitis|blurry vision|dry eye|stye|itchy eye|red eye|watery eye|photophobia|gritty eye)\b/i.test(
+      textLower
+    )
+  ) {
+    return {
+      reply: `${patientGreeting} Eye redness, irritation, or watery discharge are frequent concerns, and eye specialists evaluate them by distinguishing superficial surface inflammation from deeper ocular conditions.
+
+PRIMARY WORKING DIAGNOSIS & POSSIBLE EXPLANATIONS
+1. Acute Conjunctivitis ("Pink Eye" — Possible Explanation): Inflammation of the thin clear membrane covering the white of the eye. Allergic conjunctivitis typically causes intense itching and clear watery tearing in both eyes; viral or bacterial conjunctivitis tends to cause burning redness, crusting, or sticky discharge upon waking.
+2. Digital Eye Strain (Asthenopia) & Tear Film Instability / Dry Eye (Possible Explanation): Long hours of reading or screen work drastically reduce natural blink rate, leading to transient blurriness, tired eyes, burning sensations, and mild light sensitivity that improve after resting the eyes.
+3. Blepharitis, Stye, or External Irritation (Possible Explanation): Clogged oil glands along the eyelid margin or localized sensitivity to cosmetics, smoke, or contact lenses can produce localized swelling, redness, and a gritty foreign-body sensation.
+
+PHYSIOLOGICAL SUPPORT & COMFORT MEASURES
+1. The 20-20-20 Screen Rest Rule: Every 20 minutes of screen work, look at an object 20 feet away for at least 20 seconds to allow the eye focusing muscles to relax.
+2. Cool or Warm Clean Compresses: Use a clean cloth moistened with cool water for allergic itchiness, or warm water to soothe eyelid oil glands. Use a fresh cloth for each eye to prevent cross-contamination.
+3. Preservative-Free Lubricating Drops: Plain artificial tear drops (without redness-relieving vasoconstrictors) can help replenish moisture safely.
+4. Contact Lens Protocol: Remove contact lenses immediately and wear glasses until a clinician confirms your eyes are clear of infection or corneal scratch.
+
+QUESTIONS FOR YOUR DOCTOR
+1. Based on your examination of the conjunctiva and cornea, is this viral, allergic, bacterial, or dry-eye related?
+2. Is my cornea completely clear and free of surface abrasions or ulceration?
+3. What specific eye drops or lubricants are safest for me, and when can I resume wearing contact lenses?
+
+URGENT CARE & RED-FLAG REMINDER
+Seek immediate same-day eye care (ophthalmologist or emergency department) if you develop deep or severe eye pain, sudden changes in vision (such as significant blurring, blind spots, or halos around lights), extreme light sensitivity, unequal pupils, or symptoms following a scratch, chemical splash, or high-speed eye injury.`,
+      sources: [
+        { title: 'American Academy of Ophthalmology (AAO) — Eye Health Resources', uri: 'https://www.aao.org/eye-health' },
+        { title: 'MedlinePlus — Eye Infections & Conjunctivitis', uri: 'https://medlineplus.gov/conjunctivitis.html' },
+      ],
+    };
+  }
+
+  // 7. Urinary Symptoms & Dysuria / UTI / Frequency
+  if (
+    /\b(urine|urinary|urinate|urinating|urination|dysuria|bladder|peeing|pee|frequent urination|kidney pain)\b/i.test(
+      textLower
+    ) || /burning.*pee/i.test(textLower)
+  ) {
+    return {
+      reply: `${patientGreeting} Urinary symptoms such as a burning sensation during urination (dysuria), increased frequency, or pelvic pressure are important signals that warrant a prompt, objective clinical evaluation.
+
+PRIMARY WORKING DIAGNOSIS & POSSIBLE EXPLANATIONS
+1. Acute Uncomplicated Lower Urinary Tract Infection (Cystitis — Possible Explanation): The most common cause of painful urination, urgency, and feeling like you need to urinate even when the bladder is nearly empty. It occurs when bacteria enter the urethra and multiply in the bladder lining.
+2. Urethral or Bladder Trigonum Irritation (Possible Explanation): Local chemical irritation from bubble baths, scented hygiene soaps, concentrated acidic urine (often from dehydration), or mild pelvic muscle tension can mimic infection symptoms without bacterial growth.
+3. Upper Urinary Tract Involvement or Other Causes Clinicians Rule Out: Kidney stones, sexually transmitted infections (such as chlamydia), or ascending infection (pyelonephritis). A doctor checks for this by asking about flank pain, chills, and fever.
+
+PHYSIOLOGICAL SUPPORT & COMFORT MEASURES
+1. Generous Hydration: Drink plenty of plain water steadily throughout the day to help flush the urinary tract and dilute acidic urine.
+2. Prompt, Complete Voiding: Do not hold your urine; empty your bladder completely when you feel the urge and always wipe from front to back.
+3. Avoid Bladder Irritants: Temporarily minimize caffeine (coffee, tea, energy drinks), alcohol, artificial sweeteners, carbonated drinks, and spicy foods that irritate the bladder lining.
+4. Hygiene Precautions: Use only plain, warm water for genital hygiene; avoid douches, scented feminine sprays, or heavily fragranced bath products.
+
+QUESTIONS FOR YOUR DOCTOR
+1. Does my in-office urine dipstick and urinalysis show white blood cells (leukocyte esterase), nitrites, or blood?
+2. Are you sending a urine sample for culture and antibiotic sensitivity testing?
+3. If an antibiotic is prescribed, what is the exact duration, and what should I do if symptoms do not improve within 48 hours?
+
+URGENT CARE & RED-FLAG REMINDER
+Do not delay seeking medical care for urinary burning, as an untreated bladder infection can ascend to the kidneys. Seek immediate urgent or emergency care if you experience mid-to-upper back/flank pain (one or both sides), shaking chills, fever >100.4°F (38°C), nausea/vomiting, or visible blood or dark tea-colored urine.`,
+      sources: [
+        { title: 'CDC — Urinary Tract Infection (UTI) Clinical Guidelines', uri: 'https://www.cdc.gov/antibiotic-use/uti.html' },
+        { title: 'NIDDK (NIH) — Bladder Infection & Urinary Tract Disorders', uri: 'https://www.niddk.nih.gov/health-information/urologic-diseases' },
+        { title: 'MedlinePlus — Dysuria & Urination Problems', uri: 'https://medlineplus.gov/urinarytractinfections.html' },
+      ],
+    };
+  }
+
+  // 8. Dizziness & Vertigo / Lightheadedness / Balance
+  if (
+    /dizzy|dizziness|vertigo|spinning|lightheaded|unsteady|loss of balance|presyncope|room is spinning|off balance/i.test(
+      textLower
+    )
+  ) {
+    return {
+      reply: `${patientGreeting} Evaluating dizziness starts by determining the exact sensation: is the room visibly spinning around you (true vertigo), or do you feel faint and woozy (lightheadedness / presyncope)?
+
+PRIMARY WORKING DIAGNOSIS & POSSIBLE EXPLANATIONS
+1. Benign Paroxysmal Positional Vertigo (BPPV — Possible Explanation): The most common cause of sudden, brief spinning sensations (lasting 10 to 60 seconds) triggered specifically by head movements—such as rolling over in bed, looking up at a high shelf, or bending down. It happens when tiny calcium carbonate crystals in the inner ear become displaced into the fluid-filled semicircular canals.
+2. Orthostatic (Postural) Hypotension or Dehydration (Possible Explanation): Feeling woozy, lightheaded, or seeing stars immediately upon standing up quickly from a sitting or lying position, often due to dehydration, prolonged warm weather, or blood pressure fluctuations.
+3. Vestibular Neuritis or Labyrinthitis (Possible Explanation): Inflammation of the inner ear balance nerve, often following a viral cold, which can cause prolonged vertigo (lasting hours to days), unsteadiness, and nausea.
+4. Central vs. Peripheral Dizziness: Physicians conduct a focused neurological and eye movement exam to rule out central causes (such as stroke or inner ear circulation issues).
+
+PHYSIOLOGICAL SUPPORT & COMFORT MEASURES
+1. Slow Positional Transitions: When getting out of bed, sit upright on the edge for 30 to 60 seconds before standing up, and hold onto a sturdy surface until steady.
+2. Hydration & Electrolytes: Drink adequate fluids steadily, especially if lightheadedness occurs when standing or during warm conditions.
+3. Fall Prevention: Avoid driving, operating machinery, climbing ladders, or walking in dim light while experiencing dizziness or unsteadiness.
+4. Epley Maneuver Education: If a physician confirms BPPV, safe canalith repositioning procedures (such as the Epley maneuver) performed by a clinician or physical therapist can rapidly clear displaced crystals.
+
+QUESTIONS FOR YOUR DOCTOR
+1. Does my physical and neurological exam point toward an inner ear balance issue (like BPPV or vestibular neuritis) or a cardiovascular/blood pressure cause?
+2. Would the Dix-Hallpike test and Epley repositioning maneuver be appropriate for my symptoms today?
+3. Should we check my orthostatic blood pressure, hydration, electrolytes, or medication side effects?
+
+URGENT CARE & RED-FLAG REMINDER
+Seek immediate emergency medical care (call 911 / 112) if dizziness is accompanied by the "FAST" signs of stroke: facial drooping, arm or leg weakness/numbness, slurred speech or difficulty speaking, sudden double vision, inability to walk, a new severe sudden headache, or chest pain/palpitations.`,
+      sources: [
+        { title: 'NIH NINDS — Vertigo & Balance Disorders Overview', uri: 'https://www.ninds.nih.gov' },
+        { title: 'Vestibular Disorders Association (VeDA) — BPPV & Inner Ear Balance', uri: 'https://vestibular.org' },
+        { title: 'MedlinePlus — Dizziness and Vertigo', uri: 'https://medlineplus.gov/dizzinessandvertigo.html' },
+      ],
+    };
+  }
+
+  // 9. Dental & Oral Concerns / Toothache / Mouth Ulcers / Gums
+  if (
+    /\b(tooth|teeth|dental|dentist|gum|gums|mouth ulcer|canker sore|jaw pain|toothache|toothaches|swollen cheek|tooth sensitivity|cavity|pulpitis)\b/i.test(
+      textLower
+    )
+  ) {
+    return {
+      reply: `${patientGreeting} Dental and oral discomfort—such as tooth pain, sensitivity, or gum irritation—requires careful evaluation because teeth are surrounded by delicate nerves and blood vessels inside rigid bone structures.
+
+PRIMARY WORKING DIAGNOSIS & POSSIBLE EXPLANATIONS
+1. Reversible or Irreversible Pulpitis / Dental Caries (Possible Explanation): Tooth sensitivity to cold, hot, or sweet foods, or a dull lingering throb after chewing, often indicates enamel decay or inflammation of the inner dental nerve (pulp).
+2. Aphthous Stomatitis (Canker Sore — Possible Explanation): Small, round or oval shallow ulcers inside the mouth (inner lips, cheeks, or under the tongue) with a white/yellowish center and red border. They are non-contagious and typically resolve spontaneously within 7 to 10 days.
+3. Gingival or Periodontal Irritation / Periapical Infection (Possible Explanation): Swelling, redness, or tenderness along the gumline, which can result from plaque buildup, food impaction between teeth, or localized infection at the tooth root tip.
+
+PHYSIOLOGICAL SUPPORT & COMFORT MEASURES
+1. Warm Saltwater Rinses: Dissolve 1/2 teaspoon of salt in a glass of warm water and swish gently for 30 seconds, 3 to 4 times a day, to soothe oral tissues and keep the area clean.
+2. Avoid Temperature & Pressure Extremes: Stick to soft, lukewarm foods and chew on the opposite side of the mouth; avoid ice-cold drinks, piping hot foods, hard candies, and sugary acidic items.
+3. Gentle Oral Hygiene: Continue brushing teeth gently with a soft-bristled toothbrush and fluoride toothpaste; floss carefully around adjacent teeth without snapping the floss aggressively into tender gums.
+4. Never Put Aspirin on the Gum: Never place an aspirin tablet directly against the gum or tooth, as this causes severe chemical burns to the oral mucosa.
+
+QUESTIONS FOR YOUR DENTIST OR DOCTOR
+1. Does my dental X-ray show deep decay, nerve involvement (pulpitis), or a root tip abscess?
+2. Is a protective filling, root canal therapy, or periodontal cleaning recommended?
+3. What is the safest pain management strategy until definitive dental treatment is completed?
+
+URGENT CARE & RED-FLAG REMINDER
+Seek urgent emergency medical or maxillofacial care immediately if you develop facial swelling that spreads toward your cheek, eye, or down into the neck, difficulty swallowing or opening your mouth (trismus), difficulty breathing, or high fever with tooth pain.`,
+      sources: [
+        { title: 'American Dental Association (ADA) — MouthHealthy Dental Health Information', uri: 'https://www.mouthhealthy.org' },
+        { title: 'MedlinePlus — Tooth Disorders & Mouth Sores', uri: 'https://medlineplus.gov/toothdisorders.html' },
+      ],
+    };
+  }
+
+  // 10. Sinus & Nasal Symptoms / Allergic Rhinitis / Facial Pressure
+  if (
+    /\b(sinus|sinuses|sinusitis|facial pressure|nasal drip|post-nasal|stuffy nose|blocked sinus|hay fever)\b/i.test(
+      textLower
+    )
+  ) {
+    return {
+      reply: `${patientGreeting} Sinus pressure, nasal congestion, and facial tenderness around the forehead, cheeks, or bridge of the nose are hallmark symptoms of swollen nasal and sinus passages.
+
+PRIMARY WORKING DIAGNOSIS & POSSIBLE EXPLANATIONS
+1. Acute Viral Rhinosinusitis (Common Cold with Sinus Involvement — Possible Explanation): The vast majority of acute sinus pressure episodes are viral. Viral inflammation swells the narrow drainage passages of the sinuses, trapping mucus and causing facial heaviness, headache, and congestion that typically peak within 3 to 7 days before resolving.
+2. Allergic Rhinitis (Possible Explanation): Airborne allergens (such as dust mites, tree/grass pollen, animal dander, or mold) trigger histamine release, leading to repetitive sneezing, clear watery nasal discharge, itchy palate or eyes, and nasal congestion without fever.
+3. Secondary Acute Bacterial Rhinosinusitis (Possible Explanation): Suspected by clinicians primarily when sinus symptoms persist beyond 10 days without any improvement, or when symptoms "double-sicken" (worsen sharply with fever and intense localized facial pain after initially seeming to improve).
+
+PHYSIOLOGICAL SUPPORT & COMFORT MEASURES
+1. Isotonic Saline Nasal Irrigation: Rinsing the nasal passages with a sterile saline nasal spray or sinus rinse bottle (using only distilled, sterile, or previously boiled water) safely thins mucus, flushes allergens, and reduces tissue swelling.
+2. Steam Inhalation & Humidification: Breathing in steam from a warm shower or using a cool-mist room humidifier keeps nasal mucosa moist and encourages drainage.
+3. Warm Facial Compresses: Placing a warm, damp towel across your forehead, cheeks, and eyes helps soothe localized sinus pressure.
+4. Decongestant Caution: Limit over-the-counter nasal decongestant sprays (such as oxymetazoline) to no more than 3 consecutive days to avoid severe rebound congestion (rhinitis medicamentosa).
+
+QUESTIONS FOR YOUR DOCTOR
+1. Based on the duration and examination of my nasal passages, does this presentation indicate a viral process, allergic rhinitis, or secondary bacterial sinusitis?
+2. Would a prescription steroid nasal spray or non-drowsy antihistamine provide safer, more effective relief than oral decongestants?
+3. At what point should I schedule a follow-up if facial tenderness does not resolve?
+
+URGENT CARE & RED-FLAG REMINDER
+Seek urgent or emergency medical evaluation if you develop swelling, redness, or pain around one or both eyes, double vision or vision changes, severe stiff neck, high unyielding fever, or confusion.`,
+      sources: [
+        { title: 'CDC — Sinus Infection (Sinusitis) Guidance', uri: 'https://www.cdc.gov/antibiotic-use/sinus-infection.html' },
+        { title: 'MedlinePlus — Sinusitis & Allergic Rhinitis', uri: 'https://medlineplus.gov/sinusitis.html' },
+      ],
+    };
+  }
+
+  // 11. Heartburn & Acid Reflux / GERD / Indigestion
+  if (
+    /\b(heartburn|acid reflux|gerd|acid in throat|sour taste|burning chest|indigestion|water brash|regurgitation)\b/i.test(
+      textLower
+    )
+  ) {
+    return {
+      reply: `${patientGreeting} Heartburn and acid reflux (gastroesophageal reflux disease / GERD) occur when stomach acid splashes upward into the sensitive lining of the esophagus, causing a burning sensation in the chest or upper abdomen.
+
+PRIMARY WORKING DIAGNOSIS & POSSIBLE EXPLANATIONS
+1. Gastroesophageal Reflux (GERD / Acid Reflux — Possible Explanation): The lower esophageal sphincter (the muscular valve between the esophagus and stomach) temporarily relaxes or weakens, allowing stomach acid and digestive enzymes to rise. This creates a burning ache behind the breastbone, often accompanied by a sour or bitter fluid in the back of the mouth, especially after heavy meals or when lying flat.
+2. Functional Dyspepsia or Gastritis (Possible Explanation): Inflammation or irritation of the stomach lining itself, frequently aggravated by NSAID pain relievers (ibuprofen/aspirin), spicy foods, citrus, coffee, or stress.
+3. Essential Cardiac Rule-Out: Heartburn can feel remarkably similar to cardiac chest discomfort. A physician will always evaluate your cardiac risk profile to ensure chest symptoms are not cardiovascular in origin.
+
+PHYSIOLOGICAL SUPPORT & COMFORT MEASURES
+1. Elevate the Head of Your Bed: Raise the head of your bed 6 to 8 inches using bed risers or a firm wedge pillow (propping up with regular pillows can bend the waist and increase stomach pressure).
+2. Allow 3 Hours Before Lying Down: Avoid eating meals or snacking within 3 hours of going to bed or lying down on the sofa.
+3. Smaller, Less Acidic Meals: Eat smaller, more frequent meals rather than large heavy dinners; moderate intake of common acid triggers such as fried/fatty foods, peppermint, chocolate, caffeine, tomatoes, and alcohol.
+4. Loosen Tight Clothing: Avoid tight belts, waistbands, or shapewear that apply direct pressure to the abdomen.
+
+QUESTIONS FOR YOUR DOCTOR
+1. Are my chest and digestive symptoms consistent with GERD, gastritis, or should we perform an ECG to definitively rule out cardiac causes?
+2. Are over-the-counter antacids, H2 blockers, or proton pump inhibitors (PPIs) appropriate for short-term symptom control?
+3. Should I be screened for Helicobacter pylori (H. pylori) bacteria or evaluated with an upper endoscopy?
+
+URGENT CARE & RED-FLAG REMINDER
+Never assume new or unexplained chest discomfort is simple heartburn. Seek immediate emergency medical care (call 911 / 112) if chest burning or pressure radiates to your jaw, neck, back, or left arm, or is accompanied by shortness of breath, cold sweat, dizziness, or nausea. Also seek urgent medical attention for difficulty swallowing food (dysphagia), food sticking in your chest, or vomiting blood/dark material.`,
+      sources: [
+        { title: 'NIH NIDDK — Acid Reflux (GER & GERD) in Adults', uri: 'https://www.niddk.nih.gov/health-information/digestive-diseases/acid-reflux-ger-gerd-adults' },
+        { title: 'MedlinePlus — Gastroesophageal Reflux Disease', uri: 'https://medlineplus.gov/gerd.html' },
+      ],
+    };
+  }
+
+  // 12. Fatigue & Exhaustion / Sleep Debt / Low Energy
+  if (
+    /\b(fatigue|exhausted|chronic tiredness|low energy|lethargy|always tired|sleep debt|run down|brain fog)\b/i.test(
+      textLower
+    )
+  ) {
+    return {
+      reply: `${patientGreeting} Persistent fatigue or low energy is one of the most frequent clinical concerns, and physicians investigate it systematically by reviewing sleep architecture, metabolic health, nutrition, and recent stressors.
+
+PRIMARY WORKING DIAGNOSIS & POSSIBLE EXPLANATIONS
+1. Sleep Debt, Circadian Disruption, or Sleep-Related Breathing Issues (Possible Explanation): Insufficient total sleep, irregular sleep schedules, or undiagnosed obstructive sleep apnea (snoring, waking gasping for air) prevent the body from reaching deep restorative slow-wave sleep.
+2. Nutritional or Metabolic Imbalances (Possible Explanation): Iron deficiency anemia, thyroid hormone underactivity (hypothyroidism), vitamin D deficiency, or vitamin B12 insufficiency are common, treatable causes of gradual fatigue.
+3. Post-Viral Fatigue or Chronic Physiological Stress (Possible Explanation): Following a viral illness (such as flu, COVID-19, or mononucleosis) or periods of prolonged emotional or work stress, the autonomic nervous system and immune response can take several weeks or months to fully recover baseline vitality.
+
+PHYSIOLOGICAL SUPPORT & COMFORT MEASURES
+1. Consistent Sleep-Wake Anchor: Go to bed and wake up at the exact same times every day (even on weekends) to synchronize your circadian clock.
+2. Morning Natural Sunlight: Expose your eyes to 10 to 15 minutes of natural outdoor daylight within an hour of waking to reinforce healthy daytime cortisol and nighttime melatonin production.
+3. Hydration & Protein-Balanced Meals: Drink water steadily throughout the day and pair complex carbohydrates with protein to avoid mid-afternoon blood sugar crashes.
+4. Moderate Evening Stimulants: Avoid caffeine at least 6 to 8 hours before bedtime and limit screen blue-light exposure in the final hour before sleep.
+
+QUESTIONS FOR YOUR DOCTOR
+1. What routine blood tests do you recommend to investigate my fatigue (such as Complete Blood Count / ferritin for anemia, TSH for thyroid, metabolic panel, and vitamin levels)?
+2. Does my sleep history warrant screening for sleep apnea or a formal sleep study?
+3. What realistic timeline and lifestyle plan should we set before scheduling a re-check?
+
+URGENT CARE & RED-FLAG REMINDER
+Seek urgent medical evaluation if persistent fatigue is accompanied by unexplained weight loss, night sweats, enlarged swollen lymph nodes, shortness of breath with mild exertion, fainting, or chest discomfort.`,
+      sources: [
+        { title: 'NIH — Fatigue Health Information', uri: 'https://www.nia.nih.gov/health/fatigue-older-adults' },
+        { title: 'MedlinePlus — Fatigue Clinical Overview', uri: 'https://medlineplus.gov/fatigue.html' },
+      ],
+    };
+  }
+
+  // 13. Mental Stress, Anxiety & Panic Physical Symptoms
+  if (
+    /\b(anxiety|panic|nervous|stress|panic attack|racing thoughts|feeling overwhelmed|hyperventilat|hyperventilation)\b/i.test(
+      textLower
+    )
+  ) {
+    return {
+      reply: `${patientGreeting} Anxiety and physiological stress trigger real, powerful physical reactions in the body—such as a racing heart, shallow breathing, chest tightness, muscle tension, or jitteriness—due to the autonomic "fight-or-flight" response.
+
+PRIMARY WORKING DIAGNOSIS & POSSIBLE EXPLANATIONS
+1. Autonomic Stress Response / Acute Anxiety (Possible Explanation): When the brain perceives acute stress or threat, it surges adrenaline and cortisol, accelerating your heart rate, dilating airways, and shifting blood flow to major muscles. This can make you feel restless, tense, or shaky.
+2. Panic Attack or Hyperventilation (Possible Explanation): An abrupt surge of intense fear or physiological discomfort that peaks within minutes, often causing palpitations, tingling in the fingers/lips, dizziness, and feeling unable to catch your breath due to rapid, shallow breathing.
+3. Medical Conditions Clinicians Rule Out: Thyroid overactivity (hyperthyroidism), caffeine sensitivity, medication side effects, or cardiac arrhythmias can mimic anxiety symptoms. A doctor checks vital signs and an ECG to ensure baseline cardiac and endocrine health.
+
+PHYSIOLOGICAL SUPPORT & COMFORT MEASURES
+1. The 4-7-8 Relaxing Breath: Inhale quietly through your nose for a count of 4, gently hold your breath for a count of 7, and exhale completely through your mouth with a soft whoosh for a count of 8. Repeat this cycle 4 times to activate the calming vagus nerve.
+2. 5-4-3-2-1 Sensory Grounding: Look around and name 5 things you can see, 4 things you can physically feel, 3 things you can hear, 2 things you can smell, and 1 positive affirmation about yourself.
+3. Limit Stimulants: Reduce caffeine, energy drinks, and nicotine, which directly stimulate heart rate and can amplify feelings of panic or jitteriness.
+4. Physical Movement: A brisk 15-minute walk helps metabolize excess stress hormones and relaxes contracted skeletal muscles.
+
+QUESTIONS FOR YOUR DOCTOR
+1. Are my physical symptoms fully explained by stress and anxiety, or should we check my thyroid function, blood sugar, or heart rhythm?
+2. What evidence-based mental health resources—such as Cognitive Behavioral Therapy (CBT) or counseling—do you recommend?
+3. What lifestyle habits or medical options can help reduce these surges in physical symptoms?
+
+URGENT CARE & RED-FLAG REMINDER
+Never ignore severe physical symptoms by assuming they are just anxiety if it is the first time you are experiencing them. Seek immediate emergency medical care (call 911 / 112) for new chest pain/pressure, breathing failure, fainting, or sudden numbness/weakness. If you ever experience overwhelming thoughts of harming yourself, call or text the 988 Suicide & Crisis Lifeline immediately.`,
+      sources: [
+        { title: 'NIMH (NIH) — Anxiety Disorders Overview', uri: 'https://www.nimh.nih.gov/health/topics/anxiety-disorders' },
+        { title: 'MedlinePlus — Stress and Anxiety Management', uri: 'https://medlineplus.gov/anxiety.html' },
+      ],
+    };
+  }
+
+  // 14. Headache & Migraine vs. Tension Headache
   if (
     textLower.includes('headache') ||
     textLower.includes('migraine') ||
     textLower.includes('tension') ||
     textLower.includes('head pain') ||
-    textLower.includes('dizzy')
+    textLower.includes('temple pain')
   ) {
     return {
       reply: `${patientGreeting} Distinguishing between a tension-type headache and a migraine comes down to the location, quality of the pain, how physical activity affects it, and accompanying symptoms.
@@ -1283,7 +1849,7 @@ Seek immediate emergency medical care if you experience a sudden, explosive "thu
     };
   }
 
-  // 6. Skin & Rash Care: Eczema vs. Contact Dermatitis, ABCDE Mole Check, or Barrier Routine
+  // 15. Skin & Mole ABCDE Screening
   if (
     textLower.includes('mole') ||
     textLower.includes('abcde') ||
@@ -1319,6 +1885,7 @@ A photograph or online checklist can never confirm a benign mole or rule out ski
     };
   }
 
+  // 16. Eczema & Contact Dermatitis & Skin Barrier
   if (
     textLower.includes('eczema') ||
     textLower.includes('contact dermatitis') ||
@@ -1327,7 +1894,7 @@ A photograph or online checklist can never confirm a benign mole or rule out ski
     textLower.includes('skin barrier') ||
     textLower.includes('skincare') ||
     textLower.includes('fragrance-free') ||
-    textLower.includes('patch')
+    textLower.includes('dry skin patch')
   ) {
     return {
       reply: `${patientGreeting} Eczema (atopic dermatitis) and contact dermatitis can look remarkably similar on the skin surface—both cause red, dry, itchy patches—but doctors distinguish them by looking at their pattern, timeline, and triggers.
@@ -1356,7 +1923,7 @@ Seek prompt medical evaluation if the rash spreads rapidly, becomes warm and swo
     };
   }
 
-  // 7. Doctor Visit Preparation, Symptom Timeline & Warning Signs
+  // 17. Doctor Visit Preparation, Symptom Timeline & Warning Signs
   if (
     textLower.includes('appointment') ||
     textLower.includes('visit') ||
@@ -1389,27 +1956,26 @@ Do not wait for a routine outpatient appointment if you experience high persiste
     };
   }
 
-  // 8. Gastrointestinal / Stomach / Nausea / Reflux Queries
+  // 18. Gastrointestinal / Stomach / Nausea / Reflux Queries
   if (
     textLower.includes('stomach') ||
     textLower.includes('nausea') ||
     textLower.includes('vomit') ||
     textLower.includes('diarrhea') ||
     textLower.includes('abdominal') ||
-    textLower.includes('reflux') ||
-    textLower.includes('heartburn') ||
-    textLower.includes('indigestion')
+    textLower.includes('belly pain') ||
+    textLower.includes('gut pain')
   ) {
     return {
       reply: `${patientGreeting} Digestive and abdominal symptoms can stem from temporary viral irritation, dietary triggers, or acid sensitivity, and doctors evaluate them based on pain location, timing with meals, and hydration status.
 
 PRIMARY WORKING DIAGNOSIS & POSSIBLE EXPLANATIONS
 1. Acute Viral Gastroenteritis (Possible Explanation): Commonly causes sudden nausea, abdominal cramping, loose stools, and mild fatigue or low-grade fever, typically improving over several days with careful hydration.
-2. Gastritis or Gastroesophageal Reflux (GERD / Dyspepsia — Possible Explanation): Often causes burning discomfort or fullness in the upper abdomen or chest after meals, triggered by spicy/acidic foods, caffeine, stress, or NSAID pain relievers.
+2. Gastritis or Functional Dyspepsia (Possible Explanation): Often causes burning discomfort or fullness in the upper abdomen after meals, triggered by spicy/acidic foods, caffeine, stress, or NSAID pain relievers.
 3. How a Clinician Evaluates This: A physician checks vital signs and hydration status, gently palpates the abdomen to rule out localized tenderness (such as appendicitis or gallbladder inflammation), and orders stool or blood tests if needed.
 
 PHYSIOLOGICAL SUPPORT & COMFORT MEASURES
-1. Small, Frequent Sips of Fluids: Sip water, clear broths, or an oral electrolyte rehydration solution gradually rather(than drinking large amounts at once) to prevent dehydration.
+1. Small, Frequent Sips of Fluids: Sip water, clear broths, or an oral electrolyte rehydration solution gradually rather than drinking large amounts at once to prevent dehydration.
 2. Bland, Gentle Foods: As appetite returns, choose bland, low-fat foods (such as plain rice, bananas, applesauce, crackers, or toast) and avoid greasy, spicy, dairy-heavy, or caffeinated items.
 3. Avoid Stomach-Irritating Pain Relievers: Avoid NSAIDs (like ibuprofen, naproxen, or aspirin) on an irritated stomach unless explicitly advised by a physician.
 
@@ -1427,16 +1993,17 @@ Seek urgent or emergency medical care immediately if you experience severe or wo
     };
   }
 
-  // 9. Respiratory, Sore Throat, Fever, Viral Illness Comfort Measures
-  if (
+  // 19. Respiratory, Sore Throat, Fever, Viral Illness Comfort Measures (Guarded against "cold water")
+  const isRespiratoryQuery =
     textLower.includes('throat') ||
     textLower.includes('cough') ||
     textLower.includes('fever') ||
-    textLower.includes('cold') ||
-    textLower.includes('flu') ||
-    textLower.includes('viral') ||
-    textLower.includes('congestion')
-  ) {
+    textLower.includes('phlegm') ||
+    textLower.includes('sputum') ||
+    (/\b(flu|influenza|chills)\b/i.test(textLower)) ||
+    (/\bcold\b/i.test(textLower) && !textLower.includes('cold water') && !textLower.includes('cold drink') && !textLower.includes('cold food'));
+
+  if (isRespiratoryQuery) {
     return {
       reply: `${patientGreeting} Upper respiratory symptoms such as a sore throat, mild fever, cough, or fatigue are among the most common reasons for a clinical visit, and doctors focus on distinguishing self-limiting viral illnesses from bacterial infections.
 
@@ -1464,7 +2031,7 @@ Seek immediate medical care if you develop difficulty breathing, shortness of br
     };
   }
 
-  // 10. Acne, Facial Breakouts, Rosacea & Folliculitis
+  // 20. Acne, Facial Breakouts, Rosacea & Folliculitis
   if (
     textLower.includes('acne') ||
     textLower.includes('pimple') ||
@@ -1500,7 +2067,7 @@ Seek prompt dermatological care if you develop deep, painful cysts or nodules th
     };
   }
 
-  // 11. Musculoskeletal Pain (Back, Neck, Joint, Muscle Strain)
+  // 21. Musculoskeletal Pain (Back, Neck, Joint, Muscle Strain)
   if (
     textLower.includes('back pain') ||
     textLower.includes('neck pain') ||
@@ -1508,7 +2075,11 @@ Seek prompt dermatological care if you develop deep, painful cysts or nodules th
     textLower.includes('muscle') ||
     textLower.includes('knee') ||
     textLower.includes('shoulder') ||
-    textLower.includes('sprain')
+    textLower.includes('sprain') ||
+    textLower.includes('sciatica') ||
+    textLower.includes('hip pain') ||
+    textLower.includes('ankle') ||
+    textLower.includes('wrist')
   ) {
     return {
       reply: `${patientGreeting} Muscle, back, neck, and joint discomfort often relate to mechanical strain, posture, or localized joint inflammation, and physicians evaluate them by checking range of motion, alignment, and nerve function.
@@ -1537,31 +2108,38 @@ Seek immediate emergency care if back or neck pain is accompanied by new leg/arm
     };
   }
 
-  // 12. General Context-Aware Clinical Answer for Any Other Specific Question
-  const cleanUserTopic = lastUserMsg.length > 120 ? `${lastUserMsg.slice(0, 120)}...` : lastUserMsg;
+  // 22. Highly Adaptive, Context-Aware Differential for Any Other Specific Query
+  const cleanUserTopic = lastUserMsg.length > 100 ? `${lastUserMsg.slice(0, 100)}...` : lastUserMsg;
+  const contextConditions = reportContext?.possibleConditions || reportContext?.possibleCauses || [];
+  const primaryContextCondition = contextConditions[0]?.name;
+
   return {
-    reply: `${patientGreeting} Thank you for sharing your question regarding "${cleanUserTopic}". Let's break down how a physician evaluates this concern and how you can safely support your comfort before an in-person visit.
+    reply: `${patientGreeting} Thank you for your question regarding "${cleanUserTopic}".${
+      primaryContextCondition
+        ? ` Considering your current assessment (${primaryContextCondition}), let's look at how this symptom connects with your health profile:`
+        : " Let's examine how a clinician evaluates this specific symptom and what supportive steps you can take:"
+    }
 
 PRIMARY WORKING DIAGNOSIS & POSSIBLE EXPLANATIONS
-1. Clinical Differential Assessment: When evaluating "${cleanUserTopic}", a physician considers both common, self-limiting physiological or inflammatory causes and underlying systemic or localized conditions based on symptom onset, duration, and severity.
-2. Distinguishing Key Features: Doctors look closely at whether symptoms are steady or fluctuating, what triggers or relieves them, and whether any systemic signs (such as fever, unexplained weight change, or worsening pain) are present.
-3. How a Doctor Evaluates This: An in-person visit includes a focused physical examination, vital signs check, and targeted laboratory or diagnostic testing if needed to establish a confirmed diagnosis.
+1. Anatomical & Physiological Assessment: When evaluating "${cleanUserTopic}", clinicians first distinguish between localized tissue irritation, muscular/mechanical strain, and systemic or viral factors.
+2. Symptom Pattern & Aggravators: Key diagnostic clues include whether the discomfort is continuous or intermittent, whether it changes with posture, movement, or eating, and how quickly it developed.
+3. In-Person Objective Evaluation: An accurate medical determination requires hands-on palpation, direct visualization, vital signs, and targeted diagnostic testing that cannot be performed digitally.
 
 PHYSIOLOGICAL SUPPORT & COMFORT MEASURES
-1. Track Your Symptom Pattern: Note when the concern started, any changes over the past 24 to 72 hours, and any recent changes in routine, diet, skincare, or medications.
-2. Gentle Supportive Care: Prioritize adequate hydration, restorative rest, and avoiding known irritants or strenuous triggers until a clinician evaluates you.
-3. Safe Medication Precaution: Avoid starting unprescribed medications or combining over-the-counter products without first verifying safety and interactions with a physician or pharmacist.
+1. 24-48 Hour Symptom Tracking: Record when the sensation occurs, what brings comfort or triggers it, and note any accompanying changes in sleep, appetite, or energy.
+2. Restorative Support & Hydration: Prioritize steady fluid intake, adequate rest, and avoid strenuous physical stress or harsh chemical/dietary irritants until examined.
+3. Medication Precautions: Never combine unverified over-the-counter medications or use prescription drugs without confirming safety with a licensed physician or pharmacist.
 
 QUESTIONS FOR YOUR DOCTOR
-1. What are the most likely explanations for my concern, and what else should we rule out?
-2. Are any physical exams, lab tests, or specialist referrals recommended right now?
-3. What safe day-to-day management steps and warning signs should I keep in mind?
+1. Based on your physical exam, what are the primary plausible explanations for "${cleanUserTopic}"?
+2. Are there specific lab tests, imaging, or physical evaluations recommended to confirm the cause?
+3. What is the expected timeline for recovery, and what specific warning signs should prompt an earlier re-check?
 
 URGENT CARE & RED-FLAG REMINDER
-This educational overview is not a confirmed medical diagnosis. Schedule an in-person visit with a qualified healthcare professional for personalized evaluation, and seek immediate emergency care if you experience chest pain, difficulty breathing, severe sudden pain, or neurological changes.`,
+Digital assessments are educational guides and not a medical diagnosis. Seek immediate emergency care (911 / 112) if you experience severe sudden pain, breathing difficulty, chest pressure, high fever, or sudden neurological changes.`,
     sources: [
-      { title: 'MedlinePlus — Trusted Health Information for Patients', uri: 'https://medlineplus.gov' },
-      { title: 'NIH — National Institutes of Health Clinical Resources', uri: 'https://www.nih.gov/health-information' },
+      { title: 'MedlinePlus — Health Topics A to Z', uri: 'https://medlineplus.gov' },
+      { title: 'NIH — National Institutes of Health Health Information', uri: 'https://www.nih.gov/health-information' },
     ],
   };
 }

@@ -7,6 +7,7 @@ import {
   PhoneCall,
   CheckCircle2,
   ArrowRight,
+  Sparkles,
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import {
@@ -26,25 +27,26 @@ export const HealthSafetyPage: React.FC<HealthSafetyPageProps> = ({
   onOpenEmergencyModal,
 }) => {
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12 text-center">
-      {/* Unique Centered Safety Governance Header */}
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-12 text-center">
+      {/* Centered Safety Governance Header */}
       <motion.div
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45 }}
-        className="bg-white border border-[#E2E8F0] rounded-3xl p-8 sm:p-12 shadow-2xs space-y-5 flex flex-col items-center text-center medical-grid-pattern"
+        className="bg-white border border-[#E7EDF5] rounded-3xl p-8 sm:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.03)] space-y-5 flex flex-col items-center text-center medical-grid-pattern relative overflow-hidden"
       >
-        <div className="text-xs font-bold uppercase tracking-widest text-[#249A96]">
-          Clinical Governance · Patient Safety Standards
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EAF2FF] border border-[#2458F5]/20 text-[#2458F5] text-xs font-semibold tracking-wide uppercase">
+          <Sparkles className="w-3.5 h-3.5" />
+          <span>Clinical Governance · Patient Safety Standards</span>
         </div>
         <h1
-          className="text-3xl sm:text-5xl font-extrabold text-[#153B50] tracking-tight text-center max-w-3xl mx-auto"
+          className="text-3xl sm:text-5xl font-extrabold text-[#10264D] tracking-tight font-display text-center max-w-3xl mx-auto leading-[1.15]"
           style={{ textWrap: 'balance' }}
         >
           Health Information and Safety Guidelines
         </h1>
-        <p className="text-base text-[#687986] leading-relaxed max-w-2xl mx-auto text-center">
-          DermaDetect AI is engineered with strict clinical boundaries, calibrated uncertainty disclosures, and red-flag triage protocols to ensure safe, responsible health education.
+        <p className="text-base text-[#64748B] leading-relaxed max-w-2xl mx-auto text-center">
+          DermaDetect AI is engineered with strict clinical boundaries, calibrated differential probabilities, and red-flag triage protocols to ensure safe, responsible health education.
         </p>
         <div className="pt-2">
           <MedicalButton
@@ -58,7 +60,7 @@ export const HealthSafetyPage: React.FC<HealthSafetyPageProps> = ({
         </div>
       </motion.div>
 
-      {/* Primary Safety Notice (Centered) */}
+      {/* Primary Safety Notice */}
       <MedicalAlert
         tone="warning"
         title="Important Clinical Scope Disclosure"
@@ -67,46 +69,46 @@ export const HealthSafetyPage: React.FC<HealthSafetyPageProps> = ({
         DermaDetect AI provides structured health information and preliminary dermatological awareness. It does not issue medical diagnoses, prescribe medications, or replace an in-person clinical examination, dermoscopy, or histological biopsy by a licensed physician.
       </MedicalAlert>
 
-      {/* Core Safety Pillars Grid (Centered Cards) */}
+      {/* Core Safety Pillars Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <MedicalCard className="space-y-4 flex flex-col items-center text-center">
-          <div className="w-12 h-12 rounded-2xl bg-[#E9F7F5] text-[#249A96] flex items-center justify-center mx-auto animate-float-slow">
+        <MedicalCard className="space-y-4 flex flex-col items-center text-center rounded-3xl p-6 border-[#E7EDF5] shadow-[0_4px_20px_rgb(0,0,0,0.02)]">
+          <div className="w-13 h-13 rounded-2xl bg-[#EAF2FF] text-[#2458F5] flex items-center justify-center mx-auto shadow-2xs">
             <Stethoscope className="w-6 h-6" />
           </div>
-          <h2 className="text-lg font-bold text-[#153B50] text-center">
+          <h2 className="text-lg font-bold text-[#10264D] text-center font-display">
             01. Probabilistic Possibilities
           </h2>
-          <p className="text-sm text-[#687986] leading-relaxed text-center">
+          <p className="text-sm text-[#64748B] leading-relaxed text-center">
             Every symptom or skin report presents 2 to 4 differential possibilities rather than a single definitive claim, helping patients prepare informed questions for their physician.
           </p>
         </MedicalCard>
 
-        <MedicalCard className="space-y-4 flex flex-col items-center text-center">
-          <div className="w-12 h-12 rounded-2xl bg-[#E9F7F5] text-[#249A96] flex items-center justify-center mx-auto animate-float-slow">
+        <MedicalCard className="space-y-4 flex flex-col items-center text-center rounded-3xl p-6 border-[#E7EDF5] shadow-[0_4px_20px_rgb(0,0,0,0.02)]">
+          <div className="w-13 h-13 rounded-2xl bg-[#EAF2FF] text-[#2458F5] flex items-center justify-center mx-auto shadow-2xs">
             <Eye className="w-6 h-6" />
           </div>
-          <h2 className="text-lg font-bold text-[#153B50] text-center">
+          <h2 className="text-lg font-bold text-[#10264D] text-center font-display">
             02. 2D Photography Limitations
           </h2>
-          <p className="text-sm text-[#687986] leading-relaxed text-center">
+          <p className="text-sm text-[#64748B] leading-relaxed text-center">
             A standard camera image cannot assess subsurface depth, tactile firmness (palpation), temperature, or microscopic cellular features required to rule out skin cancer.
           </p>
         </MedicalCard>
 
-        <MedicalCard className="space-y-4 flex flex-col items-center text-center">
-          <div className="w-12 h-12 rounded-2xl bg-[#C83F49]/10 text-[#C83F49] flex items-center justify-center mx-auto animate-float-slow">
+        <MedicalCard className="space-y-4 flex flex-col items-center text-center rounded-3xl p-6 border-[#E7EDF5] shadow-[0_4px_20px_rgb(0,0,0,0.02)]">
+          <div className="w-13 h-13 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center mx-auto border border-red-200">
             <PhoneCall className="w-6 h-6" />
           </div>
-          <h2 className="text-lg font-bold text-[#153B50] text-center">
+          <h2 className="text-lg font-bold text-[#10264D] text-center font-display">
             03. Red-Flag Emergency Triage
           </h2>
-          <p className="text-sm text-[#687986] leading-relaxed text-center">
+          <p className="text-sm text-[#64748B] leading-relaxed text-center">
             When acute symptoms such as chest pressure, severe shortness of breath, or anaphylactic swelling are reported, routine intake is bypassed in favor of immediate emergency guidance.
           </p>
         </MedicalCard>
       </div>
 
-      {/* Detailed Clinical Sections (Centered) */}
+      {/* Detailed Clinical Sections */}
       <div className="space-y-8">
         <MedicalReportSection
           index="01"
@@ -139,10 +141,10 @@ export const HealthSafetyPage: React.FC<HealthSafetyPageProps> = ({
             ].map((item) => (
               <div
                 key={item.letter}
-                className="p-5 rounded-xl bg-[#F7FAFC] border border-[#E2E8F0] space-y-2 flex flex-col items-center text-center"
+                className="p-5 rounded-2xl bg-[#F7FAFF] border border-[#E7EDF5] space-y-2 flex flex-col items-center text-center"
               >
-                <div className="font-bold text-[#153B50] text-center">{item.letter}</div>
-                <p className="text-xs text-[#687986] leading-relaxed text-center">{item.desc}</p>
+                <div className="font-bold text-[#10264D] text-center font-display">{item.letter}</div>
+                <p className="text-xs text-[#64748B] leading-relaxed text-center">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -155,12 +157,12 @@ export const HealthSafetyPage: React.FC<HealthSafetyPageProps> = ({
           centeredHeader
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-center">
-            <div className="p-6 rounded-2xl bg-[#C83F49]/8 border border-[#C83F49]/30 space-y-3 flex flex-col items-center text-center">
-              <div className="flex items-center justify-center gap-2 font-bold text-[#C83F49] text-sm">
-                <ShieldAlert className="w-4 h-4" />
+            <div className="p-6 sm:p-8 rounded-3xl bg-red-50/90 border border-red-200 space-y-3.5 flex flex-col items-center text-center shadow-2xs">
+              <div className="flex items-center justify-center gap-2 font-bold text-red-900 text-sm">
+                <ShieldAlert className="w-4 h-4 text-red-600" />
                 <span>Immediate Emergency Care (Call 911 / 112)</span>
               </div>
-              <ul className="space-y-2 text-xs sm:text-sm text-[#253746] text-center">
+              <ul className="space-y-2 text-xs sm:text-sm text-[#17253B] text-center leading-relaxed">
                 <li>Crushing chest pain, tightness, or pain radiating to jaw or arm</li>
                 <li>Difficulty breathing, gasping for air, or bluish lips/fingertips</li>
                 <li>Rapid swelling of the tongue, lips, throat, or face</li>
@@ -169,12 +171,12 @@ export const HealthSafetyPage: React.FC<HealthSafetyPageProps> = ({
               </ul>
             </div>
 
-            <div className="p-6 rounded-2xl bg-[#E9F7F5]/60 border border-[#249A96]/30 space-y-3 flex flex-col items-center text-center">
-              <div className="flex items-center justify-center gap-2 font-bold text-[#153B50] text-sm">
-                <CheckCircle2 className="w-4 h-4 text-[#249A96]" />
+            <div className="p-6 sm:p-8 rounded-3xl bg-[#EAF2FF]/60 border border-[#2458F5]/30 space-y-3.5 flex flex-col items-center text-center shadow-2xs">
+              <div className="flex items-center justify-center gap-2 font-bold text-[#10264D] text-sm">
+                <CheckCircle2 className="w-4 h-4 text-[#2458F5]" />
                 <span>Prompt Outpatient Physician / Dermatologist Visit</span>
               </div>
-              <ul className="space-y-2 text-xs sm:text-sm text-[#253746] text-center">
+              <ul className="space-y-2 text-xs sm:text-sm text-[#17253B] text-center leading-relaxed">
                 <li>A skin spot or mole that changes shape, color, or bleeds easily</li>
                 <li>Moderate fever lasting longer than 3 days without improvement</li>
                 <li>Localized skin redness that is warm, tender, or gradually expanding</li>
@@ -187,25 +189,27 @@ export const HealthSafetyPage: React.FC<HealthSafetyPageProps> = ({
       </div>
 
       {/* Bottom Centered CTA */}
-      <MedicalCard className="flex flex-col items-center text-center gap-5 bg-[#153B50] text-white border-none navy-grid-pattern">
-        <div className="space-y-1.5 max-w-2xl mx-auto">
-          <h3 className="text-2xl font-bold text-white text-center">
+      <MedicalCard className="flex flex-col items-center text-center gap-5 bg-[#10264D] text-white border-none rounded-3xl p-8 sm:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.06)] relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-80 h-80 bg-[#2458F5]/20 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
+        <div className="space-y-2 max-w-2xl mx-auto relative">
+          <h3 className="text-2xl sm:text-3xl font-extrabold text-white text-center font-display">
             Ready to start a structured health assessment?
           </h3>
           <p className="text-sm text-slate-300 text-center">
             Explore our guided AI Symptom Checker or upload a skin image for a preliminary morphological report.
           </p>
         </div>
-        <div className="flex flex-wrap items-center justify-center gap-3">
+        <div className="flex flex-wrap items-center justify-center gap-3 relative">
           <MedicalButton
-            variant="teal"
+            variant="blue"
             onClick={() => onNavigate('symptoms')}
             icon={<ArrowRight className="w-4 h-4" />}
           >
             Start Symptom Checker
           </MedicalButton>
           <MedicalButton
-            variant="light-teal"
+            variant="outline"
+            className="text-white border-white/20 hover:bg-white/10"
             onClick={() => onNavigate('skin')}
           >
             Open Skin Analysis

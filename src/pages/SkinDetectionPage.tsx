@@ -12,14 +12,18 @@ import {
   Clock,
   MapPin,
   User,
+  ArrowRight,
+  Scan,
+  Shield,
+  Zap,
 } from 'lucide-react';
 import { SkinFormData, SkinReport } from '../types/health';
 import { analyzeSkin } from '../services/api';
 import { ProfessionalMedicalReport } from '../components/ProfessionalMedicalReport';
 import { DEMO_CASES } from '../data/sampleCases';
-import { MedicalVideoShowcase } from '../components/ui/MedicalUI';
+import { MedicalVideoShowcase, MedicalButton } from '../components/ui/MedicalUI';
 import { skinAnalysisVideo } from '../assets/videos';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 
 interface SkinDetectionPageProps {
   onOpenEmergencyModal: () => void;
@@ -91,7 +95,6 @@ export const SkinDetectionPage: React.FC<SkinDetectionPageProps> = ({
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // If initialImageData is provided, set preview
   useEffect(() => {
     if (initialImageData) {
       setPreviewUrl(initialImageData);
@@ -101,47 +104,100 @@ export const SkinDetectionPage: React.FC<SkinDetectionPageProps> = ({
         notes: initialNotes || prev.notes,
         duration: initialDuration || prev.duration,
       }));
+      if (typeof initialImageData === 'string' && !initialImageData.startsWith('data:')) {
+        fetch(initialImageData)
+          .then((r) => r.blob())
+          .then((blob) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              const b64 = e.target?.result as string;
+              if (b64) {
+                setFormData((prev) => ({
+                  ...prev,
+                  imageBase64: b64,
+                  mimeType: blob.type || 'image/jpeg',
+                }));
+              }
+            };
+            reader.readAsDataURL(blob);
+          })
+          .catch(() => {});
+      }
     }
   }, [initialImageData, initialNotes, initialDuration]);
 
-  // Handle file selection with quality screening
   const processFile = (file: File) => {
     setErrorMessage(null);
     setImageQualityNotice(null);
 
-    const validMimes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
-    if (!validMimes.includes(file.type)) {
+    const fileType = (file.type || '').toLowerCase();
+    const fileName = (file.name || '').toLowerCase();
+    const isImage = fileType.startsWith('image/') || /\.(jpe?g|png|webp|gif|jfif)$/i.test(fileName);
+    if (!isImage) {
       setErrorMessage('Unsupported image format. Please upload a clear JPG, PNG, or WEBP photograph.');
       return;
     }
 
-    if (file.size > 10 * 1024 * 1024) {
-      setErrorMessage('The photograph exceeds 10MB. Please choose a smaller image.');
+    if (file.size > 15 * 1024 * 1024) {
+      setErrorMessage('The photograph exceeds 15MB. Please choose a smaller image.');
       return;
     }
 
     if (file.size < 25 * 1024) {
-      setImageQualityNotice('Warning: This image is very small (< 25KB). Highly compressed or low-resolution images may reduce visual morphology accuracy.');
+      setImageQualityNotice('Notice: This image is very small (< 25KB). Highly compressed images may reduce visual morphology accuracy.');
     }
 
     const reader = new FileReader();
     reader.onload = (e) => {
-      const base64 = e.target?.result as string;
-      setPreviewUrl(base64);
-      setFormData((prev) => ({
-        ...prev,
-        imageBase64: base64,
-        mimeType: file.type || 'image/jpeg',
-      }));
+      const rawBase64 = e.target?.result as string;
+      if (!rawBase64) {
+        setErrorMessage('Failed to read the selected file. Please select another photograph.');
+        return;
+      }
 
-      // Image dimension quality validation
       const img = new Image();
       img.onload = () => {
         if (img.width < 300 || img.height < 300) {
           setImageQualityNotice('Notice: Image resolution is below 300x300px. For best dermatological evaluation, a high-resolution close-up is recommended.');
         }
+
+        // If photo is huge (> 2400px), downscale to max 2000px to maintain crisp clarity without bloating memory
+        const maxDim = 2000;
+        if (img.width > maxDim || img.height > maxDim) {
+          const scale = Math.min(maxDim / img.width, maxDim / img.height);
+          const canvas = document.createElement('canvas');
+          canvas.width = Math.round(img.width * scale);
+          canvas.height = Math.round(img.height * scale);
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            const optimized = canvas.toDataURL('image/jpeg', 0.92);
+            setPreviewUrl(optimized);
+            setFormData((prev) => ({
+              ...prev,
+              imageBase64: optimized,
+              mimeType: 'image/jpeg',
+            }));
+            return;
+          }
+        }
+
+        setPreviewUrl(rawBase64);
+        setFormData((prev) => ({
+          ...prev,
+          imageBase64: rawBase64,
+          mimeType: file.type || 'image/jpeg',
+        }));
       };
-      img.src = base64;
+      img.onerror = () => {
+        setPreviewUrl(rawBase64);
+        setFormData((prev) => ({
+          ...prev,
+          imageBase64: rawBase64,
+          mimeType: file.type || 'image/jpeg',
+        }));
+      };
+      img.src = rawBase64;
     };
     reader.onerror = () => {
       setErrorMessage('Failed to read the selected file. Please select another photograph.');
@@ -190,13 +246,34 @@ export const SkinDetectionPage: React.FC<SkinDetectionPageProps> = ({
       patientAge: sampleCase.formData?.patientAge || prev.patientAge || '28 years',
       patientGender: sampleCase.formData?.patientGender || prev.patientGender || 'Female',
       imageBase64: sampleCase.image,
-      mimeType: 'image/jpeg',
-      notes: sampleCase.formData.notes || '',
-      duration: sampleCase.formData.duration || '2 weeks',
-      symptoms: sampleCase.formData.symptoms || [],
+      mimeType: sampleCase.formData?.mimeType || 'image/jpeg',
+      notes: sampleCase.formData?.notes || '',
+      duration: sampleCase.formData?.duration || '2 weeks',
+      symptoms: sampleCase.formData?.symptoms || [],
     }));
     setHasConsent(true);
     setErrorMessage(null);
+
+    // Convert asset path to real base64 data URL
+    if (typeof sampleCase.image === 'string' && !sampleCase.image.startsWith('data:')) {
+      fetch(sampleCase.image)
+        .then((r) => r.blob())
+        .then((blob) => {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const b64 = e.target?.result as string;
+            if (b64) {
+              setFormData((prev) => ({
+                ...prev,
+                imageBase64: b64,
+                mimeType: blob.type || 'image/jpeg',
+              }));
+            }
+          };
+          reader.readAsDataURL(blob);
+        })
+        .catch((err) => console.warn('Could not convert sample to data URL in browser:', err));
+    }
   };
 
   const toggleSensation = (sens: string) => {
@@ -225,11 +302,30 @@ export const SkinDetectionPage: React.FC<SkinDetectionPageProps> = ({
 
     setIsAnalyzing(true);
 
+    let payloadBase64 = formData.imageBase64.trim();
+    if (!payloadBase64.startsWith('data:') && (payloadBase64.startsWith('/') || payloadBase64.startsWith('http'))) {
+      try {
+        const resp = await fetch(payloadBase64);
+        const blob = await resp.blob();
+        payloadBase64 = await new Promise<string>((resolve) => {
+          const r = new FileReader();
+          r.onload = (e) => resolve((e.target?.result as string) || payloadBase64);
+          r.onerror = () => resolve(payloadBase64);
+          r.readAsDataURL(blob);
+        });
+      } catch {
+        // Fall back to server disk resolution
+      }
+    }
+
     try {
-      const result = await analyzeSkin(formData);
+      const result = await analyzeSkin({
+        ...formData,
+        imageBase64: payloadBase64,
+      });
       setReport(result);
       if (onSaveSkinReport) {
-        onSaveSkinReport(result, previewUrl || formData.imageBase64, formData);
+        onSaveSkinReport(result, previewUrl || payloadBase64, formData);
       }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err: any) {
@@ -267,84 +363,107 @@ export const SkinDetectionPage: React.FC<SkinDetectionPageProps> = ({
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-10">
-      {/* Dermatology Visual Header + Automatic Skin Analysis Video */}
+      {/* Premium Hero Header */}
       <motion.div
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className="bg-white border border-[#E2E8F0] rounded-3xl p-8 sm:p-10 shadow-xs text-center space-y-7"
+        className="relative bg-white border border-[#E7EDF5] rounded-3xl p-8 sm:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden"
       >
-        <div className="max-w-3xl mx-auto space-y-3 flex flex-col items-center text-center">
-          <div className="text-xs font-semibold uppercase tracking-wider text-[#249A96] flex items-center justify-center gap-2">
-            <Camera className="w-4 h-4" />
-            <span>Dermatology Observation & ABCDE Review</span>
+        {/* Subtle decorative glow */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-[#2458F5]/10 via-[#EAF2FF]/30 to-transparent rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
+
+        <div className="relative max-w-3xl mx-auto space-y-4 flex flex-col items-center text-center">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EAF2FF] border border-[#2458F5]/20 text-[#2458F5] text-xs font-semibold tracking-wide">
+            <Camera className="w-3.5 h-3.5" />
+            <span>Dermatology Observation & ABCDE Analysis</span>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-[#153B50] tracking-tight text-center">
-            Private Skin & Lesion Observation
+
+          <h1 className="text-3xl sm:text-5xl font-extrabold text-[#10264D] tracking-tight font-display leading-[1.15]">
+            Private AI Skin & Lesion Analysis
           </h1>
-          <p className="text-sm sm:text-base text-[#687986] max-w-2xl mx-auto leading-relaxed text-center">
-            Upload a clear photograph of a skin spot, mole, or rash to review surface characteristics, ABCDE educational criteria, and helpful questions for a dermatologist.
+
+          <p className="text-base text-[#64748B] max-w-2xl mx-auto leading-relaxed">
+            Upload a clear photograph of a skin spot, mole, or rash. Our clinical vision engine reviews morphology, ABCDE criteria, and prepares thoughtful questions for your dermatologist.
           </p>
+
           <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-[#153B50] bg-[#E9F7F5] rounded-xl">
-              <ShieldCheck className="w-4 h-4 text-[#249A96]" />
-              <span>Your photo is never shared or stored</span>
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium text-[#10264D] bg-[#F7FAFF] border border-[#E7EDF5] rounded-full">
+              <ShieldCheck className="w-4 h-4 text-[#2458F5]" />
+              <span>Zero-Retention Architecture · Never Stored</span>
             </span>
+
             <button
               type="button"
               onClick={onOpenEmergencyModal}
-              className="inline-flex items-center gap-1.5 px-4 py-1.5 text-xs font-bold text-[#C83F49] bg-[#C83F49]/10 hover:bg-[#C83F49]/15 border border-[#C83F49]/30 rounded-xl transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-red-700 bg-red-50 hover:bg-red-100/80 border border-red-200 rounded-full transition-colors cursor-pointer"
             >
-              <AlertTriangle className="w-4 h-4" />
+              <AlertTriangle className="w-3.5 h-3.5 text-red-600" />
               <span>Urgent Warning Signs</span>
             </button>
           </div>
         </div>
 
-        <div className="max-w-4xl mx-auto">
+        {/* Video Showcase Section */}
+        <div className="mt-8 max-w-4xl mx-auto">
           <MedicalVideoShowcase
             src={skinAnalysisVideo}
             badgeText="Dermatology Surface Observation"
             title="Careful Review of Borders, Color Consistency & Surface Texture"
-            subtitle="Evaluates visible skin characteristics in temporary memory to help you prepare for a dermatologist visit."
+            subtitle="Evaluates visible skin characteristics securely in real time to help you prepare for a dermatologist consultation."
           />
         </div>
       </motion.div>
 
       {/* ERROR NOTICE */}
-      {errorMessage && (
-        <div className="mb-6 p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 flex items-start gap-3">
-          <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
-          <div className="text-sm">
-            <span className="font-bold">Clinical Notice: </span>
-            {errorMessage}
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {errorMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="p-4 sm:p-5 rounded-2xl bg-red-50/90 border border-red-200 text-red-900 flex items-start gap-3 shadow-xs"
+          >
+            <AlertTriangle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
+            <div className="text-sm">
+              <strong className="font-semibold text-red-950">Clinical Notice: </strong>
+              <span>{errorMessage}</span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* QUALITY WARNING NOTICE */}
-      {imageQualityNotice && (
-        <div className="mb-6 p-4 rounded-xl bg-blue-50 border border-blue-200 text-blue-900 flex items-start gap-3">
-          <Info className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
-          <div className="text-xs leading-relaxed">
-            <span className="font-bold">Image Quality Advisory: </span>
-            {imageQualityNotice}
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {imageQualityNotice && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="p-4 sm:p-5 rounded-2xl bg-[#EAF2FF] border border-[#2458F5]/30 text-[#10264D] flex items-start gap-3 shadow-xs"
+          >
+            <Info className="w-5 h-5 text-[#2458F5] shrink-0 mt-0.5" />
+            <div className="text-xs sm:text-sm leading-relaxed">
+              <strong className="font-semibold text-[#10264D]">Image Quality Advisory: </strong>
+              <span>{imageQualityNotice}</span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* VIEW 1: UPLOAD & INTAKE WORKSTATION (when report is null) */}
       {!report && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Column: Image Dropzone & Camera Guidance */}
           <div className="lg:col-span-6 space-y-6">
-            <div className="bg-white border border-[#E3EAF0] rounded-2xl p-6 sm:p-7 shadow-xs space-y-4">
+            <div className="bg-white border border-[#E7EDF5] rounded-3xl p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.03)] space-y-5">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-sm font-bold text-[#102A43]">
-                    1. Upload Skin Photograph
+                  <h3 className="text-base font-bold text-[#10264D] flex items-center gap-2">
+                    <span className="w-6 h-6 rounded-full bg-[#EAF2FF] text-[#2458F5] text-xs font-bold inline-flex items-center justify-center">1</span>
+                    Upload Skin Photograph
                   </h3>
-                  <p className="text-xs text-[#62748A]">
+                  <p className="text-xs text-[#64748B] mt-0.5">
                     Supports JPG, PNG, WEBP (up to 10MB)
                   </p>
                 </div>
@@ -353,9 +472,9 @@ export const SkinDetectionPage: React.FC<SkinDetectionPageProps> = ({
                   <button
                     type="button"
                     onClick={handleRemoveImage}
-                    className="text-xs text-red-600 hover:text-red-700 font-semibold flex items-center gap-1 cursor-pointer"
+                    className="text-xs text-red-600 hover:text-red-700 font-semibold flex items-center gap-1.5 px-2.5 py-1 rounded-lg hover:bg-red-50 transition-colors cursor-pointer"
                   >
-                    <Trash2 className="w-3.5 h-3.5" /> Remove Image
+                    <Trash2 className="w-3.5 h-3.5" /> Remove
                   </button>
                 )}
               </div>
@@ -375,62 +494,83 @@ export const SkinDetectionPage: React.FC<SkinDetectionPageProps> = ({
                   onDragLeave={handleDragLeave}
                   onDrop={handleDrop}
                   onClick={() => fileInputRef.current?.click()}
-                  className={`border-2 border-dashed rounded-2xl p-8 sm:p-10 text-center cursor-pointer transition-all ${
+                  className={`relative border-2 border-dashed rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-all duration-200 group overflow-hidden ${
                     isDragOver
-                      ? 'border-[#087F8C] bg-[#DDF5F1]/40'
-                      : 'border-[#E3EAF0] hover:border-[#087F8C] bg-[#F7FAFC]'
+                      ? 'border-[#2458F5] bg-[#EAF2FF]/50 scale-[1.01]'
+                      : 'border-[#E7EDF5] hover:border-[#2458F5] bg-[#F7FAFF]/80 hover:bg-[#F7FAFF]'
                   }`}
                 >
-                  <div className="mx-auto w-12 h-12 rounded-xl bg-[#DDF5F1] text-[#087F8C] flex items-center justify-center mb-3">
+                  <div className="mx-auto w-14 h-14 rounded-2xl bg-white border border-[#E7EDF5] text-[#2458F5] shadow-sm flex items-center justify-center mb-4 group-hover:scale-110 group-hover:shadow-md transition-all duration-200">
                     <Upload className="w-6 h-6" />
                   </div>
-                  <p className="text-xs font-bold text-[#102A43]">
+                  <p className="text-sm font-bold text-[#10264D]">
                     Click to select photo or drag and drop here
                   </p>
-                  <p className="text-[11px] text-[#62748A] mt-1">
-                    Hold camera 10–15 cm away under bright natural daylight
+                  <p className="text-xs text-[#64748B] mt-1.5 max-w-sm mx-auto">
+                    Hold camera 10–15 cm away under bright natural daylight for optimal morphology assessment
                   </p>
+
+                  <div className="mt-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#E7EDF5] text-[11px] font-medium text-[#64748B]">
+                    <Shield className="w-3 h-3 text-[#2458F5]" />
+                    <span>Confidential Real-Time Analysis</span>
+                  </div>
                 </div>
               ) : (
                 <div className="space-y-3">
-                  <div className="relative rounded-xl overflow-hidden border border-[#E3EAF0] bg-neutral-900 max-h-80 flex items-center justify-center">
+                  <div className="relative rounded-2xl overflow-hidden border border-[#E7EDF5] bg-[#0c1e3d] max-h-88 flex items-center justify-center group">
                     <img
                       src={previewUrl}
                       alt="Uploaded skin spot preview"
-                      className="max-h-80 w-auto object-contain"
+                      className="max-h-88 w-auto object-contain rounded-xl"
                     />
-                    <div className="absolute bottom-2 left-2 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-md text-[10px] text-white font-mono">
-                      Image Loaded • Ready for Gemini Vision Analysis
+
+                    {/* Animated Scanning overlay */}
+                    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                      <div className="w-full h-1 bg-gradient-to-r from-transparent via-[#2458F5] to-transparent shadow-[0_0_15px_#2458F5] animate-scan-line" />
+                    </div>
+
+                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between bg-[#10264D]/80 backdrop-blur-md px-3 py-2 rounded-xl border border-white/10 text-white">
+                      <span className="text-xs font-medium flex items-center gap-1.5">
+                        <Sparkles className="w-3.5 h-3.5 text-[#2458F5]" />
+                        Ready for Clinical Vision Analysis
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="text-xs text-white/80 hover:text-white font-medium underline cursor-pointer"
+                      >
+                        Change Photo
+                      </button>
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* Quick Sample Benchmark Selector */}
-              <div className="pt-2">
-                <span className="text-[11px] font-bold text-[#62748A] uppercase tracking-wider block mb-2">
-                  Or Test with Curated Competition Benchmark Cases:
+              {/* Benchmark Samples */}
+              <div className="pt-2 border-t border-[#E7EDF5]">
+                <span className="text-xs font-bold text-[#64748B] uppercase tracking-wider block mb-3">
+                  Or Test with Verified Reference Cases:
                 </span>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                   {skinDemoCases.map((sample) => (
                     <button
                       key={sample.id}
                       type="button"
                       onClick={() => handleLoadSample(sample)}
-                      className="p-2 rounded-lg border border-[#E3EAF0] bg-[#F7FAFC] hover:bg-white text-left transition-all cursor-pointer flex items-center gap-2"
+                      className="p-2.5 rounded-xl border border-[#E7EDF5] bg-[#F7FAFF] hover:bg-white hover:border-[#2458F5]/50 hover:shadow-sm text-left transition-all cursor-pointer flex items-center gap-2.5 group"
                     >
                       {sample.image && (
                         <img
                           src={sample.image}
                           alt={sample.title}
-                          className="w-8 h-8 rounded object-cover border border-[#E3EAF0] shrink-0"
+                          className="w-9 h-9 rounded-lg object-cover border border-[#E7EDF5] shrink-0 group-hover:scale-105 transition-transform"
                         />
                       )}
-                      <div className="truncate">
-                        <div className="text-[11px] font-bold text-[#102A43] truncate">
+                      <div className="truncate min-w-0">
+                        <div className="text-xs font-bold text-[#10264D] truncate group-hover:text-[#2458F5] transition-colors">
                           {sample.badge}
                         </div>
-                        <div className="text-[10px] text-[#62748A] truncate">
+                        <div className="text-[11px] text-[#64748B] truncate">
                           {sample.title}
                         </div>
                       </div>
@@ -440,27 +580,27 @@ export const SkinDetectionPage: React.FC<SkinDetectionPageProps> = ({
               </div>
             </div>
 
-            {/* Camera Capture Guidelines Card */}
-            <div className="bg-[#F7FAFC] border border-[#E3EAF0] rounded-2xl p-5 space-y-3">
-              <h4 className="text-xs font-bold text-[#102A43] uppercase tracking-wider flex items-center gap-1.5">
-                <Info className="w-3.5 h-3.5 text-[#087F8C]" />
+            {/* Camera Guidelines Card */}
+            <div className="bg-[#F7FAFF] border border-[#E7EDF5] rounded-3xl p-6 space-y-4">
+              <h4 className="text-xs font-bold text-[#10264D] uppercase tracking-wider flex items-center gap-2">
+                <Info className="w-4 h-4 text-[#2458F5]" />
                 Clinical Photography Best Practices
               </h4>
-              <div className="grid grid-cols-2 gap-3 text-xs text-[#172B4D]">
-                <div className="p-2.5 bg-white rounded-lg border border-[#E3EAF0]">
-                  <strong className="text-[#087F8C] block mb-0.5">1. Natural Lighting:</strong>
-                  Use diffused natural daylight. Avoid harsh direct smartphone flash which washes out erythema.
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-[#17253B]">
+                <div className="p-3 bg-white rounded-xl border border-[#E7EDF5]">
+                  <strong className="text-[#2458F5] block mb-1 font-semibold">1. Natural Lighting:</strong>
+                  Use diffused daylight. Avoid direct smartphone flash which washes out lesion erythema.
                 </div>
-                <div className="p-2.5 bg-white rounded-lg border border-[#E3EAF0]">
-                  <strong className="text-[#087F8C] block mb-0.5">2. Macro Focus:</strong>
+                <div className="p-3 bg-white rounded-xl border border-[#E7EDF5]">
+                  <strong className="text-[#2458F5] block mb-1 font-semibold">2. Macro Focus:</strong>
                   Tap the screen on the lesion center to lock focus. Hold steady approximately 10–15 cm away.
                 </div>
-                <div className="p-2.5 bg-white rounded-lg border border-[#E3EAF0]">
-                  <strong className="text-[#087F8C] block mb-0.5">3. Normal Margin:</strong>
+                <div className="p-3 bg-white rounded-xl border border-[#E7EDF5]">
+                  <strong className="text-[#2458F5] block mb-1 font-semibold">3. Normal Margin:</strong>
                   Include 1-2 cm of healthy adjacent skin around the lesion for contrast calibration.
                 </div>
-                <div className="p-2.5 bg-white rounded-lg border border-[#E3EAF0]">
-                  <strong className="text-[#087F8C] block mb-0.5">4. Scale Reference:</strong>
+                <div className="p-3 bg-white rounded-xl border border-[#E7EDF5]">
+                  <strong className="text-[#2458F5] block mb-1 font-semibold">4. Scale Reference:</strong>
                   For pigmented moles, placing a clean coin or ruler nearby assists diameter estimation.
                 </div>
               </div>
@@ -468,32 +608,38 @@ export const SkinDetectionPage: React.FC<SkinDetectionPageProps> = ({
           </div>
 
           {/* Right Column: Contextual Clinical Intake Form */}
-          <div className="lg:col-span-6 bg-white border border-[#E3EAF0] rounded-2xl p-6 sm:p-7 shadow-xs space-y-5">
-            <h3 className="text-sm font-bold text-[#102A43] border-b border-[#E3EAF0] pb-3">
-              2. Patient Information & Clinical Context
-            </h3>
+          <div className="lg:col-span-6 bg-white border border-[#E7EDF5] rounded-3xl p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.03)] space-y-6">
+            <div className="border-b border-[#E7EDF5] pb-4">
+              <h3 className="text-base font-bold text-[#10264D] flex items-center gap-2">
+                <span className="w-6 h-6 rounded-full bg-[#EAF2FF] text-[#2458F5] text-xs font-bold inline-flex items-center justify-center">2</span>
+                Patient Information & Clinical Context
+              </h3>
+              <p className="text-xs text-[#64748B] mt-0.5">
+                Helps tailor differential probabilities and export professional medical reports
+              </p>
+            </div>
 
-            {/* Patient Identification Fields for Report & PDF Export */}
-            <div className="p-3.5 rounded-xl bg-[#F7FAFC] border border-[#DCE6ED] space-y-3">
-              <div className="flex items-center gap-1.5 text-xs font-bold text-[#153B50] uppercase tracking-wider">
-                <User className="w-3.5 h-3.5 text-[#249A96]" />
-                <span>Patient Details for Report & PDF</span>
+            {/* Patient Demographics */}
+            <div className="p-4 rounded-2xl bg-[#F7FAFF] border border-[#E7EDF5] space-y-3">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-[#10264D] uppercase tracking-wider">
+                <User className="w-3.5 h-3.5 text-[#2458F5]" />
+                <span>Patient Demographics (For Clinical Report)</span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
-                  <label className="block text-[11px] font-bold text-[#153B50] mb-1">
-                    Patient Full Name:
+                  <label className="block text-xs font-semibold text-[#10264D] mb-1">
+                    Full Name:
                   </label>
                   <input
                     type="text"
                     value={formData.patientName || ''}
                     onChange={(e) => setFormData({ ...formData, patientName: e.target.value })}
                     placeholder="e.g. Sara Ahmed"
-                    className="w-full px-3 py-2 text-xs rounded-lg border border-[#DCE6ED] bg-white text-[#253746] focus:outline-none focus:ring-1 focus:ring-[#249A96]"
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-[#E7EDF5] bg-white text-[#17253B] focus:outline-none focus:border-[#2458F5] focus:ring-2 focus:ring-[#2458F5]/15 transition-all"
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-bold text-[#153B50] mb-1">
+                  <label className="block text-xs font-semibold text-[#10264D] mb-1">
                     Age:
                   </label>
                   <input
@@ -501,17 +647,17 @@ export const SkinDetectionPage: React.FC<SkinDetectionPageProps> = ({
                     value={formData.patientAge || ''}
                     onChange={(e) => setFormData({ ...formData, patientAge: e.target.value })}
                     placeholder="e.g. 28 years"
-                    className="w-full px-3 py-2 text-xs rounded-lg border border-[#DCE6ED] bg-white text-[#253746] focus:outline-none focus:ring-1 focus:ring-[#249A96]"
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-[#E7EDF5] bg-white text-[#17253B] focus:outline-none focus:border-[#2458F5] focus:ring-2 focus:ring-[#2458F5]/15 transition-all"
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-bold text-[#153B50] mb-1">
+                  <label className="block text-xs font-semibold text-[#10264D] mb-1">
                     Gender:
                   </label>
                   <select
                     value={formData.patientGender || 'Female'}
                     onChange={(e) => setFormData({ ...formData, patientGender: e.target.value })}
-                    className="w-full px-3 py-2 text-xs rounded-lg border border-[#DCE6ED] bg-white text-[#253746] focus:outline-none focus:ring-1 focus:ring-[#249A96]"
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-[#E7EDF5] bg-white text-[#17253B] focus:outline-none focus:border-[#2458F5] focus:ring-2 focus:ring-[#2458F5]/15 transition-all cursor-pointer"
                   >
                     <option value="Female">Female</option>
                     <option value="Male">Male</option>
@@ -523,14 +669,14 @@ export const SkinDetectionPage: React.FC<SkinDetectionPageProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-[#102A43] mb-1.5 flex items-center gap-1">
-                <MapPin className="w-3.5 h-3.5 text-[#087F8C]" />
+              <label className="block text-xs font-bold text-[#10264D] mb-1.5 flex items-center gap-1.5">
+                <MapPin className="w-3.5 h-3.5 text-[#2458F5]" />
                 Anatomical Body Location:
               </label>
               <select
                 value={formData.bodyLocation}
                 onChange={(e) => setFormData({ ...formData, bodyLocation: e.target.value })}
-                className="w-full px-3 py-2 text-xs rounded-xl border border-[#E3EAF0] bg-[#F7FAFC] focus:outline-none focus:ring-1 focus:ring-[#087F8C]"
+                className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#E7EDF5] bg-[#F7FAFF] text-[#17253B] focus:outline-none focus:border-[#2458F5] focus:ring-2 focus:ring-[#2458F5]/15 transition-all cursor-pointer"
               >
                 {BODY_LOCATIONS.map((loc) => (
                   <option key={loc} value={loc}>
@@ -541,8 +687,8 @@ export const SkinDetectionPage: React.FC<SkinDetectionPageProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-[#102A43] mb-1.5 flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5 text-[#087F8C]" />
+              <label className="block text-xs font-bold text-[#10264D] mb-1.5 flex items-center gap-1.5">
+                <Clock className="w-3.5 h-3.5 text-[#2458F5]" />
                 Duration of Lesion or Rash:
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -556,10 +702,10 @@ export const SkinDetectionPage: React.FC<SkinDetectionPageProps> = ({
                     key={dur.id}
                     type="button"
                     onClick={() => setFormData({ ...formData, duration: dur.id })}
-                    className={`py-2 px-2.5 rounded-lg text-xs font-medium border text-center transition-all cursor-pointer ${
+                    className={`py-2 px-2.5 rounded-xl text-xs font-medium border text-center transition-all cursor-pointer ${
                       formData.duration === dur.id
-                        ? 'bg-[#DDF5F1] border-[#087F8C] text-[#087F8C] font-bold'
-                        : 'bg-[#F7FAFC] border-[#E3EAF0] text-[#172B4D]'
+                        ? 'bg-[#EAF2FF] border-[#2458F5] text-[#2458F5] font-bold shadow-xs'
+                        : 'bg-[#F7FAFF] border-[#E7EDF5] text-[#17253B] hover:bg-white'
                     }`}
                   >
                     {dur.label}
@@ -569,7 +715,7 @@ export const SkinDetectionPage: React.FC<SkinDetectionPageProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-[#102A43] mb-1.5">
+              <label className="block text-xs font-bold text-[#10264D] mb-1.5">
                 Associated Sensations (Select all that apply):
               </label>
               <div className="grid grid-cols-2 gap-2">
@@ -580,14 +726,14 @@ export const SkinDetectionPage: React.FC<SkinDetectionPageProps> = ({
                       key={sens}
                       type="button"
                       onClick={() => toggleSensation(sens)}
-                      className={`text-left p-2 rounded-lg text-xs font-medium border transition-all cursor-pointer flex items-center justify-between ${
+                      className={`text-left p-2.5 rounded-xl text-xs font-medium border transition-all cursor-pointer flex items-center justify-between ${
                         isSelected
-                          ? 'bg-[#DDF5F1] border-[#087F8C] text-[#087F8C] font-bold'
-                          : 'bg-[#F7FAFC] border-[#E3EAF0] text-[#172B4D] hover:bg-white'
+                          ? 'bg-[#EAF2FF] border-[#2458F5] text-[#2458F5] font-bold shadow-xs'
+                          : 'bg-[#F7FAFF] border-[#E7EDF5] text-[#17253B] hover:bg-white'
                       }`}
                     >
                       <span className="truncate">{sens}</span>
-                      {isSelected && <Check className="w-3 h-3 text-[#087F8C] shrink-0" />}
+                      {isSelected && <Check className="w-3.5 h-3.5 text-[#2458F5] shrink-0" />}
                     </button>
                   );
                 })}
@@ -595,13 +741,13 @@ export const SkinDetectionPage: React.FC<SkinDetectionPageProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-[#102A43] mb-1.5">
+              <label className="block text-xs font-bold text-[#10264D] mb-1.5">
                 Evolution / Changes Over Time (ABCDE Evolution Tracking):
               </label>
               <select
                 value={formData.changesOverTime}
                 onChange={(e) => setFormData({ ...formData, changesOverTime: e.target.value })}
-                className="w-full px-3 py-2 text-xs rounded-xl border border-[#E3EAF0] bg-[#F7FAFC] focus:outline-none focus:ring-1 focus:ring-[#087F8C]"
+                className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#E7EDF5] bg-[#F7FAFF] text-[#17253B] focus:outline-none focus:border-[#2458F5] focus:ring-2 focus:ring-[#2458F5]/15 transition-all cursor-pointer"
               >
                 {EVOLUTION_PRESETS.map((ev) => (
                   <option key={ev} value={ev}>
@@ -612,7 +758,7 @@ export const SkinDetectionPage: React.FC<SkinDetectionPageProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-[#102A43] mb-1.5">
+              <label className="block text-xs font-bold text-[#10264D] mb-1.5">
                 Prior Topicals / Treatments Applied:
               </label>
               <input
@@ -620,12 +766,12 @@ export const SkinDetectionPage: React.FC<SkinDetectionPageProps> = ({
                 value={formData.priorTreatments}
                 onChange={(e) => setFormData({ ...formData, priorTreatments: e.target.value })}
                 placeholder="e.g. Ceramide moisturizer, OTC hydrocortisone 1%, tea tree oil, none"
-                className="w-full px-3 py-2 text-xs rounded-xl border border-[#E3EAF0] bg-[#F7FAFC] focus:outline-none focus:ring-1 focus:ring-[#087F8C]"
+                className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#E7EDF5] bg-[#F7FAFF] text-[#17253B] focus:outline-none focus:border-[#2458F5] focus:ring-2 focus:ring-[#2458F5]/15 transition-all"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-[#102A43] mb-1.5">
+              <label className="block text-xs font-bold text-[#10264D] mb-1.5">
                 Additional Patient Observations (Optional):
               </label>
               <textarea
@@ -633,18 +779,18 @@ export const SkinDetectionPage: React.FC<SkinDetectionPageProps> = ({
                 value={formData.notes}
                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                 placeholder="e.g. Spot bleeds when snagged on shirt collar; flares after using new detergent."
-                className="w-full px-3 py-2 text-xs rounded-xl border border-[#E3EAF0] bg-[#F7FAFC] focus:outline-none focus:ring-1 focus:ring-[#087F8C]"
+                className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#E7EDF5] bg-[#F7FAFF] text-[#17253B] focus:outline-none focus:border-[#2458F5] focus:ring-2 focus:ring-[#2458F5]/15 transition-all resize-none"
               />
             </div>
 
             {/* Mandatory User Consent Checkbox */}
-            <div className="pt-2 border-t border-[#E3EAF0]">
-              <label className="flex items-start gap-2.5 text-xs text-[#172B4D] cursor-pointer">
+            <div className="pt-2 border-t border-[#E7EDF5]">
+              <label className="flex items-start gap-3 text-xs text-[#17253B] cursor-pointer p-3 rounded-xl bg-[#F7FAFF] border border-[#E7EDF5] hover:border-[#2458F5]/30 transition-colors">
                 <input
                   type="checkbox"
                   checked={hasConsent}
                   onChange={(e) => setHasConsent(e.target.checked)}
-                  className="mt-0.5 rounded text-[#087F8C] focus:ring-0 cursor-pointer"
+                  className="mt-0.5 w-4 h-4 rounded text-[#2458F5] focus:ring-[#2458F5] cursor-pointer accent-[#2458F5]"
                 />
                 <span className="leading-relaxed">
                   I confirm that I have permission to upload this photo. I understand that DermaDetect AI provides educational screening and <strong>DOES NOT diagnose skin cancer or replace in-person dermatological biopsy.</strong>
@@ -653,33 +799,36 @@ export const SkinDetectionPage: React.FC<SkinDetectionPageProps> = ({
             </div>
 
             {/* Submit Action Button */}
-            <div className="p-3 rounded-xl bg-[#E6F4F1] text-[#0F766E] text-xs font-semibold flex items-center justify-center gap-2">
-              <ShieldCheck className="w-4 h-4 shrink-0" />
-              <span>🔒 Your photo is never shared — analyzed privately in memory</span>
-            </div>
+            <div className="space-y-3 pt-2">
+              <button
+                type="button"
+                onClick={handleAnalyze}
+                disabled={isAnalyzing || !formData.imageBase64 || !hasConsent}
+                className={`w-full min-h-[52px] py-4 px-6 rounded-2xl font-bold text-sm sm:text-base shadow-sm transition-all flex items-center justify-center gap-2.5 cursor-pointer ${
+                  isAnalyzing || !formData.imageBase64 || !hasConsent
+                    ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                    : 'bg-[#2458F5] hover:bg-[#1a3fcc] text-white shadow-[0_4px_16px_rgba(36,88,245,0.3)] hover:shadow-[0_8px_28px_rgba(36,88,245,0.4)] hover:-translate-y-0.5'
+                }`}
+              >
+                {isAnalyzing ? (
+                  <>
+                    <RefreshCw className="w-5 h-5 animate-spin text-white" />
+                    <span>Analyzing Lesion Morphology...</span>
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-5 h-5 text-white" />
+                    <span>Start AI Skin Analysis</span>
+                    <ArrowRight className="w-4 h-4 ml-1" />
+                  </>
+                )}
+              </button>
 
-            <button
-              type="button"
-              onClick={handleAnalyze}
-              disabled={isAnalyzing || !formData.imageBase64 || !hasConsent}
-              className={`w-full min-h-[52px] py-3.5 px-6 rounded-2xl font-bold text-base shadow-sm transition-all flex items-center justify-center gap-2.5 cursor-pointer ${
-                isAnalyzing || !formData.imageBase64 || !hasConsent
-                  ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
-                  : 'bg-[#E06D53] hover:bg-[#cc5a40] text-white'
-              }`}
-            >
-              {isAnalyzing ? (
-                <>
-                  <RefreshCw className="w-5 h-5 animate-spin text-white" />
-                  <span>Analyzing carefully...</span>
-                </>
-              ) : (
-                <>
-                  <Sparkles className="w-5 h-5 text-white" />
-                  <span>Let’s take a look together</span>
-                </>
-              )}
-            </button>
+              <div className="flex items-center justify-center gap-2 text-xs text-[#64748B]">
+                <ShieldCheck className="w-4 h-4 text-[#2458F5]" />
+                <span>Confidential Zero-Storage Privacy · Evaluated securely in real time</span>
+              </div>
+            </div>
           </div>
         </div>
       )}

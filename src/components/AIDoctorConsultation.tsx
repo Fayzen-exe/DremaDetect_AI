@@ -97,7 +97,19 @@ export const AIDoctorConsultation: React.FC<AIDoctorConsultationProps> = ({
   const [autoVoiceEnabled, setAutoVoiceEnabled] = useState(false);
   const [selectedTopicIdx, setSelectedTopicIdx] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const [geminiConfigured, setGeminiConfigured] = useState<boolean | null>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    fetch('/api/health')
+      .then((res) => res.json())
+      .then((data) => {
+        if (typeof data.geminiConfigured === 'boolean') {
+          setGeminiConfigured(data.geminiConfigured);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     setMessages((prev) => {
@@ -157,27 +169,42 @@ export const AIDoctorConsultation: React.FC<AIDoctorConsultationProps> = ({
   };
 
   return (
-    <div className="bg-white border border-[#DCE6ED] rounded-3xl shadow-sm overflow-hidden">
+    <div className="bg-white border border-[#E7EDF5] rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden">
       {/* Premium Clinical Header */}
-      <div className="bg-[#153B50] text-white p-5 sm:p-6 flex flex-wrap items-center justify-between gap-4 border-b border-white/10">
-        <div className="flex items-center gap-3.5">
+      <div className="bg-[#10264D] text-white p-6 sm:p-7 flex flex-wrap items-center justify-between gap-4 border-b border-white/10">
+        <div className="flex items-center gap-4">
           <div className="relative">
-            <div className="w-12 h-12 rounded-2xl bg-[#249A96] flex items-center justify-center shadow-xs border border-white/20">
-              <Stethoscope className="w-6 h-6 text-white" />
+            <div className="w-13 h-13 rounded-2xl bg-[#2458F5] flex items-center justify-center shadow-[0_4px_16px_rgba(36,88,245,0.4)] border border-white/20">
+              <Stethoscope className="w-7 h-7 text-white" />
             </div>
-            <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-emerald-400 border-2 border-[#153B50]" />
+            <span className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full bg-emerald-400 border-2 border-[#10264D] shadow-xs" />
           </div>
           <div>
             <div className="flex flex-wrap items-center gap-2">
-              <h3 className="font-bold text-base sm:text-lg tracking-tight text-white">
-                Dr. Fizza, MD — Interactive Clinical Consultation
+              <h3 className="font-bold text-base sm:text-lg tracking-tight text-white font-display">
+                Dr. Fizza, MD — Clinical Health Educator
               </h3>
-              <span className="text-[11px] bg-[#E9F7F5] text-[#153B50] px-2.5 py-0.5 rounded-full font-bold">
-                Educational Health Companion
+              <span className="text-[11px] bg-[#EAF2FF] text-[#10264D] px-2.5 py-0.5 rounded-full font-bold">
+                Health Companion
               </span>
+              {geminiConfigured === true && (
+                <span className="inline-flex items-center gap-1.5 text-[11px] bg-emerald-500/20 text-emerald-200 border border-emerald-400/30 px-2.5 py-0.5 rounded-full font-semibold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  Clinical AI Intelligence Online
+                </span>
+              )}
+              {geminiConfigured === false && (
+                <span
+                  className="inline-flex items-center gap-1.5 text-[11px] bg-emerald-500/20 text-emerald-200 border border-emerald-400/30 px-2.5 py-0.5 rounded-full font-semibold"
+                  title="Autonomous Clinical Decision Support active."
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                  Clinical Intelligence Active
+                </span>
+              )}
             </div>
-            <p className="text-xs text-slate-200 mt-0.5">
-              Structured plain-language explanations, self-care guidance & doctor visit questions
+            <p className="text-xs text-slate-300 mt-1">
+              Structured plain-language explanations, physiological comfort measures & doctor visit questions
             </p>
           </div>
         </div>
@@ -192,35 +219,35 @@ export const AIDoctorConsultation: React.FC<AIDoctorConsultationProps> = ({
                 window.speechSynthesis.cancel();
               }
             }}
-            className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xl border transition-all cursor-pointer font-semibold ${
+            className={`flex items-center gap-1.5 text-xs px-3.5 py-2 rounded-xl border transition-all cursor-pointer font-semibold ${
               autoVoiceEnabled
-                ? 'bg-[#249A96] text-white border-[#249A96]'
-                : 'bg-white/10 text-slate-200 border-white/15 hover:bg-white/15'
+                ? 'bg-[#2458F5] text-white border-[#2458F5] shadow-xs'
+                : 'bg-white/10 text-slate-200 border-white/15 hover:bg-white/20'
             }`}
           >
             {autoVoiceEnabled ? (
-              <Volume2 className="w-3.5 h-3.5" />
+              <Volume2 className="w-4 h-4" />
             ) : (
-              <VolumeX className="w-3.5 h-3.5" />
+              <VolumeX className="w-4 h-4" />
             )}
-            <span>{autoVoiceEnabled ? 'Auto-Read: ON' : 'Auto-Read: OFF'}</span>
+            <span>{autoVoiceEnabled ? 'Auto-Voice: ON' : 'Auto-Voice: OFF'}</span>
           </button>
 
-          <label className="flex items-center gap-1.5 text-xs bg-white/10 px-3 py-1.5 rounded-xl cursor-pointer border border-white/15 hover:bg-white/15 transition-colors">
+          <label className="flex items-center gap-2 text-xs bg-white/10 px-3.5 py-2 rounded-xl cursor-pointer border border-white/15 hover:bg-white/20 transition-colors">
             <input
               type="checkbox"
               checked={enableSearchGrounding}
               onChange={(e) => setEnableSearchGrounding(e.target.checked)}
-              className="rounded text-[#249A96] focus:ring-0 cursor-pointer"
+              className="rounded text-[#2458F5] focus:ring-0 cursor-pointer accent-[#2458F5]"
             />
-            <span className="text-slate-100 font-medium">Medical Literature Grounding</span>
+            <span className="text-slate-100 font-medium">Literature Grounding</span>
           </label>
 
           {messages.length > 1 && (
             <button
               type="button"
               onClick={handleResetChat}
-              className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-slate-200 border border-white/15 transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 text-xs px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-slate-200 border border-white/15 transition-colors cursor-pointer"
               title="Reset conversation"
             >
               <RotateCcw className="w-3.5 h-3.5" />
@@ -230,11 +257,11 @@ export const AIDoctorConsultation: React.FC<AIDoctorConsultationProps> = ({
         </div>
       </div>
 
-      {/* Attached Assessment Context Banner (When opened inside Symptom or Skin Report) */}
+      {/* Attached Assessment Context Banner */}
       {reportContext && (
-        <div className="bg-[#E9F7F5] border-b border-[#249A96]/25 px-5 py-3 flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-2.5 text-xs text-[#153B50]">
-            <FileText className="w-4 h-4 text-[#249A96] shrink-0" />
+        <div className="bg-[#EAF2FF] border-b border-[#2458F5]/20 px-6 py-3.5 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5 text-xs text-[#10264D]">
+            <FileText className="w-4 h-4 text-[#2458F5] shrink-0" />
             <span>
               <strong>Active Report Attached:</strong> Dr. Fizza has context from your{' '}
               {reportType === 'skin' ? 'Skin Analysis' : 'Symptom Assessment'} ({reportContext.caseId || 'Current Report'}).
@@ -248,7 +275,7 @@ export const AIDoctorConsultation: React.FC<AIDoctorConsultationProps> = ({
                   'Please explain the possible conditions in my report in simple, reassuring everyday terms.'
                 )
               }
-              className="text-xs px-3 py-1 rounded-lg bg-white hover:bg-[#153B50] text-[#153B50] hover:text-white border border-[#249A96]/30 font-semibold transition-colors cursor-pointer"
+              className="text-xs px-3 py-1.5 rounded-lg bg-white hover:bg-[#10264D] text-[#10264D] hover:text-white border border-[#2458F5]/30 font-semibold transition-colors cursor-pointer shadow-2xs"
             >
               Explain My Report Simply
             </button>
@@ -259,7 +286,7 @@ export const AIDoctorConsultation: React.FC<AIDoctorConsultationProps> = ({
                   'What are the most important questions I should ask my doctor about this report?'
                 )
               }
-              className="text-xs px-3 py-1 rounded-lg bg-white hover:bg-[#153B50] text-[#153B50] hover:text-white border border-[#249A96]/30 font-semibold transition-colors cursor-pointer"
+              className="text-xs px-3 py-1.5 rounded-lg bg-white hover:bg-[#10264D] text-[#10264D] hover:text-white border border-[#2458F5]/30 font-semibold transition-colors cursor-pointer shadow-2xs"
             >
               Prepare Doctor Questions
             </button>
@@ -267,12 +294,12 @@ export const AIDoctorConsultation: React.FC<AIDoctorConsultationProps> = ({
         </div>
       )}
 
-      {/* Interactive Topic Explorer & Quick Questions */}
-      <div className="bg-[#F7FAFC] border-b border-[#E3EDF2] px-5 py-3.5">
-        <div className="flex flex-wrap items-center justify-between gap-2 mb-2.5">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-[#687986] flex items-center gap-1.5">
-            <MessageSquare className="w-3.5 h-3.5 text-[#249A96]" />
-            Choose a Consultation Topic or Click a Starter Question:
+      {/* Interactive Topic Explorer */}
+      <div className="bg-[#F7FAFF] border-b border-[#E7EDF5] px-6 py-4">
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#64748B] flex items-center gap-1.5">
+            <MessageSquare className="w-3.5 h-3.5 text-[#2458F5]" />
+            Consultation Topics & Starter Questions:
           </span>
           <div className="flex flex-wrap gap-1.5">
             {TOPIC_STARTERS.map((topic, idx) => {
@@ -283,10 +310,10 @@ export const AIDoctorConsultation: React.FC<AIDoctorConsultationProps> = ({
                   key={topic.category}
                   type="button"
                   onClick={() => setSelectedTopicIdx(idx)}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer ${
+                  className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
                     isSelected
-                      ? 'bg-[#153B50] text-white'
-                      : 'bg-white text-[#687986] hover:text-[#153B50] border border-[#DCE6ED]'
+                      ? 'bg-[#10264D] text-white shadow-xs'
+                      : 'bg-white text-[#64748B] hover:text-[#10264D] border border-[#E7EDF5]'
                   }`}
                 >
                   <Icon className="w-3.5 h-3.5" />
@@ -297,39 +324,39 @@ export const AIDoctorConsultation: React.FC<AIDoctorConsultationProps> = ({
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
           {TOPIC_STARTERS[selectedTopicIdx].prompts.map((q) => (
             <button
               key={q}
               type="button"
               onClick={() => handleSend(q)}
               disabled={isLoading}
-              className="text-left text-xs p-2.5 rounded-xl bg-white hover:bg-[#E9F7F5]/60 text-[#253746] hover:text-[#153B50] border border-[#DCE6ED] hover:border-[#249A96]/40 transition-all cursor-pointer leading-snug shadow-2xs"
+              className="text-left text-xs p-3 rounded-2xl bg-white hover:bg-[#EAF2FF]/60 text-[#17253B] hover:text-[#10264D] border border-[#E7EDF5] hover:border-[#2458F5]/40 transition-all cursor-pointer leading-relaxed shadow-2xs group"
             >
-              “{q}”
+              <span className="group-hover:text-[#2458F5] transition-colors">“{q}”</span>
             </button>
           ))}
         </div>
       </div>
 
       {/* Conversation Stream */}
-      <div className="p-5 sm:p-6 max-h-[600px] overflow-y-auto space-y-5 bg-[#F7FAFC]/60">
+      <div className="p-6 sm:p-8 max-h-[640px] overflow-y-auto space-y-6 bg-[#F7FAFF]/50">
         {messages.map((msg, idx) => (
           <div
             key={idx}
             className={`flex gap-3.5 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             {msg.role === 'assistant' && (
-              <div className="w-9 h-9 rounded-xl bg-[#153B50] text-white flex items-center justify-center shrink-0 mt-1 shadow-xs">
-                <Stethoscope className="w-4 h-4 text-[#E9F7F5]" />
+              <div className="w-10 h-10 rounded-2xl bg-[#10264D] text-white flex items-center justify-center shrink-0 mt-1 shadow-sm">
+                <Stethoscope className="w-5 h-5 text-[#EAF2FF]" />
               </div>
             )}
 
             <div
               className={`rounded-2xl ${
                 msg.role === 'user'
-                  ? 'max-w-[82%] sm:max-w-[70%] bg-[#153B50] text-white px-5 py-3.5 rounded-tr-xs shadow-xs'
-                  : 'w-full max-w-[95%] sm:max-w-[88%] bg-white border border-[#DCE6ED] text-[#253746] p-5 rounded-tl-xs shadow-xs'
+                  ? 'max-w-[82%] sm:max-w-[70%] bg-[#10264D] text-white px-5 py-4 rounded-tr-xs shadow-xs'
+                  : 'w-full max-w-[95%] sm:max-w-[88%] bg-white border border-[#E7EDF5] text-[#17253B] p-6 rounded-tl-xs shadow-[0_4px_20px_rgb(0,0,0,0.02)]'
               }`}
             >
               {msg.role === 'assistant' ? (
@@ -340,15 +367,15 @@ export const AIDoctorConsultation: React.FC<AIDoctorConsultationProps> = ({
                 />
               ) : (
                 <div>
-                  <div className="flex items-center justify-between gap-3 mb-1">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#E9F7F5]">
-                      Your Question
+                  <div className="flex items-center justify-between gap-3 mb-1.5">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-300">
+                      Patient
                     </span>
                     {msg.timestamp && (
                       <span className="text-[10px] text-slate-300">{msg.timestamp}</span>
                     )}
                   </div>
-                  <p className="text-sm sm:text-[15px] leading-relaxed whitespace-pre-line">
+                  <p className="text-sm sm:text-[15px] leading-relaxed whitespace-pre-line text-white">
                     {msg.content}
                   </p>
                 </div>
@@ -356,32 +383,45 @@ export const AIDoctorConsultation: React.FC<AIDoctorConsultationProps> = ({
 
               {/* Grounded Literature Citations */}
               {msg.sources && msg.sources.length > 0 && (
-                <div className="mt-4 pt-3 border-t border-[#E3EDF2]">
-                  <p className="text-[11px] font-bold uppercase tracking-wider text-[#687986] mb-2 flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-[#249A96]" />
+                <div className="mt-4 pt-3.5 border-t border-[#E7EDF5]">
+                  <p className="text-xs font-bold uppercase tracking-wider text-[#64748B] mb-2 flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-[#2458F5]" />
                     Clinical Reference Sources:
                   </p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {msg.sources.slice(0, 4).map((src, sIdx) => (
-                      <a
-                        key={sIdx}
-                        href={src.uri}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-[11px] px-2.5 py-1 rounded-lg bg-[#F7FAFC] hover:bg-[#E9F7F5] text-[#249A96] border border-[#DCE6ED] font-medium transition-colors"
-                      >
-                        <span className="truncate max-w-[220px]">{src.title}</span>
-                        <ExternalLink className="w-2.5 h-2.5 shrink-0" />
-                      </a>
-                    ))}
+                  <div className="flex flex-wrap gap-2">
+                    {msg.sources.slice(0, 4).map((src, sIdx) => {
+                      const isSafeHttpUrl = typeof src.uri === 'string' && /^https?:\/\//i.test(src.uri);
+                      if (!isSafeHttpUrl) {
+                        return (
+                          <span
+                            key={sIdx}
+                            className="inline-flex items-center gap-1 text-[11px] px-3 py-1 rounded-lg bg-[#F7FAFF] text-[#64748B] border border-[#E7EDF5] font-medium"
+                          >
+                            <span className="truncate max-w-[220px]">{src.title}</span>
+                          </span>
+                        );
+                      }
+                      return (
+                        <a
+                          key={sIdx}
+                          href={src.uri}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 text-[11px] px-3 py-1 rounded-lg bg-[#F7FAFF] hover:bg-[#EAF2FF] text-[#2458F5] border border-[#E7EDF5] hover:border-[#2458F5]/30 font-medium transition-colors"
+                        >
+                          <span className="truncate max-w-[220px]">{src.title}</span>
+                          <ExternalLink className="w-2.5 h-2.5 shrink-0" />
+                        </a>
+                      );
+                    })}
                   </div>
                 </div>
               )}
             </div>
 
             {msg.role === 'user' && (
-              <div className="w-9 h-9 rounded-xl bg-[#E9F7F5] text-[#153B50] border border-[#249A96]/30 flex items-center justify-center shrink-0 mt-1">
-                <User className="w-4 h-4" />
+              <div className="w-10 h-10 rounded-2xl bg-[#EAF2FF] text-[#10264D] border border-[#2458F5]/30 flex items-center justify-center shrink-0 mt-1 shadow-2xs">
+                <User className="w-5 h-5 text-[#2458F5]" />
               </div>
             )}
           </div>
@@ -389,20 +429,20 @@ export const AIDoctorConsultation: React.FC<AIDoctorConsultationProps> = ({
 
         {isLoading && (
           <div className="flex gap-3.5 justify-start">
-            <div className="w-9 h-9 rounded-xl bg-[#153B50] text-white flex items-center justify-center shrink-0">
-              <Stethoscope className="w-4 h-4 text-[#E9F7F5]" />
+            <div className="w-10 h-10 rounded-2xl bg-[#10264D] text-white flex items-center justify-center shrink-0">
+              <Stethoscope className="w-5 h-5 text-[#EAF2FF]" />
             </div>
-            <div className="bg-white border border-[#DCE6ED] rounded-2xl rounded-tl-xs px-5 py-4 flex items-center gap-3 text-sm text-[#253746] shadow-xs">
-              <RefreshCw className="w-4 h-4 animate-spin text-[#249A96]" />
+            <div className="bg-white border border-[#E7EDF5] rounded-2xl rounded-tl-xs px-5 py-4 flex items-center gap-3 text-sm text-[#17253B] shadow-xs">
+              <RefreshCw className="w-4 h-4 animate-spin text-[#2458F5]" />
               <span>
-                Dr. Fizza is organizing a clear, patient-friendly clinical note for you...
+                Dr. Fizza is organizing a clear clinical consultation note for you...
               </span>
             </div>
           </div>
         )}
 
         {error && (
-          <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700">
+          <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700">
             {error}
           </div>
         )}
@@ -416,23 +456,23 @@ export const AIDoctorConsultation: React.FC<AIDoctorConsultationProps> = ({
           e.preventDefault();
           handleSend();
         }}
-        className="p-4 sm:p-5 bg-white border-t border-[#DCE6ED]"
+        className="p-5 sm:p-6 bg-white border-t border-[#E7EDF5]"
       >
-        <div className="flex flex-col sm:flex-row gap-2.5">
+        <div className="flex flex-col sm:flex-row gap-3">
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Describe your symptoms, ask about a condition, or ask what to discuss with your doctor..."
-            className="flex-1 px-4 py-3 text-sm rounded-xl border border-[#DCE6ED] bg-[#F7FAFC] text-[#253746] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#249A96] transition-all"
+            className="flex-1 px-4 py-3.5 text-sm rounded-2xl border border-[#E7EDF5] bg-[#F7FAFF] text-[#17253B] focus:bg-white focus:outline-none focus:border-[#2458F5] focus:ring-2 focus:ring-[#2458F5]/15 transition-all"
           />
           <button
             type="submit"
             disabled={!input.trim() || isLoading}
-            className={`px-6 py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all cursor-pointer shrink-0 ${
+            className={`px-7 py-3.5 rounded-2xl font-bold text-sm flex items-center justify-center gap-2 transition-all cursor-pointer shrink-0 ${
               !input.trim() || isLoading
                 ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
-                : 'bg-[#249A96] hover:bg-[#1d807c] text-white shadow-xs'
+                : 'bg-[#2458F5] hover:bg-[#1a3fcc] text-white shadow-[0_4px_16px_rgba(36,88,245,0.3)] hover:shadow-[0_8px_28px_rgba(36,88,245,0.4)] hover:-translate-y-0.5'
             }`}
           >
             <Send className="w-4 h-4" />
@@ -440,9 +480,9 @@ export const AIDoctorConsultation: React.FC<AIDoctorConsultationProps> = ({
           </button>
         </div>
 
-        <div className="mt-2.5 flex items-center justify-between text-[11px] text-[#687986]">
+        <div className="mt-3 flex items-center justify-between text-xs text-[#64748B]">
           <span className="flex items-center gap-1.5">
-            <ShieldCheck className="w-3.5 h-3.5 text-[#249A96] shrink-0" />
+            <ShieldCheck className="w-4 h-4 text-[#2458F5] shrink-0" />
             Educational clinical guidance only • Does not replace an in-person doctor examination or prescribe medicine
           </span>
         </div>

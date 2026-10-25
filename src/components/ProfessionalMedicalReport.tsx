@@ -300,24 +300,24 @@ ${aiDisclosureText}
   <title>DermaDetect AI Clinical Report — ${caseId}</title>
   <link rel="icon" href="${absoluteLogoUrl}" />
   <style>
-    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; color: #253746; background: #F7FAFC; margin: 0; padding: 28px; line-height: 1.6; }
-    .container { max-width: 900px; margin: 0 auto; background: #FFFFFF; border: 1px solid #DCE6ED; border-radius: 20px; overflow: hidden; }
-    .header { background: #153B50; color: #FFFFFF; padding: 26px 32px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; color: #17253B; background: #F7FAFF; margin: 0; padding: 28px; line-height: 1.6; }
+    .container { max-width: 900px; margin: 0 auto; background: #FFFFFF; border: 1px solid #E7EDF5; border-radius: 20px; overflow: hidden; }
+    .header { background: #10264D; color: #FFFFFF; padding: 26px 32px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
     .brand { display: flex; align-items: center; gap: 14px; }
     .brand img { width: 50px; height: 50px; border-radius: 12px; object-fit: contain; padding: 2px; background: #FFFFFF; border: 2px solid rgba(255,255,255,0.25); }
     .brand h1 { margin: 0; font-size: 20px; font-weight: 800; }
-    .brand p { margin: 4px 0 0; font-size: 12px; color: #E9F7F5; }
-    .patient-bar { background: #F7FAFC; border-bottom: 1px solid #DCE6ED; padding: 16px 32px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; font-size: 13px; }
-    .patient-bar div span { display: block; font-size: 11px; color: #687986; text-transform: uppercase; font-weight: 700; }
-    .patient-bar div strong { color: #153B50; font-size: 14px; }
+    .brand p { margin: 4px 0 0; font-size: 12px; color: #EAF2FF; }
+    .patient-bar { background: #F7FAFF; border-bottom: 1px solid #E7EDF5; padding: 16px 32px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; font-size: 13px; }
+    .patient-bar div span { display: block; font-size: 11px; color: #64748B; text-transform: uppercase; font-weight: 700; }
+    .patient-bar div strong { color: #10264D; font-size: 14px; }
     .content { padding: 32px; }
-    .sec { margin-bottom: 24px; padding-bottom: 18px; border-bottom: 1px solid #E3EDF2; }
-    .sec h2 { color: #153B50; font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 10px; }
-    .card { background: #F7FAFC; border: 1px solid #DCE6ED; border-radius: 12px; padding: 14px 18px; margin-bottom: 10px; }
-    .badge { display: inline-block; background: #E9F7F5; color: #153B50; font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 6px; margin-left: 6px; }
+    .sec { margin-bottom: 24px; padding-bottom: 18px; border-bottom: 1px solid #E7EDF5; }
+    .sec h2 { color: #10264D; font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 10px; }
+    .card { background: #F7FAFF; border: 1px solid #E7EDF5; border-radius: 12px; padding: 14px 18px; margin-bottom: 10px; }
+    .badge { display: inline-block; background: #EAF2FF; color: #10264D; font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 6px; margin-left: 6px; }
     .warn { background: #FFF8EB; border: 1px solid #F3D088; color: #5C3B09; border-radius: 12px; padding: 14px 18px; margin-bottom: 12px; font-weight: 600; font-size: 13px; }
     .emerg { background: #FFF1F2; border: 2px solid #C83F49; color: #7F1D1D; border-radius: 12px; padding: 16px; }
-    .footer { background: #153B50; color: #E9F7F5; padding: 18px 32px; font-size: 12px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+    .footer { background: #10264D; color: #EAF2FF; padding: 18px 32px; font-size: 12px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
     ul { margin: 6px 0; padding-left: 20px; }
     li { margin-bottom: 5px; font-size: 13.5px; }
   </style>
@@ -351,8 +351,8 @@ ${aiDisclosureText}
             (c, i) => `<div class="card">
           <strong>${i + 1}. ${c.name}</strong> <span class="badge">${c.likelihoodNote}</span>
           <p style="margin:8px 0 4px;font-size:13.5px;">${c.whatItIs}</p>
-          <p style="margin:4px 0;font-size:12.5px;color:#687986;"><strong>How It Relates:</strong> ${c.howItRelatesToUser}</p>
-          <p style="margin:4px 0;font-size:12.5px;color:#249A96;"><strong>How Clinicians Evaluate:</strong> ${c.howClinicianEvaluates}</p>
+          <p style="margin:4px 0;font-size:12.5px;color:#64748B;"><strong>How It Relates:</strong> ${c.howItRelatesToUser}</p>
+          <p style="margin:4px 0;font-size:12.5px;color:#2458F5;"><strong>How Clinicians Evaluate:</strong> ${c.howClinicianEvaluates}</p>
         </div>`
           )
           .join('')}
@@ -504,7 +504,7 @@ ${aiDisclosureText}
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    triggerExportFeedback('Structured JSON Downloaded (.json)');
+    triggerExportFeedback('Clinical Record Downloaded (.json)');
   };
 
   const handleExportHtml = () => {
@@ -524,37 +524,37 @@ ${aiDisclosureText}
   return (
     <div className="space-y-6">
       {/* Main Report Container */}
-      <div className="bg-white border border-[#DCE6ED] rounded-3xl shadow-xs overflow-hidden print:border-none print:shadow-none">
+      <div className="bg-white border border-[#E7EDF5] rounded-3xl shadow-xs overflow-hidden print:border-none print:shadow-none">
         {/* Print-Only Official Header with Logo & Patient Details */}
-        <div className="hidden print:block border-b-2 border-[#153B50] pb-4 mb-6">
+        <div className="hidden print:block border-b-2 border-[#10264D] pb-4 mb-6">
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <img
                 src={BRAND_LOGO_URL}
                 alt="DermaDetect AI Logo"
                 referrerPolicy="no-referrer"
-                className="w-12 h-12 rounded-xl object-contain p-0.5 border border-[#DCE6ED]"
+                className="w-12 h-12 rounded-xl object-contain p-0.5 border border-[#E7EDF5]"
               />
               <div>
-                <h1 className="text-xl font-bold text-[#153B50]">
+                <h1 className="text-xl font-bold text-[#10264D]">
                   DermaDetect AI — Educational Health Assessment Report
                 </h1>
-                <p className="text-xs text-[#687986] tabular-nums">
+                <p className="text-xs text-[#64748B] tabular-nums">
                   Report ID: {caseId} · Date: {assessmentDate} · Patient: {resolvedPatientName} ({resolvedPatientAge}, {resolvedPatientGender})
                 </p>
-                <p className="text-[11px] text-[#153B50] font-semibold">
+                <p className="text-[11px] text-[#10264D] font-semibold">
                   Developed by Fizza Amin and Muhammad Faizan Ud Din
                 </p>
               </div>
             </div>
           </div>
-          <p className="mt-2 text-xs text-[#253746] bg-[#F7FAFC] p-2 rounded border border-[#DCE6ED]">
+          <p className="mt-2 text-xs text-[#17253B] bg-[#F7FAFF] p-2 rounded border border-[#E7EDF5]">
             <strong>AI Medical Disclaimer:</strong> {aiDisclosureText}
           </p>
         </div>
 
         {/* Screen Institutional Report Header with Official Logo & AI-Generated Badge */}
-        <div className="bg-[#153B50] text-white p-6 sm:p-8 border-b border-white/10 print:hidden">
+        <div className="bg-[#10264D] text-white p-6 sm:p-8 border-b border-white/10 print:hidden">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div className="flex items-start gap-4">
               <img
@@ -564,10 +564,10 @@ ${aiDisclosureText}
                 className="w-13 h-13 rounded-2xl object-contain p-0.5 border-2 border-white/25 bg-white shadow-xs shrink-0 mt-0.5"
               />
               <div>
-                <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-[#E9F7F5] mb-2">
+                <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-[#EAF2FF] mb-2">
                   {/* Professional AI-Generated Assessment Badge */}
-                  <span className="inline-flex items-center gap-1.5 bg-[#249A96]/30 text-[#E9F7F5] px-2.5 py-1 rounded-lg border border-[#249A96]/60 font-bold tracking-wide">
-                    <Sparkles className="w-3.5 h-3.5 text-[#E9F7F5]" />
+                  <span className="inline-flex items-center gap-1.5 bg-[#2458F5]/30 text-[#EAF2FF] px-2.5 py-1 rounded-lg border border-[#2458F5]/60 font-bold tracking-wide">
+                    <Sparkles className="w-3.5 h-3.5 text-[#EAF2FF]" />
                     <span>AI-Generated Assessment</span>
                   </span>
                   <span aria-hidden="true">·</span>
@@ -593,7 +593,7 @@ ${aiDisclosureText}
                     ? 'bg-[#C83F49] text-white'
                     : triageLevel === 'prompt'
                     ? 'bg-[#E7A23B] text-slate-950'
-                    : 'bg-[#249A96] text-white'
+                    : 'bg-[#2458F5] text-white'
                 }`}
               >
                 {triageLevel === 'emergency' ? (
@@ -615,9 +615,9 @@ ${aiDisclosureText}
               <button
                 type="button"
                 onClick={() => setShowHowGeneratedModal(true)}
-                className="text-xs text-[#E9F7F5] hover:text-white underline underline-offset-4 inline-flex items-center gap-1 cursor-pointer"
+                className="text-xs text-[#EAF2FF] hover:text-white underline underline-offset-4 inline-flex items-center gap-1 cursor-pointer"
               >
-                <Info className="w-3.5 h-3.5 text-[#249A96]" />
+                <Info className="w-3.5 h-3.5 text-[#2458F5]" />
                 <span>How was this report generated?</span>
               </button>
             </div>
@@ -630,7 +630,7 @@ ${aiDisclosureText}
                 type="button"
                 onClick={handleDownloadPdf}
                 disabled={isGeneratingPdf}
-                className="px-4 py-2.5 bg-[#249A96] hover:bg-[#1d807c] text-white rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-xs whitespace-nowrap"
+                className="px-4 py-2.5 bg-[#2458F5] hover:bg-[#1a3fcc] text-white rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-xs whitespace-nowrap"
                 title="Download formatted multi-page PDF clinical report"
               >
                 <FileDown className="w-4 h-4" />
@@ -640,9 +640,9 @@ ${aiDisclosureText}
               <button
                 type="button"
                 onClick={handlePrint}
-                className="px-3.5 py-2.5 bg-white text-[#153B50] hover:bg-[#E9F7F5] rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-2xs whitespace-nowrap"
+                className="px-3.5 py-2.5 bg-white text-[#10264D] hover:bg-[#EAF2FF] rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-2xs whitespace-nowrap"
               >
-                <Printer className="w-3.5 h-3.5 text-[#249A96]" />
+                <Printer className="w-3.5 h-3.5 text-[#2458F5]" />
                 <span>Print Report</span>
               </button>
 
@@ -652,7 +652,7 @@ ${aiDisclosureText}
                 className="px-3.5 py-2.5 bg-white/10 hover:bg-white/20 text-white border border-white/15 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap"
                 title="Download standalone formatted HTML report with official logo"
               >
-                <FileCode className="w-3.5 h-3.5 text-[#E9F7F5]" />
+                <FileCode className="w-3.5 h-3.5 text-[#EAF2FF]" />
                 <span>Export (.html)</span>
               </button>
 
@@ -660,20 +660,20 @@ ${aiDisclosureText}
                 type="button"
                 onClick={handleExportTxt}
                 className="px-3.5 py-2.5 bg-white/10 hover:bg-white/20 text-white border border-white/15 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap"
-                title="Download plain-text clinical report (.txt)"
+                title="Download plain-text clinical summary (.txt)"
               >
-                <Download className="w-3.5 h-3.5 text-[#E9F7F5]" />
-                <span>Export (.txt)</span>
+                <Download className="w-3.5 h-3.5 text-[#EAF2FF]" />
+                <span>Text Summary (.txt)</span>
               </button>
 
               <button
                 type="button"
                 onClick={handleExportJson}
                 className="px-3 py-2.5 bg-white/10 hover:bg-white/20 text-white border border-white/15 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap"
-                title="Export structured report JSON"
+                title="Export structured clinical record (.json)"
               >
-                <FileJson className="w-3.5 h-3.5 text-[#E9F7F5]" />
-                <span>Export (.json)</span>
+                <FileJson className="w-3.5 h-3.5 text-[#EAF2FF]" />
+                <span>Clinical Data (.json)</span>
               </button>
 
               <button
@@ -699,7 +699,7 @@ ${aiDisclosureText}
                 onClick={() => setShowSeekGuidanceModal(true)}
                 className="px-3 py-2.5 bg-white/10 hover:bg-white/20 text-white border border-white/15 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap"
               >
-                <Compass className="w-3.5 h-3.5 text-[#E9F7F5]" />
+                <Compass className="w-3.5 h-3.5 text-[#EAF2FF]" />
                 <span>Care Settings</span>
               </button>
             </div>
@@ -716,7 +716,7 @@ ${aiDisclosureText}
 
           {/* Export Confirmation Toast Banner */}
           {exportSuccessBadge && (
-            <div className="mt-3 px-3.5 py-2 rounded-xl bg-[#249A96] text-white text-xs font-semibold inline-flex items-center gap-2">
+            <div className="mt-3 px-3.5 py-2 rounded-xl bg-[#2458F5] text-white text-xs font-semibold inline-flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 shrink-0" />
               <span>{exportSuccessBadge}</span>
             </div>
@@ -724,46 +724,46 @@ ${aiDisclosureText}
         </div>
 
         {/* PATIENT DEMOGRAPHICS & CLINICAL RECORD BAR */}
-        <div className="bg-[#F7FAFC] border-b border-[#DCE6ED] px-6 sm:px-8 py-4 print:hidden">
+        <div className="bg-[#F7FAFF] border-b border-[#E7EDF5] px-6 sm:px-8 py-4 print:hidden">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-8 flex-1">
               <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-xl bg-[#E9F7F5] text-[#249A96] flex items-center justify-center shrink-0">
+                <div className="w-9 h-9 rounded-xl bg-[#EAF2FF] text-[#2458F5] flex items-center justify-center shrink-0">
                   <User className="w-4 h-4" />
                 </div>
                 <div>
-                  <span className="text-[11px] font-semibold text-[#687986] uppercase tracking-wider block">
+                  <span className="text-[11px] font-semibold text-[#64748B] uppercase tracking-wider block">
                     Patient Name
                   </span>
-                  <strong className="text-xs sm:text-sm font-bold text-[#153B50]">
+                  <strong className="text-xs sm:text-sm font-bold text-[#10264D]">
                     {resolvedPatientName}
                   </strong>
                 </div>
               </div>
 
               <div>
-                <span className="text-[11px] font-semibold text-[#687986] uppercase tracking-wider block">
+                <span className="text-[11px] font-semibold text-[#64748B] uppercase tracking-wider block">
                   Patient Age
                 </span>
-                <strong className="text-xs sm:text-sm font-bold text-[#153B50] tabular-nums">
+                <strong className="text-xs sm:text-sm font-bold text-[#10264D] tabular-nums">
                   {resolvedPatientAge}
                 </strong>
               </div>
 
               <div>
-                <span className="text-[11px] font-semibold text-[#687986] uppercase tracking-wider block">
+                <span className="text-[11px] font-semibold text-[#64748B] uppercase tracking-wider block">
                   Gender
                 </span>
-                <strong className="text-xs sm:text-sm font-bold text-[#153B50] capitalize">
+                <strong className="text-xs sm:text-sm font-bold text-[#10264D] capitalize">
                   {resolvedPatientGender}
                 </strong>
               </div>
 
               <div>
-                <span className="text-[11px] font-semibold text-[#687986] uppercase tracking-wider block">
+                <span className="text-[11px] font-semibold text-[#64748B] uppercase tracking-wider block">
                   Assessment Modality
                 </span>
-                <strong className="text-xs sm:text-sm font-bold text-[#249A96]">
+                <strong className="text-xs sm:text-sm font-bold text-[#2458F5]">
                   {type === 'skin' ? 'Dermatology Vision Review' : 'Clinical Symptom Triage'}
                 </strong>
               </div>
@@ -772,17 +772,17 @@ ${aiDisclosureText}
             <button
               type="button"
               onClick={() => setIsEditingPatient(!isEditingPatient)}
-              className="px-3 py-1.5 rounded-lg border border-[#DCE6ED] bg-white hover:border-[#249A96] text-xs font-semibold text-[#153B50] inline-flex items-center gap-1.5 cursor-pointer transition-colors whitespace-nowrap"
+              className="px-3 py-1.5 rounded-lg border border-[#E7EDF5] bg-white hover:border-[#2458F5] text-xs font-semibold text-[#10264D] inline-flex items-center gap-1.5 cursor-pointer transition-colors whitespace-nowrap"
             >
-              <Edit3 className="w-3.5 h-3.5 text-[#249A96]" />
+              <Edit3 className="w-3.5 h-3.5 text-[#2458F5]" />
               <span>{isEditingPatient ? 'Save Patient Info' : 'Edit Patient Details'}</span>
             </button>
           </div>
 
           {isEditingPatient && (
-            <div className="mt-4 pt-4 border-t border-[#DCE6ED] grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="mt-4 pt-4 border-t border-[#E7EDF5] grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
-                <label className="block text-[11px] font-bold text-[#153B50] mb-1">
+                <label className="block text-[11px] font-bold text-[#10264D] mb-1">
                   Patient Full Name (Shown on Report & PDF)
                 </label>
                 <input
@@ -790,11 +790,11 @@ ${aiDisclosureText}
                   value={patientName}
                   onChange={(e) => setPatientName(e.target.value)}
                   placeholder="Enter patient full name..."
-                  className="w-full px-3 py-2 text-xs rounded-lg border border-[#DCE6ED] bg-white text-[#253746] focus:outline-none focus:border-[#249A96]"
+                  className="w-full px-3 py-2 text-xs rounded-lg border border-[#E7EDF5] bg-white text-[#17253B] focus:outline-none focus:border-[#2458F5]"
                 />
               </div>
               <div>
-                <label className="block text-[11px] font-bold text-[#153B50] mb-1">
+                <label className="block text-[11px] font-bold text-[#10264D] mb-1">
                   Patient Age (e.g., 28 years)
                 </label>
                 <input
@@ -802,17 +802,17 @@ ${aiDisclosureText}
                   value={patientAge}
                   onChange={(e) => setPatientAge(e.target.value)}
                   placeholder="e.g., 28 years"
-                  className="w-full px-3 py-2 text-xs rounded-lg border border-[#DCE6ED] bg-white text-[#253746] focus:outline-none focus:border-[#249A96]"
+                  className="w-full px-3 py-2 text-xs rounded-lg border border-[#E7EDF5] bg-white text-[#17253B] focus:outline-none focus:border-[#2458F5]"
                 />
               </div>
               <div>
-                <label className="block text-[11px] font-bold text-[#153B50] mb-1">
+                <label className="block text-[11px] font-bold text-[#10264D] mb-1">
                   Gender
                 </label>
                 <select
                   value={patientGender}
                   onChange={(e) => setPatientGender(e.target.value)}
-                  className="w-full px-3 py-2 text-xs rounded-lg border border-[#DCE6ED] bg-white text-[#253746] focus:outline-none focus:border-[#249A96]"
+                  className="w-full px-3 py-2 text-xs rounded-lg border border-[#E7EDF5] bg-white text-[#17253B] focus:outline-none focus:border-[#2458F5]"
                 >
                   <option value="Female">Female</option>
                   <option value="Male">Male</option>
@@ -825,8 +825,8 @@ ${aiDisclosureText}
         </div>
 
         {/* Top AI Safety Banner */}
-        <div className="bg-[#E9F7F5] border-b border-[#249A96]/25 px-6 sm:px-8 py-3.5 text-xs text-[#153B50] flex items-start gap-2.5 print:hidden">
-          <ShieldCheck className="w-4 h-4 text-[#249A96] shrink-0 mt-0.5" />
+        <div className="bg-[#EAF2FF] border-b border-[#2458F5]/25 px-6 sm:px-8 py-3.5 text-xs text-[#10264D] flex items-start gap-2.5 print:hidden">
+          <ShieldCheck className="w-4 h-4 text-[#2458F5] shrink-0 mt-0.5" />
           <div className="leading-relaxed">
             <strong>Educational Clinical Guidance: </strong>
             This AI-generated report outlines possible explanations rather than a confirmed diagnosis.{' '}
@@ -838,7 +838,7 @@ ${aiDisclosureText}
 
         {/* Optional Togglable Doctor Discussion Summary */}
         {showDoctorVisitSummary && (
-          <div className="p-6 bg-[#F7FAFC] border-b border-[#DCE6ED] print:hidden">
+          <div className="p-6 bg-[#F7FAFF] border-b border-[#E7EDF5] print:hidden">
             <DoctorDiscussionSummary
               type={type}
               symptomReport={normalizedSymptom || undefined}
@@ -858,36 +858,36 @@ ${aiDisclosureText}
         <div className="p-6 sm:p-8 space-y-10">
           {/* SECTION 01: Assessment Summary */}
           <section aria-labelledby="report-sec-1">
-            <div className="flex flex-wrap items-center justify-between gap-2 pb-3 mb-4 border-b border-[#DCE6ED]">
+            <div className="flex flex-wrap items-center justify-between gap-2 pb-3 mb-4 border-b border-[#E7EDF5]">
               <div className="flex items-center gap-2.5">
-                <span className="w-7 h-7 rounded-lg bg-[#153B50] text-white text-xs font-bold tabular-nums flex items-center justify-center">
+                <span className="w-7 h-7 rounded-lg bg-[#10264D] text-white text-xs font-bold tabular-nums flex items-center justify-center">
                   01
                 </span>
-                <div className="w-7 h-7 rounded-lg bg-[#E9F7F5] text-[#249A96] flex items-center justify-center">
+                <div className="w-7 h-7 rounded-lg bg-[#EAF2FF] text-[#2458F5] flex items-center justify-center">
                   <Activity className="w-4 h-4" />
                 </div>
                 <h3
                   id="report-sec-1"
-                  className="text-sm sm:text-base font-extrabold text-[#153B50] uppercase tracking-wider font-display"
+                  className="text-sm sm:text-base font-extrabold text-[#10264D] uppercase tracking-wider font-display"
                 >
                   Assessment Summary
                 </h3>
               </div>
-              <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#153B50] bg-[#E9F7F5] px-2.5 py-1 rounded-md border border-[#249A96]/25">
-                <Sparkles className="w-3 h-3 text-[#249A96]" />
+              <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#10264D] bg-[#EAF2FF] px-2.5 py-1 rounded-md border border-[#2458F5]/25">
+                <Sparkles className="w-3 h-3 text-[#2458F5]" />
                 <span>AI-Generated Clinical Synthesis</span>
               </span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-start">
               {type === 'skin' && previewImageUrl && (
-                <div className="md:col-span-4 bg-[#F7FAFC] rounded-2xl overflow-hidden border border-[#DCE6ED] p-3 flex flex-col items-center justify-center">
+                <div className="md:col-span-4 bg-[#F7FAFF] rounded-2xl overflow-hidden border border-[#E7EDF5] p-3 flex flex-col items-center justify-center">
                   <img
                     src={previewImageUrl}
                     alt="Uploaded skin area"
                     className="max-h-52 w-auto object-contain rounded-xl"
                   />
-                  <span className="text-[11px] text-[#687986] mt-2">
+                  <span className="text-[11px] text-[#64748B] mt-2">
                     Submitted reference photograph
                   </span>
                 </div>
@@ -900,14 +900,14 @@ ${aiDisclosureText}
                     : 'md:col-span-12 space-y-3'
                 }
               >
-                <div className="p-5 rounded-2xl bg-[#F7FAFC] border border-[#DCE6ED] text-sm sm:text-[15px] text-[#253746] leading-relaxed">
+                <div className="p-5 rounded-2xl bg-[#F7FAFF] border border-[#E7EDF5] text-sm sm:text-[15px] text-[#17253B] leading-relaxed">
                   {summaryText}
                 </div>
 
                 <div className="flex flex-wrap items-center justify-between gap-3 text-xs pt-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="font-bold text-[#153B50]">Recommended Clinician Type:</span>
-                    <span className="text-[#153B50] font-semibold">
+                    <span className="font-bold text-[#10264D]">Recommended Clinician Type:</span>
+                    <span className="text-[#10264D] font-semibold">
                       {type === 'skin'
                         ? normalizedSkin?.recommendedSpecialty ||
                           'Board-Certified Dermatologist or Primary Care Physician'
@@ -917,7 +917,7 @@ ${aiDisclosureText}
                   <button
                     type="button"
                     onClick={() => setShowDoctorVisitSummary(!showDoctorVisitSummary)}
-                    className="text-[#249A96] hover:text-[#153B50] underline underline-offset-4 font-bold flex items-center gap-1.5 cursor-pointer print:hidden"
+                    className="text-[#2458F5] hover:text-[#10264D] underline underline-offset-4 font-bold flex items-center gap-1.5 cursor-pointer print:hidden"
                   >
                     <FileText className="w-3.5 h-3.5" />
                     <span>
@@ -933,27 +933,27 @@ ${aiDisclosureText}
 
           {/* SECTION 02: Possible Condition or Conditions */}
           <section aria-labelledby="report-sec-2">
-            <div className="flex flex-wrap items-center justify-between gap-2 pb-3 mb-4 border-b border-[#DCE6ED]">
+            <div className="flex flex-wrap items-center justify-between gap-2 pb-3 mb-4 border-b border-[#E7EDF5]">
               <div className="flex items-center gap-2.5">
-                <span className="w-7 h-7 rounded-lg bg-[#153B50] text-white text-xs font-bold tabular-nums flex items-center justify-center">
+                <span className="w-7 h-7 rounded-lg bg-[#10264D] text-white text-xs font-bold tabular-nums flex items-center justify-center">
                   02
                 </span>
-                <div className="w-7 h-7 rounded-lg bg-[#E9F7F5] text-[#249A96] flex items-center justify-center">
+                <div className="w-7 h-7 rounded-lg bg-[#EAF2FF] text-[#2458F5] flex items-center justify-center">
                   <Stethoscope className="w-4 h-4" />
                 </div>
                 <h3
                   id="report-sec-2"
-                  className="text-sm sm:text-base font-extrabold text-[#153B50] uppercase tracking-wider font-display"
+                  className="text-sm sm:text-base font-extrabold text-[#10264D] uppercase tracking-wider font-display"
                 >
                   Possible Condition or Conditions
                 </h3>
               </div>
-              <span className="text-xs text-[#687986] font-medium">
+              <span className="text-xs text-[#64748B] font-medium">
                 Possible Explanations Only · Not Confirmed Diagnoses
               </span>
             </div>
 
-            <p className="text-xs sm:text-sm text-[#687986] mb-4 leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#64748B] mb-4 leading-relaxed">
               The conditions below are listed as possible explanations to discuss with a qualified healthcare professional. No online tool or photograph can provide a definitive diagnosis or percentage certainty score.
             </p>
 
@@ -961,30 +961,30 @@ ${aiDisclosureText}
               {conditionDescriptions.map((cond, idx) => (
                 <div
                   key={cond.name}
-                  className="p-5 rounded-2xl border border-[#DCE6ED] bg-white space-y-3"
+                  className="p-5 rounded-2xl border border-[#E7EDF5] bg-white space-y-3"
                 >
                   <div className="flex items-start gap-3">
-                    <span className="w-7 h-7 rounded-xl bg-[#153B50] text-white text-xs font-bold tabular-nums flex items-center justify-center shrink-0 mt-0.5">
+                    <span className="w-7 h-7 rounded-xl bg-[#10264D] text-white text-xs font-bold tabular-nums flex items-center justify-center shrink-0 mt-0.5">
                       0{idx + 1}
                     </span>
                     <div className="flex-1">
-                      <div className="text-[11px] font-bold uppercase tracking-wider text-[#249A96]">
+                      <div className="text-[11px] font-bold uppercase tracking-wider text-[#2458F5]">
                         Possible Explanation · {cond.likelihoodNote}
                       </div>
-                      <h4 className="text-base font-bold text-[#153B50] leading-snug mt-0.5 font-display">
+                      <h4 className="text-base font-bold text-[#10264D] leading-snug mt-0.5 font-display">
                         {cond.name}
                       </h4>
                     </div>
                   </div>
 
-                  <p className="text-xs sm:text-sm text-[#253746] leading-relaxed">
+                  <p className="text-xs sm:text-sm text-[#17253B] leading-relaxed">
                     {cond.whatItIs}
                   </p>
 
                   {cond.urgencyLevel && (
-                    <div className="pt-2.5 border-t border-[#E3EDF2] flex items-center justify-between text-xs text-[#687986]">
+                    <div className="pt-2.5 border-t border-[#E7EDF5] flex items-center justify-between text-xs text-[#64748B]">
                       <span>Recommended Evaluation Timeline</span>
-                      <span className="font-bold text-[#153B50]">{cond.urgencyLevel}</span>
+                      <span className="font-bold text-[#10264D]">{cond.urgencyLevel}</span>
                     </div>
                   )}
                 </div>
@@ -994,22 +994,22 @@ ${aiDisclosureText}
 
           {/* SECTION 03: What Is This Condition? */}
           <section aria-labelledby="report-sec-3">
-            <div className="flex flex-wrap items-center justify-between gap-2 pb-3 mb-4 border-b border-[#DCE6ED]">
+            <div className="flex flex-wrap items-center justify-between gap-2 pb-3 mb-4 border-b border-[#E7EDF5]">
               <div className="flex items-center gap-2.5">
-                <span className="w-7 h-7 rounded-lg bg-[#153B50] text-white text-xs font-bold tabular-nums flex items-center justify-center">
+                <span className="w-7 h-7 rounded-lg bg-[#10264D] text-white text-xs font-bold tabular-nums flex items-center justify-center">
                   03
                 </span>
-                <div className="w-7 h-7 rounded-lg bg-[#E9F7F5] text-[#249A96] flex items-center justify-center">
+                <div className="w-7 h-7 rounded-lg bg-[#EAF2FF] text-[#2458F5] flex items-center justify-center">
                   <BookOpen className="w-4 h-4" />
                 </div>
                 <h3
                   id="report-sec-3"
-                  className="text-sm sm:text-base font-extrabold text-[#153B50] uppercase tracking-wider font-display"
+                  className="text-sm sm:text-base font-extrabold text-[#10264D] uppercase tracking-wider font-display"
                 >
                   What Is This Condition & How Clinicians Evaluate It
                 </h3>
               </div>
-              <span className="text-xs text-[#687986] font-medium">
+              <span className="text-xs text-[#64748B] font-medium">
                 Plain-Language Disease Overview
               </span>
             </div>
@@ -1018,36 +1018,36 @@ ${aiDisclosureText}
               {conditionDescriptions.map((cond) => (
                 <div
                   key={cond.name}
-                  className="p-5 rounded-2xl bg-[#F7FAFC] border border-[#DCE6ED] space-y-3"
+                  className="p-5 rounded-2xl bg-[#F7FAFF] border border-[#E7EDF5] space-y-3"
                 >
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <h4 className="text-sm sm:text-base font-bold text-[#153B50] font-display">
+                    <h4 className="text-sm sm:text-base font-bold text-[#10264D] font-display">
                       {cond.name}
                     </h4>
-                    <span className="text-xs text-[#687986]">
+                    <span className="text-xs text-[#64748B]">
                       Clinical Correlation & Evaluation
                     </span>
                   </div>
 
-                  <p className="text-xs sm:text-sm text-[#253746] leading-relaxed">
+                  <p className="text-xs sm:text-sm text-[#17253B] leading-relaxed">
                     {cond.whatItIs}
                   </p>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
-                    <div className="p-3.5 rounded-xl bg-white border border-[#DCE6ED]">
-                      <span className="text-xs font-bold text-[#153B50] block mb-1">
+                    <div className="p-3.5 rounded-xl bg-white border border-[#E7EDF5]">
+                      <span className="text-xs font-bold text-[#10264D] block mb-1">
                         How It Relates to Your Assessment:
                       </span>
-                      <p className="text-xs text-[#253746] leading-relaxed">
+                      <p className="text-xs text-[#17253B] leading-relaxed">
                         {cond.howItRelatesToUser}
                       </p>
                     </div>
 
-                    <div className="p-3.5 rounded-xl bg-white border border-[#DCE6ED]">
-                      <span className="text-xs font-bold text-[#249A96] block mb-1">
+                    <div className="p-3.5 rounded-xl bg-white border border-[#E7EDF5]">
+                      <span className="text-xs font-bold text-[#2458F5] block mb-1">
                         How a Qualified Clinician Evaluates It:
                       </span>
-                      <p className="text-xs text-[#253746] leading-relaxed">
+                      <p className="text-xs text-[#17253B] leading-relaxed">
                         {cond.howClinicianEvaluates}
                       </p>
                     </div>
@@ -1059,16 +1059,16 @@ ${aiDisclosureText}
 
           {/* SECTION 04: Common Causes and Risk Factors */}
           <section aria-labelledby="report-sec-4">
-            <div className="flex items-center gap-2.5 pb-3 mb-4 border-b border-[#DCE6ED]">
-              <span className="w-7 h-7 rounded-lg bg-[#153B50] text-white text-xs font-bold tabular-nums flex items-center justify-center">
+            <div className="flex items-center gap-2.5 pb-3 mb-4 border-b border-[#E7EDF5]">
+              <span className="w-7 h-7 rounded-lg bg-[#10264D] text-white text-xs font-bold tabular-nums flex items-center justify-center">
                 04
               </span>
-              <div className="w-7 h-7 rounded-lg bg-[#E9F7F5] text-[#249A96] flex items-center justify-center">
+              <div className="w-7 h-7 rounded-lg bg-[#EAF2FF] text-[#2458F5] flex items-center justify-center">
                 <Layers className="w-4 h-4" />
               </div>
               <h3
                 id="report-sec-4"
-                className="text-sm sm:text-base font-extrabold text-[#153B50] uppercase tracking-wider font-display"
+                className="text-sm sm:text-base font-extrabold text-[#10264D] uppercase tracking-wider font-display"
               >
                 Common Causes and Risk Factors
               </h3>
@@ -1078,13 +1078,13 @@ ${aiDisclosureText}
               {conditionDescriptions.map((cond) => (
                 <div
                   key={cond.name}
-                  className="p-5 rounded-2xl bg-white border border-[#DCE6ED] space-y-2.5"
+                  className="p-5 rounded-2xl bg-white border border-[#E7EDF5] space-y-2.5"
                 >
-                  <h4 className="text-sm font-bold text-[#153B50] font-display">{cond.name}</h4>
-                  <ul className="space-y-1.5 text-xs sm:text-sm text-[#253746]">
+                  <h4 className="text-sm font-bold text-[#10264D] font-display">{cond.name}</h4>
+                  <ul className="space-y-1.5 text-xs sm:text-sm text-[#17253B]">
                     {cond.commonCausesAndRiskFactors.map((cause, cIdx) => (
                       <li key={cIdx} className="flex items-start gap-2 leading-relaxed">
-                        <Activity className="w-3.5 h-3.5 text-[#249A96] mt-1 shrink-0" />
+                        <Activity className="w-3.5 h-3.5 text-[#2458F5] mt-1 shrink-0" />
                         <span>{cause}</span>
                       </li>
                     ))}
@@ -1096,37 +1096,37 @@ ${aiDisclosureText}
 
           {/* SECTION 05: Symptoms and Observable Features */}
           <section aria-labelledby="report-sec-5" className="space-y-4">
-            <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#DCE6ED]">
+            <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#E7EDF5]">
               <div className="flex items-center gap-2.5">
-                <span className="w-7 h-7 rounded-lg bg-[#153B50] text-white text-xs font-bold tabular-nums flex items-center justify-center">
+                <span className="w-7 h-7 rounded-lg bg-[#10264D] text-white text-xs font-bold tabular-nums flex items-center justify-center">
                   05
                 </span>
-                <div className="w-7 h-7 rounded-lg bg-[#E9F7F5] text-[#249A96] flex items-center justify-center">
+                <div className="w-7 h-7 rounded-lg bg-[#EAF2FF] text-[#2458F5] flex items-center justify-center">
                   <Eye className="w-4 h-4" />
                 </div>
                 <h3
                   id="report-sec-5"
-                  className="text-sm sm:text-base font-extrabold text-[#153B50] uppercase tracking-wider font-display"
+                  className="text-sm sm:text-base font-extrabold text-[#10264D] uppercase tracking-wider font-display"
                 >
                   Symptoms, Observable Features & Clinical Uncertainty
                 </h3>
               </div>
-              <span className="text-xs text-[#687986] font-medium">
+              <span className="text-xs text-[#64748B] font-medium">
                 Reported Inputs vs. Objective Observations
               </span>
             </div>
 
             {supportingInfo && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="p-5 rounded-2xl bg-[#F7FAFC] border border-[#DCE6ED] space-y-2.5">
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#153B50] flex items-center gap-1.5">
-                    <Stethoscope className="w-3.5 h-3.5 text-[#249A96]" />
+                <div className="p-5 rounded-2xl bg-[#F7FAFF] border border-[#E7EDF5] space-y-2.5">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#10264D] flex items-center gap-1.5">
+                    <Stethoscope className="w-3.5 h-3.5 text-[#2458F5]" />
                     <span>Information Reported by Patient</span>
                   </span>
-                  <ul className="space-y-1.5 text-xs sm:text-sm text-[#253746]">
+                  <ul className="space-y-1.5 text-xs sm:text-sm text-[#17253B]">
                     {supportingInfo.userReportedSummary.map((item, idx) => (
                       <li key={idx} className="flex items-start gap-2 leading-relaxed">
-                        <CheckCircle2 className="w-4 h-4 text-[#249A96] shrink-0 mt-0.5" />
+                        <CheckCircle2 className="w-4 h-4 text-[#2458F5] shrink-0 mt-0.5" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -1134,30 +1134,30 @@ ${aiDisclosureText}
                 </div>
 
                 {type === 'skin' && supportingInfo.visibleInImageSummary ? (
-                  <div className="p-5 rounded-2xl bg-[#E9F7F5]/60 border border-[#249A96]/30 space-y-2.5">
-                    <span className="text-xs font-bold uppercase tracking-wider text-[#153B50] flex items-center gap-1.5">
-                      <Eye className="w-3.5 h-3.5 text-[#249A96]" />
+                  <div className="p-5 rounded-2xl bg-[#EAF2FF]/60 border border-[#2458F5]/30 space-y-2.5">
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#10264D] flex items-center gap-1.5">
+                      <Eye className="w-3.5 h-3.5 text-[#2458F5]" />
                       <span>Features Visible in Uploaded Image (2D Optics Only)</span>
                     </span>
-                    <ul className="space-y-1.5 text-xs sm:text-sm text-[#253746]">
+                    <ul className="space-y-1.5 text-xs sm:text-sm text-[#17253B]">
                       {supportingInfo.visibleInImageSummary.map((item, idx) => (
                         <li key={idx} className="flex items-start gap-2 leading-relaxed">
-                          <Eye className="w-4 h-4 text-[#249A96] shrink-0 mt-0.5" />
+                          <Eye className="w-4 h-4 text-[#2458F5] shrink-0 mt-0.5" />
                           <span>{item}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
                 ) : (
-                  <div className="p-5 rounded-2xl bg-white border border-[#DCE6ED] space-y-2.5">
-                    <span className="text-xs font-bold uppercase tracking-wider text-[#153B50] flex items-center gap-1.5">
-                      <Activity className="w-3.5 h-3.5 text-[#249A96]" />
+                  <div className="p-5 rounded-2xl bg-white border border-[#E7EDF5] space-y-2.5">
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#10264D] flex items-center gap-1.5">
+                      <Activity className="w-3.5 h-3.5 text-[#2458F5]" />
                       <span>Typical Symptoms Across Possible Conditions</span>
                     </span>
                     <div className="space-y-2">
                       {conditionDescriptions.map((cond) => (
-                        <div key={cond.name} className="text-xs text-[#253746]">
-                          <strong className="text-[#153B50]">{cond.name}: </strong>
+                        <div key={cond.name} className="text-xs text-[#17253B]">
+                          <strong className="text-[#10264D]">{cond.name}: </strong>
                           {cond.typicalSymptoms.join(', ')}
                         </div>
                       ))}
@@ -1178,44 +1178,44 @@ ${aiDisclosureText}
             )}
 
             {type === 'skin' && normalizedSkin?.abcdeMelanomaAssessment && (
-              <div className="p-5 rounded-2xl bg-[#F7FAFC] border border-[#DCE6ED] space-y-3">
+              <div className="p-5 rounded-2xl bg-[#F7FAFF] border border-[#E7EDF5] space-y-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <h4 className="text-xs sm:text-sm font-bold text-[#153B50] uppercase tracking-wider flex items-center gap-1.5">
+                  <h4 className="text-xs sm:text-sm font-bold text-[#10264D] uppercase tracking-wider flex items-center gap-1.5">
                     <AlertTriangle className="w-4 h-4 text-[#E7A23B]" />
                     ABCDE Pigmented Spot & Melanoma Awareness Guide
                   </h4>
-                  <span className="text-[11px] font-medium text-[#687986]">
+                  <span className="text-[11px] font-medium text-[#64748B]">
                     Educational Reference · Does Not Rule Out Skin Cancer
                   </span>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-5 gap-2.5 text-xs">
-                  <div className="p-3 bg-white rounded-xl border border-[#DCE6ED]">
-                    <strong className="text-[#153B50] block mb-1">A — Asymmetry</strong>
-                    <p className="text-[#687986] leading-relaxed">
+                  <div className="p-3 bg-white rounded-xl border border-[#E7EDF5]">
+                    <strong className="text-[#10264D] block mb-1">A — Asymmetry</strong>
+                    <p className="text-[#64748B] leading-relaxed">
                       {normalizedSkin.abcdeMelanomaAssessment.asymmetryNote}
                     </p>
                   </div>
-                  <div className="p-3 bg-white rounded-xl border border-[#DCE6ED]">
-                    <strong className="text-[#153B50] block mb-1">B — Border</strong>
-                    <p className="text-[#687986] leading-relaxed">
+                  <div className="p-3 bg-white rounded-xl border border-[#E7EDF5]">
+                    <strong className="text-[#10264D] block mb-1">B — Border</strong>
+                    <p className="text-[#64748B] leading-relaxed">
                       {normalizedSkin.abcdeMelanomaAssessment.borderNote}
                     </p>
                   </div>
-                  <div className="p-3 bg-white rounded-xl border border-[#DCE6ED]">
-                    <strong className="text-[#153B50] block mb-1">C — Color</strong>
-                    <p className="text-[#687986] leading-relaxed">
+                  <div className="p-3 bg-white rounded-xl border border-[#E7EDF5]">
+                    <strong className="text-[#10264D] block mb-1">C — Color</strong>
+                    <p className="text-[#64748B] leading-relaxed">
                       {normalizedSkin.abcdeMelanomaAssessment.colorNote}
                     </p>
                   </div>
-                  <div className="p-3 bg-white rounded-xl border border-[#DCE6ED]">
-                    <strong className="text-[#153B50] block mb-1">D — Diameter</strong>
-                    <p className="text-[#687986] leading-relaxed">
+                  <div className="p-3 bg-white rounded-xl border border-[#E7EDF5]">
+                    <strong className="text-[#10264D] block mb-1">D — Diameter</strong>
+                    <p className="text-[#64748B] leading-relaxed">
                       {normalizedSkin.abcdeMelanomaAssessment.diameterNote}
                     </p>
                   </div>
-                  <div className="p-3 bg-white rounded-xl border border-[#DCE6ED]">
-                    <strong className="text-[#153B50] block mb-1">E — Evolving</strong>
-                    <p className="text-[#687986] leading-relaxed">
+                  <div className="p-3 bg-white rounded-xl border border-[#E7EDF5]">
+                    <strong className="text-[#10264D] block mb-1">E — Evolving</strong>
+                    <p className="text-[#64748B] leading-relaxed">
                       {normalizedSkin.abcdeMelanomaAssessment.evolutionNote}
                     </p>
                   </div>
@@ -1224,21 +1224,21 @@ ${aiDisclosureText}
             )}
 
             {uncertaintyInfo && (
-              <div className="p-5 rounded-2xl bg-white border border-[#DCE6ED] space-y-3">
-                <h4 className="text-xs sm:text-sm font-bold text-[#153B50] uppercase tracking-wider flex items-center gap-1.5">
-                  <HelpCircle className="w-4 h-4 text-[#249A96]" />
+              <div className="p-5 rounded-2xl bg-white border border-[#E7EDF5] space-y-3">
+                <h4 className="text-xs sm:text-sm font-bold text-[#10264D] uppercase tracking-wider flex items-center gap-1.5">
+                  <HelpCircle className="w-4 h-4 text-[#2458F5]" />
                   Uncertainty, Alternative Explanations & What Information Is Missing
                 </h4>
-                <p className="text-xs sm:text-sm text-[#253746] leading-relaxed">
+                <p className="text-xs sm:text-sm text-[#17253B] leading-relaxed">
                   {uncertaintyInfo.uncertaintyExplanation}
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <div className="p-3.5 rounded-xl bg-[#F7FAFC] border border-[#DCE6ED]">
-                    <span className="text-xs font-bold text-[#153B50] block mb-1.5">
+                  <div className="p-3.5 rounded-xl bg-[#F7FAFF] border border-[#E7EDF5]">
+                    <span className="text-xs font-bold text-[#10264D] block mb-1.5">
                       What Information Is Missing From an Online Check:
                     </span>
-                    <ul className="space-y-1 text-xs text-[#253746] list-disc list-inside">
+                    <ul className="space-y-1 text-xs text-[#17253B] list-disc list-inside">
                       {uncertaintyInfo.missingClinicalInformation.map((m, i) => (
                         <li key={i} className="leading-relaxed">
                           {m}
@@ -1247,14 +1247,14 @@ ${aiDisclosureText}
                     </ul>
                   </div>
 
-                  <div className="p-3.5 rounded-xl bg-[#F7FAFC] border border-[#DCE6ED]">
-                    <span className="text-xs font-bold text-[#153B50] block mb-1.5">
+                  <div className="p-3.5 rounded-xl bg-[#F7FAFF] border border-[#E7EDF5]">
+                    <span className="text-xs font-bold text-[#10264D] block mb-1.5">
                       Important Alternative Explanations & Why In-Person Exam Matters:
                     </span>
-                    <p className="text-xs text-[#253746] leading-relaxed mb-2">
+                    <p className="text-xs text-[#17253B] leading-relaxed mb-2">
                       {uncertaintyInfo.whyInPersonExamIsRequired}
                     </p>
-                    <div className="text-xs text-[#687986]">
+                    <div className="text-xs text-[#64748B]">
                       {conditionDescriptions
                         .flatMap((c) => c.alternativeExplanations)
                         .slice(0, 3)
@@ -1268,43 +1268,43 @@ ${aiDisclosureText}
 
           {/* SECTION 06: Recommended Recovery and Self-Care */}
           <section aria-labelledby="report-sec-6">
-            <div className="flex flex-wrap items-center justify-between gap-2 pb-3 mb-4 border-b border-[#DCE6ED]">
+            <div className="flex flex-wrap items-center justify-between gap-2 pb-3 mb-4 border-b border-[#E7EDF5]">
               <div className="flex items-center gap-2.5">
-                <span className="w-7 h-7 rounded-lg bg-[#153B50] text-white text-xs font-bold tabular-nums flex items-center justify-center">
+                <span className="w-7 h-7 rounded-lg bg-[#10264D] text-white text-xs font-bold tabular-nums flex items-center justify-center">
                   06
                 </span>
-                <div className="w-7 h-7 rounded-lg bg-[#E9F7F5] text-[#249A96] flex items-center justify-center">
+                <div className="w-7 h-7 rounded-lg bg-[#EAF2FF] text-[#2458F5] flex items-center justify-center">
                   <HeartHandshake className="w-4 h-4" />
                 </div>
                 <h3
                   id="report-sec-6"
-                  className="text-sm sm:text-base font-extrabold text-[#153B50] uppercase tracking-wider font-display"
+                  className="text-sm sm:text-base font-extrabold text-[#10264D] uppercase tracking-wider font-display"
                 >
                   Recommended Recovery and Self-Care
                 </h3>
               </div>
-              <span className="text-xs text-[#249A96] font-semibold flex items-center gap-1">
+              <span className="text-xs text-[#2458F5] font-semibold flex items-center gap-1">
                 <HeartPulse className="w-3.5 h-3.5" />
                 <span>Supportive Care Measures</span>
               </span>
             </div>
 
-            <div className="p-5 rounded-2xl bg-[#E9F7F5]/60 border border-[#249A96]/30 space-y-4">
+            <div className="p-5 rounded-2xl bg-[#EAF2FF]/60 border border-[#2458F5]/30 space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {(selfCare?.supportiveMeasures || []).map((measure, idx) => (
                   <div
                     key={idx}
-                    className="p-3.5 rounded-xl bg-white border border-[#249A96]/20 flex items-start gap-2.5 text-xs sm:text-sm text-[#253746] leading-relaxed"
+                    className="p-3.5 rounded-xl bg-white border border-[#2458F5]/20 flex items-start gap-2.5 text-xs sm:text-sm text-[#17253B] leading-relaxed"
                   >
-                    <CheckCircle2 className="w-4 h-4 text-[#249A96] shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-4 h-4 text-[#2458F5] shrink-0 mt-0.5" />
                     <span>{measure}</span>
                   </div>
                 ))}
               </div>
 
               {selfCare?.recoveryExpectations && (
-                <div className="p-4 rounded-xl bg-white border border-[#DCE6ED] text-xs sm:text-sm text-[#253746] leading-relaxed">
-                  <strong className="text-[#153B50] block mb-1">
+                <div className="p-4 rounded-xl bg-white border border-[#E7EDF5] text-xs sm:text-sm text-[#17253B] leading-relaxed">
+                  <strong className="text-[#10264D] block mb-1">
                     Expected Recovery Considerations & Monitoring:
                   </strong>
                   {selfCare.recoveryExpectations}
@@ -1315,27 +1315,27 @@ ${aiDisclosureText}
 
           {/* SECTION 07: Medication Information (Educational Only + Mandatory Safeguard) */}
           <section aria-labelledby="report-sec-7">
-            <div className="flex flex-wrap items-center justify-between gap-2 pb-3 mb-4 border-b border-[#DCE6ED]">
+            <div className="flex flex-wrap items-center justify-between gap-2 pb-3 mb-4 border-b border-[#E7EDF5]">
               <div className="flex items-center gap-2.5">
-                <span className="w-7 h-7 rounded-lg bg-[#153B50] text-white text-xs font-bold tabular-nums flex items-center justify-center">
+                <span className="w-7 h-7 rounded-lg bg-[#10264D] text-white text-xs font-bold tabular-nums flex items-center justify-center">
                   07
                 </span>
-                <div className="w-7 h-7 rounded-lg bg-[#E9F7F5] text-[#249A96] flex items-center justify-center">
+                <div className="w-7 h-7 rounded-lg bg-[#EAF2FF] text-[#2458F5] flex items-center justify-center">
                   <Pill className="w-4 h-4" />
                 </div>
                 <h3
                   id="report-sec-7"
-                  className="text-sm sm:text-base font-extrabold text-[#153B50] uppercase tracking-wider font-display"
+                  className="text-sm sm:text-base font-extrabold text-[#10264D] uppercase tracking-wider font-display"
                 >
                   Medication Information (Educational Only)
                 </h3>
               </div>
-              <span className="text-xs text-[#687986] font-medium">
+              <span className="text-xs text-[#64748B] font-medium">
                 Consult a Clinician or Pharmacist First
               </span>
             </div>
 
-            <div className="p-5 rounded-2xl bg-[#F7FAFC] border border-[#DCE6ED] space-y-4">
+            <div className="p-5 rounded-2xl bg-[#F7FAFF] border border-[#E7EDF5] space-y-4">
               <div className="p-4 rounded-xl bg-amber-50 border border-amber-300 text-xs sm:text-sm text-amber-950 flex items-start gap-3">
                 <AlertTriangle className="w-5 h-5 text-[#E7A23B] shrink-0 mt-0.5" />
                 <div className="leading-relaxed font-semibold">
@@ -1344,7 +1344,7 @@ ${aiDisclosureText}
               </div>
 
               {medicationInfo?.generalEducationalNote && (
-                <p className="text-xs sm:text-sm text-[#687986] leading-relaxed">
+                <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed">
                   {medicationInfo.generalEducationalNote}
                 </p>
               )}
@@ -1353,24 +1353,24 @@ ${aiDisclosureText}
                 {(medicationInfo?.options || []).map((opt, idx) => (
                   <div
                     key={idx}
-                    className="p-4 rounded-xl bg-white border border-[#DCE6ED] space-y-2.5"
+                    className="p-4 rounded-xl bg-white border border-[#E7EDF5] space-y-2.5"
                   >
                     <div className="space-y-1">
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-[#249A96] block">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-[#2458F5] block">
                         {opt.availabilityStatus}
                       </span>
-                      <h4 className="text-xs sm:text-sm font-bold text-[#153B50] font-display">
+                      <h4 className="text-xs sm:text-sm font-bold text-[#10264D] font-display">
                         {opt.categoryOrName}
                       </h4>
                     </div>
 
-                    <p className="text-xs text-[#253746] leading-relaxed">
+                    <p className="text-xs text-[#17253B] leading-relaxed">
                       <strong>What it is commonly used for: </strong>
                       {opt.generalPurpose}
                     </p>
 
-                    <div className="text-xs text-[#687986] space-y-1">
-                      <strong className="text-[#153B50] block">
+                    <div className="text-xs text-[#64748B] space-y-1">
+                      <strong className="text-[#10264D] block">
                         Common Side Effects & Considerations:
                       </strong>
                       <ul className="list-disc list-inside space-y-0.5">
@@ -1389,7 +1389,7 @@ ${aiDisclosureText}
                       </ul>
                     </div>
 
-                    <p className="text-[11px] text-[#249A96] font-medium">
+                    <p className="text-[11px] text-[#2458F5] font-medium">
                       {opt.consultationNote}
                     </p>
                   </div>
@@ -1398,11 +1398,11 @@ ${aiDisclosureText}
 
               {medicationInfo?.specialPopulationSafeguards &&
                 medicationInfo.specialPopulationSafeguards.length > 0 && (
-                  <div className="p-4 rounded-xl bg-white border border-[#DCE6ED]">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-[#153B50] mb-2">
+                  <div className="p-4 rounded-xl bg-white border border-[#E7EDF5]">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-[#10264D] mb-2">
                       Important Safeguards (Children, Pregnancy, Allergies & Existing Conditions)
                     </h4>
-                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-[#253746]">
+                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-[#17253B]">
                       {medicationInfo.specialPopulationSafeguards.map((sg, idx) => (
                         <li key={idx} className="flex items-start gap-2 leading-relaxed">
                           <AlertTriangle className="w-3.5 h-3.5 text-[#E7A23B] mt-0.5 shrink-0" />
@@ -1417,8 +1417,8 @@ ${aiDisclosureText}
 
           {/* SECTION 08: What to Avoid */}
           <section aria-labelledby="report-sec-8">
-            <div className="flex items-center gap-2.5 pb-3 mb-4 border-b border-[#DCE6ED]">
-              <span className="w-7 h-7 rounded-lg bg-[#153B50] text-white text-xs font-bold tabular-nums flex items-center justify-center">
+            <div className="flex items-center gap-2.5 pb-3 mb-4 border-b border-[#E7EDF5]">
+              <span className="w-7 h-7 rounded-lg bg-[#10264D] text-white text-xs font-bold tabular-nums flex items-center justify-center">
                 08
               </span>
               <div className="w-7 h-7 rounded-lg bg-amber-100 text-[#D97706] flex items-center justify-center">
@@ -1426,14 +1426,14 @@ ${aiDisclosureText}
               </div>
               <h3
                 id="report-sec-8"
-                className="text-sm sm:text-base font-extrabold text-[#153B50] uppercase tracking-wider font-display"
+                className="text-sm sm:text-base font-extrabold text-[#10264D] uppercase tracking-wider font-display"
               >
                 What to Avoid
               </h3>
             </div>
 
             <div className="p-5 rounded-2xl bg-amber-50/50 border border-amber-200/80">
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs sm:text-sm text-[#253746]">
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs sm:text-sm text-[#17253B]">
                 {whatToAvoidList.map((item, idx) => (
                   <li
                     key={idx}
@@ -1449,32 +1449,32 @@ ${aiDisclosureText}
 
           {/* SECTION 09: When to See a Doctor */}
           <section aria-labelledby="report-sec-9">
-            <div className="flex items-center gap-2.5 pb-3 mb-4 border-b border-[#DCE6ED]">
-              <span className="w-7 h-7 rounded-lg bg-[#153B50] text-white text-xs font-bold tabular-nums flex items-center justify-center">
+            <div className="flex items-center gap-2.5 pb-3 mb-4 border-b border-[#E7EDF5]">
+              <span className="w-7 h-7 rounded-lg bg-[#10264D] text-white text-xs font-bold tabular-nums flex items-center justify-center">
                 09
               </span>
-              <div className="w-7 h-7 rounded-lg bg-[#E9F7F5] text-[#249A96] flex items-center justify-center">
+              <div className="w-7 h-7 rounded-lg bg-[#EAF2FF] text-[#2458F5] flex items-center justify-center">
                 <Clock className="w-4 h-4" />
               </div>
               <h3
                 id="report-sec-9"
-                className="text-sm sm:text-base font-extrabold text-[#153B50] uppercase tracking-wider font-display"
+                className="text-sm sm:text-base font-extrabold text-[#10264D] uppercase tracking-wider font-display"
               >
                 When to See a Doctor
               </h3>
             </div>
 
-            <div className="p-5 rounded-2xl bg-[#F7FAFC] border border-[#DCE6ED] space-y-2.5">
-              <p className="text-xs sm:text-sm text-[#687986]">
+            <div className="p-5 rounded-2xl bg-[#F7FAFF] border border-[#E7EDF5] space-y-2.5">
+              <p className="text-xs sm:text-sm text-[#64748B]">
                 Schedule an appointment with a qualified physician or board-certified dermatologist if any of the following apply:
               </p>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs sm:text-sm text-[#253746]">
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs sm:text-sm text-[#17253B]">
                 {whenToSeeDoctorList.map((item, idx) => (
                   <li
                     key={idx}
-                    className="p-3.5 rounded-xl bg-white border border-[#DCE6ED] flex items-start gap-2.5 leading-relaxed"
+                    className="p-3.5 rounded-xl bg-white border border-[#E7EDF5] flex items-start gap-2.5 leading-relaxed"
                   >
-                    <Clock className="w-4 h-4 text-[#249A96] shrink-0 mt-0.5" />
+                    <Clock className="w-4 h-4 text-[#2458F5] shrink-0 mt-0.5" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -1522,16 +1522,16 @@ ${aiDisclosureText}
 
           {/* SECTION 11: Follow-up Guidance & Doctor Questions Checklist */}
           <section aria-labelledby="report-sec-11" className="space-y-4">
-            <div className="flex items-center gap-2.5 pb-3 border-b border-[#DCE6ED]">
-              <span className="w-7 h-7 rounded-lg bg-[#153B50] text-white text-xs font-bold tabular-nums flex items-center justify-center">
+            <div className="flex items-center gap-2.5 pb-3 border-b border-[#E7EDF5]">
+              <span className="w-7 h-7 rounded-lg bg-[#10264D] text-white text-xs font-bold tabular-nums flex items-center justify-center">
                 11
               </span>
-              <div className="w-7 h-7 rounded-lg bg-[#E9F7F5] text-[#249A96] flex items-center justify-center">
+              <div className="w-7 h-7 rounded-lg bg-[#EAF2FF] text-[#2458F5] flex items-center justify-center">
                 <UserCheck className="w-4 h-4" />
               </div>
               <h3
                 id="report-sec-11"
-                className="text-sm sm:text-base font-extrabold text-[#153B50] uppercase tracking-wider font-display"
+                className="text-sm sm:text-base font-extrabold text-[#10264D] uppercase tracking-wider font-display"
               >
                 Follow-up Guidance & Questions for Your Doctor
               </h3>
@@ -1541,9 +1541,9 @@ ${aiDisclosureText}
               {followUpSteps.map((step, idx) => (
                 <div
                   key={idx}
-                  className="p-4 rounded-2xl bg-[#F7FAFC] border border-[#DCE6ED] text-xs sm:text-sm text-[#253746] leading-relaxed"
+                  className="p-4 rounded-2xl bg-[#F7FAFF] border border-[#E7EDF5] text-xs sm:text-sm text-[#17253B] leading-relaxed"
                 >
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#249A96] block mb-1 tabular-nums">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#2458F5] block mb-1 tabular-nums">
                     Follow-Up Step 0{idx + 1}
                   </span>
                   {step}
@@ -1552,12 +1552,12 @@ ${aiDisclosureText}
             </div>
 
             {doctorQuestions.length > 0 && (
-              <div className="p-5 rounded-2xl bg-white border border-[#DCE6ED] space-y-2.5">
+              <div className="p-5 rounded-2xl bg-white border border-[#E7EDF5] space-y-2.5">
                 <div className="flex items-center justify-between gap-2">
-                  <h4 className="text-xs sm:text-sm font-bold text-[#153B50] font-display">
+                  <h4 className="text-xs sm:text-sm font-bold text-[#10264D] font-display">
                     Interactive Questions Checklist for Your Appointment
                   </h4>
-                  <span className="text-[11px] text-[#687986] print:hidden">
+                  <span className="text-[11px] text-[#64748B] print:hidden">
                     Click any question to check it off
                   </span>
                 </div>
@@ -1573,15 +1573,15 @@ ${aiDisclosureText}
                         }
                         className={`text-left p-3 rounded-xl border text-xs sm:text-sm flex items-start gap-2.5 transition-colors cursor-pointer ${
                           checked
-                            ? 'bg-[#E9F7F5] border-[#249A96]/40 text-[#153B50] line-through'
-                            : 'bg-[#F7FAFC] border-[#DCE6ED] text-[#253746] hover:bg-white'
+                            ? 'bg-[#EAF2FF] border-[#2458F5]/40 text-[#10264D] line-through'
+                            : 'bg-[#F7FAFF] border-[#E7EDF5] text-[#17253B] hover:bg-white'
                         }`}
                       >
                         <input
                           type="checkbox"
                           checked={checked}
                           onChange={() => {}}
-                          className="mt-1 rounded text-[#249A96] cursor-pointer"
+                          className="mt-1 rounded text-[#2458F5] cursor-pointer"
                         />
                         <span className="leading-relaxed">{q}</span>
                       </button>
@@ -1594,24 +1594,24 @@ ${aiDisclosureText}
 
           {/* SECTION 12: AI Medical Disclaimer */}
           <section aria-labelledby="report-sec-12">
-            <div className="flex items-center gap-2.5 pb-3 mb-4 border-b border-[#DCE6ED]">
-              <span className="w-7 h-7 rounded-lg bg-[#153B50] text-white text-xs font-bold tabular-nums flex items-center justify-center">
+            <div className="flex items-center gap-2.5 pb-3 mb-4 border-b border-[#E7EDF5]">
+              <span className="w-7 h-7 rounded-lg bg-[#10264D] text-white text-xs font-bold tabular-nums flex items-center justify-center">
                 12
               </span>
-              <div className="w-7 h-7 rounded-lg bg-[#E9F7F5] text-[#249A96] flex items-center justify-center">
+              <div className="w-7 h-7 rounded-lg bg-[#EAF2FF] text-[#2458F5] flex items-center justify-center">
                 <ShieldCheck className="w-4 h-4" />
               </div>
               <h3
                 id="report-sec-12"
-                className="text-sm sm:text-base font-extrabold text-[#153B50] uppercase tracking-wider font-display"
+                className="text-sm sm:text-base font-extrabold text-[#10264D] uppercase tracking-wider font-display"
               >
                 AI Medical Disclaimer
               </h3>
             </div>
 
-            <div className="p-5 rounded-2xl bg-[#F7FAFC] border border-[#DCE6ED] text-xs sm:text-sm text-[#253746] leading-relaxed space-y-2">
-              <p className="font-semibold text-[#153B50]">{aiDisclosureText}</p>
-              <p className="text-xs text-[#687986] tabular-nums">
+            <div className="p-5 rounded-2xl bg-[#F7FAFF] border border-[#E7EDF5] text-xs sm:text-sm text-[#17253B] leading-relaxed space-y-2">
+              <p className="font-semibold text-[#10264D]">{aiDisclosureText}</p>
+              <p className="text-xs text-[#64748B] tabular-nums">
                 Report ID: {caseId} · Patient: {resolvedPatientName} ({resolvedPatientAge}, {resolvedPatientGender}) · Generated on {assessmentDate} · DermaDetect AI Clinical Decision Support Platform · Developed by Fizza Amin and Muhammad Faizan Ud Din
               </p>
             </div>
@@ -1620,9 +1620,9 @@ ${aiDisclosureText}
       </div>
 
       {/* Interactive Dr. Fizza Consultation Banner (Hidden when printing) */}
-      <div className="bg-[#153B50] text-white p-6 rounded-3xl shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4 print:hidden">
+      <div className="bg-[#10264D] text-white p-6 rounded-3xl shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4 print:hidden">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-[#249A96] flex items-center justify-center shrink-0">
+          <div className="w-12 h-12 rounded-2xl bg-[#2458F5] flex items-center justify-center shrink-0">
             <Stethoscope className="w-6 h-6 text-white" />
           </div>
           <div>
@@ -1638,7 +1638,7 @@ ${aiDisclosureText}
         <button
           type="button"
           onClick={() => setShowDrFizza(!showDrFizza)}
-          className="px-5 py-3 bg-white text-[#153B50] hover:bg-[#E9F7F5] text-xs sm:text-sm font-bold rounded-xl transition-colors cursor-pointer shrink-0 whitespace-nowrap"
+          className="px-5 py-3 bg-white text-[#10264D] hover:bg-[#EAF2FF] text-xs sm:text-sm font-bold rounded-xl transition-colors cursor-pointer shrink-0 whitespace-nowrap"
         >
           {showDrFizza ? 'Close Dr. Fizza Chat' : 'Ask Dr. Fizza About My Report'}
         </button>
@@ -1663,17 +1663,17 @@ ${aiDisclosureText}
           role="dialog"
           aria-modal="true"
         >
-          <div className="bg-white border border-[#DCE6ED] rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-xl space-y-5 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-start justify-between gap-4 border-b border-[#DCE6ED] pb-4">
+          <div className="bg-white border border-[#E7EDF5] rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-xl space-y-5 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-start justify-between gap-4 border-b border-[#E7EDF5] pb-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#E9F7F5] text-[#249A96] flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-[#EAF2FF] text-[#2458F5] flex items-center justify-center shrink-0">
                   <Sparkles className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-[#153B50] font-display">
+                  <h3 className="text-lg font-bold text-[#10264D] font-display">
                     How Was This Report Generated?
                   </h3>
-                  <p className="text-xs text-[#687986]">
+                  <p className="text-xs text-[#64748B]">
                     AI-Generated Assessment · Transparency & Clinical Safety Boundaries
                   </p>
                 </div>
@@ -1681,19 +1681,19 @@ ${aiDisclosureText}
               <button
                 type="button"
                 onClick={() => setShowHowGeneratedModal(false)}
-                className="p-1.5 rounded-lg text-[#687986] hover:text-[#153B50] hover:bg-slate-100 cursor-pointer"
+                className="p-1.5 rounded-lg text-[#64748B] hover:text-[#10264D] hover:bg-slate-100 cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="space-y-4 text-xs sm:text-sm text-[#253746] leading-relaxed">
-              <div className="p-4 rounded-xl bg-[#E9F7F5] border border-[#249A96]/30 text-[#153B50] font-medium">
+            <div className="space-y-4 text-xs sm:text-sm text-[#17253B] leading-relaxed">
+              <div className="p-4 rounded-xl bg-[#EAF2FF] border border-[#2458F5]/30 text-[#10264D] font-medium">
                 {MANDATORY_AI_DISCLOSURE}
               </div>
 
-              <div className="p-4 rounded-xl bg-[#F7FAFC] border border-[#DCE6ED]">
-                <strong className="text-[#153B50] block mb-1">
+              <div className="p-4 rounded-xl bg-[#F7FAFF] border border-[#E7EDF5]">
+                <strong className="text-[#10264D] block mb-1">
                   1. Structured Synthesis of Your Inputs
                 </strong>
                 This report was generated by combining the patient details, symptoms, timeline, and health context you reported
@@ -1702,15 +1702,15 @@ ${aiDisclosureText}
                   : ' during your guided symptom check.'}
               </div>
 
-              <div className="p-4 rounded-xl bg-[#F7FAFC] border border-[#DCE6ED]">
-                <strong className="text-[#153B50] block mb-1">
+              <div className="p-4 rounded-xl bg-[#F7FAFF] border border-[#E7EDF5]">
+                <strong className="text-[#10264D] block mb-1">
                   2. Why Percentage Scores Are Never Used
                 </strong>
                 True diagnostic probability requires physical examination, vital signs, dermoscopy, or laboratory tests. To prevent false reassurance or unnecessary alarm, DermaDetect AI uses qualitative clinical labels (such as <em>Plausible Explanation</em> or <em>Needs Clinical Evaluation</em>) rather than unverified percentage scores.
               </div>
 
-              <div className="p-4 rounded-xl bg-[#F7FAFC] border border-[#DCE6ED]">
-                <strong className="text-[#153B50] block mb-1">
+              <div className="p-4 rounded-xl bg-[#F7FAFF] border border-[#E7EDF5]">
+                <strong className="text-[#10264D] block mb-1">
                   3. Built-In Medication & Emergency Guardrails
                 </strong>
                 Every report passes through a clinical validation layer that enforces non-diagnostic language, separates visible image features from reported symptoms, blocks personal prescription dosing, and highlights emergency warning signs.
@@ -1721,7 +1721,7 @@ ${aiDisclosureText}
               <button
                 type="button"
                 onClick={() => setShowHowGeneratedModal(false)}
-                className="px-5 py-2.5 rounded-xl bg-[#153B50] text-white text-xs font-bold cursor-pointer"
+                className="px-5 py-2.5 rounded-xl bg-[#10264D] text-white text-xs font-bold cursor-pointer"
               >
                 Close Explanation
               </button>
@@ -1737,17 +1737,17 @@ ${aiDisclosureText}
           role="dialog"
           aria-modal="true"
         >
-          <div className="bg-white border border-[#DCE6ED] rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-xl space-y-5 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-start justify-between gap-4 border-b border-[#DCE6ED] pb-4">
+          <div className="bg-white border border-[#E7EDF5] rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-xl space-y-5 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-start justify-between gap-4 border-b border-[#E7EDF5] pb-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#249A96] text-white flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-[#2458F5] text-white flex items-center justify-center shrink-0">
                   <Compass className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-[#153B50] font-display">
+                  <h3 className="text-lg font-bold text-[#10264D] font-display">
                     Seek Professional Medical Guidance
                   </h3>
-                  <p className="text-xs text-[#687986]">
+                  <p className="text-xs text-[#64748B]">
                     Choosing the right care setting and preparing for your visit
                   </p>
                 </div>
@@ -1755,13 +1755,13 @@ ${aiDisclosureText}
               <button
                 type="button"
                 onClick={() => setShowSeekGuidanceModal(false)}
-                className="p-1.5 rounded-lg text-[#687986] hover:text-[#153B50] hover:bg-slate-100 cursor-pointer"
+                className="p-1.5 rounded-lg text-[#64748B] hover:text-[#10264D] hover:bg-slate-100 cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="space-y-3 text-xs sm:text-sm text-[#253746]">
+            <div className="space-y-3 text-xs sm:text-sm text-[#17253B]">
               <div className="p-4 rounded-xl bg-rose-50 border border-rose-200">
                 <strong className="text-[#C83F49] block mb-1">
                   Emergency Department / Call 911 or 112 Immediately
@@ -1776,15 +1776,15 @@ ${aiDisclosureText}
                 Appropriate for moderate symptoms that are worsening, persistent fever, painful or rapidly spreading rashes, or suspected local infections that need a timely physical exam or swab.
               </div>
 
-              <div className="p-4 rounded-xl bg-[#E9F7F5]/70 border border-[#249A96]/30">
-                <strong className="text-[#153B50] block mb-1">
+              <div className="p-4 rounded-xl bg-[#EAF2FF]/70 border border-[#2458F5]/30">
+                <strong className="text-[#10264D] block mb-1">
                   Primary Care Physician or Board-Certified Dermatologist
                 </strong>
                 Ideal for non-emergency symptoms, persistent skin patches, or any new, changing, or multi-colored mole that needs in-person dermoscopy.
               </div>
 
-              <div className="p-4 rounded-xl bg-[#F7FAFC] border border-[#DCE6ED]">
-                <strong className="text-[#153B50] block mb-1">
+              <div className="p-4 rounded-xl bg-[#F7FAFF] border border-[#E7EDF5]">
+                <strong className="text-[#10264D] block mb-1">
                   Licensed Pharmacist Consultation
                 </strong>
                 Ask a local pharmacist before starting any over-the-counter medication or topical cream to verify safety with your allergies, age, and current medications.
@@ -1798,7 +1798,7 @@ ${aiDisclosureText}
                   setShowSeekGuidanceModal(false);
                   setShowDoctorVisitSummary(true);
                 }}
-                className="px-4 py-2.5 rounded-xl bg-[#249A96] hover:bg-[#1d807c] text-white text-xs font-bold flex items-center gap-1.5 cursor-pointer"
+                className="px-4 py-2.5 rounded-xl bg-[#2458F5] hover:bg-[#1a3fcc] text-white text-xs font-bold flex items-center gap-1.5 cursor-pointer"
               >
                 <FileText className="w-4 h-4" />
                 <span>Open Printable Doctor Visit Summary</span>
@@ -1807,7 +1807,7 @@ ${aiDisclosureText}
               <button
                 type="button"
                 onClick={() => setShowSeekGuidanceModal(false)}
-                className="px-5 py-2.5 rounded-xl bg-[#153B50] text-white text-xs font-bold cursor-pointer"
+                className="px-5 py-2.5 rounded-xl bg-[#10264D] text-white text-xs font-bold cursor-pointer"
               >
                 Close
               </button>

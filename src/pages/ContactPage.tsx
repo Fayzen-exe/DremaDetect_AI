@@ -75,7 +75,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
             Contact DermaDetect AI
           </h1>
           <p className="text-sm sm:text-base text-white/90 leading-relaxed max-w-xl mx-auto">
-            Have questions about our clinical triage methodology, privacy architecture, or the UnivaBio initiative? Reach out to our clinical engineering team below.
+            Have questions about our clinical triage methodology, privacy architecture, or institutional collaboration? Reach out to our clinical engineering team below.
           </p>
         </div>
       </motion.div>
@@ -88,7 +88,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
           </div>
           <div className="font-bold text-[#10264D] text-sm font-display">Clinical & Research Team</div>
           <p className="text-[#64748B] text-xs font-mono">
-            research@dermadetect-univabio.org
+            research@dermadetect.org
           </p>
         </MedicalCard>
 
@@ -96,9 +96,9 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
           <div className="w-12 h-12 rounded-2xl bg-[#FF7843]/10 text-[#FF7843] flex items-center justify-center mx-auto shadow-2xs">
             <Building2 className="w-6 h-6" />
           </div>
-          <div className="font-bold text-[#10264D] text-sm font-display">Initiative & Evaluation</div>
+          <div className="font-bold text-[#10264D] text-sm font-display">Clinical Evaluation & Research</div>
           <p className="text-[#64748B] text-xs">
-            UnivaBio — AI for Human Health Division
+            Clinical Health &amp; Research Division
           </p>
         </MedicalCard>
 

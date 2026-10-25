@@ -33,7 +33,7 @@ export const AboutPage: React.FC = () => {
         <div className="relative space-y-4 max-w-3xl mx-auto flex flex-col items-center">
           <div className="inline-flex items-center justify-center gap-2 px-3.5 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-semibold tracking-wide uppercase">
             <Award className="w-3.5 h-3.5" />
-            <span>Clinical AI Initiative • Health Literacy &amp; Patient Empowerment</span>
+            <span>Clinical Healthcare Architecture • Health Literacy &amp; Patient Empowerment</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight font-display leading-[1.15]">
             About DermaDetect AI

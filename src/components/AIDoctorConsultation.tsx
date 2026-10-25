@@ -190,7 +190,7 @@ export const AIDoctorConsultation: React.FC<AIDoctorConsultationProps> = ({
               {geminiConfigured === true && (
                 <span className="inline-flex items-center gap-1.5 text-[11px] bg-emerald-500/20 text-emerald-200 border border-emerald-400/30 px-2.5 py-0.5 rounded-full font-semibold">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  Clinical AI Intelligence Online
+                  Clinical Intelligence Online
                 </span>
               )}
               {geminiConfigured === false && (

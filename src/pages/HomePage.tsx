@@ -382,7 +382,7 @@ export const HomePage: React.FC<HomeProps> = ({
             transition={{ duration: 0.6 }}
             className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.08] font-display"
           >
-            AI That Understands Your
+            Clinical Clarity for Your
             <br />
             <span className="text-white drop-shadow-sm">Health &amp; Skin Concerns</span>
           </motion.h1>
@@ -394,8 +394,8 @@ export const HomePage: React.FC<HomeProps> = ({
             transition={{ duration: 0.6, delay: 0.16 }}
             className="max-w-2xl mx-auto text-base sm:text-lg text-white/90 font-medium leading-relaxed"
           >
-            Transforming physiological symptoms and skin lesions into calm, structured insights
-            with dermatologist-grade AI. Private, fast, and doctor-ready in minutes.
+            Transforming everyday physiological symptoms and skin lesions into calm, structured insights
+            grounded in recognized clinical guidelines. Private, secure, and doctor-ready in minutes.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -410,7 +410,7 @@ export const HomePage: React.FC<HomeProps> = ({
               onClick={scrollToAssessment}
               className="btn-pill btn-pill-white text-sm sm:text-base px-8 py-3.5 font-extrabold shadow-xl cursor-pointer flex items-center gap-2 group"
             >
-              <span>Check Symptoms Free</span>
+              <span>Start Clinical Assessment</span>
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </button>
             <button
@@ -419,7 +419,7 @@ export const HomePage: React.FC<HomeProps> = ({
               className="btn-pill btn-pill-glass text-sm sm:text-base px-8 py-3.5 font-semibold cursor-pointer flex items-center gap-2"
             >
               <Stethoscope className="w-4 h-4" />
-              <span>Chat with Dr. Fizza</span>
+              <span>Consult Dr. Fizza, MD</span>
             </button>
           </motion.div>
         </div>
@@ -986,8 +986,8 @@ export const HomePage: React.FC<HomeProps> = ({
                     </>
                   ) : (
                     <>
-                      <Sparkles className="w-4 h-4" />
-                      <span>Analyze My Symptoms Free</span>
+                      <Activity className="w-4 h-4" />
+                      <span>Evaluate Reported Symptoms</span>
                     </>
                   )}
                 </button>

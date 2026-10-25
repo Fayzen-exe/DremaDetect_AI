@@ -3,13 +3,13 @@
 # 🩺 DermaDetect AI
 ### Caring Skin & Symptom Companion
 
-**AI-Powered Healthcare Awareness, Symptom Triage & Dermatological Screening Platform**  
-*Powered by Google Gemini (Gemini 2.5 / 3.8 Flash via Google GenAI SDK)*
+**Evidence-Based Clinical Healthcare Awareness, Symptom Triage & Dermatological Screening Platform**  
+*Comprehensive preliminary triage, autonomous clinical decision support, and doctor visit preparation*
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-dermadetect.ai.studio-008080?style=for-the-badge&logo=googlechrome&logoColor=white)](https://dermadetect.ai.studio)
-[![Google Gemini](https://img.shields.io/badge/AI%20Engine-Gemini%20Flash%20%7C%20GenAI-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://aistudio.google.com/)
-[![React](https://img.shields.io/badge/Frontend-React%2019%20%7C%20TypeScript-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
-[![Security](https://img.shields.io/badge/Security-Zero%20Key%20Leakage%20%7C%20Proxy%20Hardened-success?style=for-the-badge&logo=shield)](https://github.com/Fayzen-exe/DremaDetect_AI)
+[![Live Demo](https://img.shields.io/badge/Live%20Platform-dermadetect.ai.studio-008080?style=for-the-badge&logo=googlechrome&logoColor=white)](https://dermadetect.ai.studio)
+[![Architecture](https://img.shields.io/badge/Architecture-Clinical%20Decision%20Support-4285F4?style=for-the-badge&logo=shield&logoColor=white)](https://github.com/Fayzen-exe/DremaDetect_AI)
+[![Frontend](https://img.shields.io/badge/Frontend-React%2019%20%7C%20TypeScript-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![Security](https://img.shields.io/badge/Security-Zero%20Data%20Retention%20%7C%20Proxy%20Hardened-success?style=for-the-badge&logo=shield)](https://github.com/Fayzen-exe/DremaDetect_AI)
 
 ---
 

@@ -17,17 +17,53 @@ import { DemoCase, SymptomReport, SkinReport } from './types/health';
 import { AIDoctorConsultation } from './components/AIDoctorConsultation';
 import { ShieldAlert, Stethoscope, X, Maximize2 } from 'lucide-react';
 
+export const TAB_TO_PATH: Record<string, string> = {
+  home:     '/',
+  symptoms: '/symptoms',
+  skin:     '/skin',
+  doctor:   '/doctor',
+  results:  '/results',
+  demo:     '/demo',
+  about:    '/about',
+  safety:   '/safety',
+  privacy:  '/privacy',
+  contact:  '/contact',
+};
+
+export const PATH_TO_TAB: Record<string, string> = {
+  '/':         'home',
+  '/home':     'home',
+  '/symptoms': 'symptoms',
+  '/skin':     'skin',
+  '/doctor':   'doctor',
+  '/results':  'results',
+  '/demo':     'demo',
+  '/about':    'about',
+  '/safety':   'safety',
+  '/privacy':  'privacy',
+  '/contact':  'contact',
+};
+
+export function getTabFromPath(): string {
+  if (typeof window === 'undefined') return 'home';
+  const pathname = (window.location.pathname || '/').replace(/\/+$/, '') || '/';
+  if (PATH_TO_TAB[pathname]) return PATH_TO_TAB[pathname];
+  const hash = window.location.hash.replace(/^#\/?/, '');
+  if (hash && PATH_TO_TAB[`/${hash}`]) return PATH_TO_TAB[`/${hash}`];
+  return 'home';
+}
+
 const PAGE_TITLES: Record<string, string> = {
-  home:     'DermaDetect AI — Smarter Health Insights',
-  symptoms: 'AI Symptom Checker | DermaDetect AI',
-  skin:     'AI Skin Analysis | DermaDetect AI',
-  about:    'About DermaDetect AI',
-  safety:   'Health Information & Safety | DermaDetect AI',
-  privacy:  'Privacy Policy | DermaDetect AI',
-  contact:  'Contact Us | DermaDetect AI',
-  results:  'Analysis Results | DermaDetect AI',
-  doctor:   'Dr. Fizza (AI MD) Consultation | DermaDetect AI',
-  demo:     'Standardized Sample Cases | DermaDetect AI',
+  home:     'DermaDetect — Clinical Health Triage & Dermatological Screening',
+  symptoms: 'Clinical Symptom Triage | DermaDetect',
+  skin:     'Dermatological Lesion Analysis | DermaDetect',
+  about:    'About DermaDetect — Clinical Architecture',
+  safety:   'Clinical Safety & Red-Flag Guidance | DermaDetect',
+  privacy:  'Privacy & Ephemeral Data Architecture | DermaDetect',
+  contact:  'Clinical Feedback & Research Inquiries | DermaDetect',
+  results:  'Differential Analysis Results | DermaDetect',
+  doctor:   'Dr. Fizza, MD — Clinical Health Educator | DermaDetect',
+  demo:     'Standardized Clinical Cases | DermaDetect',
 };
 
 const secondaryNavItems = [
@@ -35,12 +71,12 @@ const secondaryNavItems = [
   { id: 'safety',  label: 'Health & Safety' },
   { id: 'privacy', label: 'Privacy' },
   { id: 'contact', label: 'Contact' },
-  { id: 'doctor',  label: 'Dr. Fizza (AI MD)' },
+  { id: 'doctor',  label: 'Dr. Fizza, MD' },
   { id: 'demo',    label: 'Sample Cases' },
 ];
 
 export default function App() {
-  const [currentTab, setCurrentTab] = useState<string>('home');
+  const [currentTab, setCurrentTab] = useState<string>(getTabFromPath);
   const [isEmergencyModalOpen, setIsEmergencyModalOpen] = useState<boolean>(false);
   const [isChatDrawerOpen, setIsChatDrawerOpen] = useState<boolean>(false);
 
@@ -53,7 +89,15 @@ export default function App() {
   const [prefilledSkinDuration, setPrefilledSkinDuration] = useState<string>('');
 
   useEffect(() => {
-    document.title = PAGE_TITLES[currentTab] || 'DermaDetect AI — Smarter Health Insights';
+    const handlePopState = () => {
+      setCurrentTab(getTabFromPath());
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  useEffect(() => {
+    document.title = PAGE_TITLES[currentTab] || 'DermaDetect — Clinical Health Triage & Dermatological Screening';
     const iconLinks = document.querySelectorAll<HTMLLinkElement>("link[rel*='icon']");
     iconLinks.forEach((link) => {
       if (link.getAttribute('href') !== BRAND_LOGO_URL) {
@@ -65,11 +109,18 @@ export default function App() {
   const handleNavigate = (tab: string) => {
     if (tab === 'home-check') {
       setCurrentTab('home');
+      if (window.location.pathname !== '/') {
+        window.history.pushState({}, '', '/');
+      }
       setTimeout(() => {
         const el = document.getElementById('free-check');
         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 60);
       return;
+    }
+    const targetPath = TAB_TO_PATH[tab] || '/';
+    if (window.location.pathname !== targetPath) {
+      window.history.pushState({}, '', targetPath);
     }
     setCurrentTab(tab);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -80,9 +131,9 @@ export default function App() {
       setPrefilledSkinImage(demoCase.image);
       setPrefilledSkinNotes(demoCase.formData.notes || '');
       setPrefilledSkinDuration(demoCase.formData.duration || '');
-      setCurrentTab('skin');
+      handleNavigate('skin');
     } else {
-      setCurrentTab('symptoms');
+      handleNavigate('symptoms');
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Menu, X, ChevronDown, Activity, Scan, Stethoscope, Home, Info, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
-export const BRAND_LOGO_URL = '/assets/aistudio/logore_aadb4948.png';
+export const BRAND_LOGO_URL = '/assets/brand/logo.png';
 
 export type PageRoute = string;
 
@@ -10,6 +10,19 @@ interface HeaderProps {
   currentTab: string;
   onNavigate: (tab: string) => void;
 }
+
+const ROUTE_PATHS: Record<string, string> = {
+  home:     '/',
+  symptoms: '/symptoms',
+  skin:     '/skin',
+  doctor:   '/doctor',
+  about:    '/about',
+  results:  '/results',
+  demo:     '/demo',
+  safety:   '/safety',
+  privacy:  '/privacy',
+  contact:  '/contact',
+};
 
 const navItems = [
   { id: 'home',     label: 'Home',            icon: <Home className="w-4 h-4" /> },
@@ -59,16 +72,19 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onNavigate }) => {
           }`}
         >
           {/* ── Logo ── */}
-          <button
-            type="button"
-            onClick={() => handleNavClick('home')}
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavClick('home');
+            }}
             className="flex items-center gap-2.5 text-left cursor-pointer shrink-0 focus-visible:outline-none group"
-            aria-label="DermaDetect AI — Home"
+            aria-label="DermaDetect — Home"
           >
             <div className="relative">
               <img
                 src={BRAND_LOGO_URL}
-                alt="DermaDetect AI Logo"
+                alt="DermaDetect Logo"
                 referrerPolicy="no-referrer"
                 className={`w-9 h-9 rounded-full object-contain p-0.5 shrink-0 transition-transform duration-300 group-hover:scale-105 ${
                   isHeroMode
@@ -86,7 +102,7 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onNavigate }) => {
                 DermaDetect
               </span>
             </div>
-          </button>
+          </a>
 
           {/* ── Desktop Nav Links ── */}
           <nav
@@ -97,10 +113,13 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onNavigate }) => {
             {navItems.map((item) => {
               const isActive = currentTab === item.id;
               return (
-                <button
+                <a
                   key={item.id}
-                  type="button"
-                  onClick={() => handleNavClick(item.id)}
+                  href={ROUTE_PATHS[item.id] || '/'}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick(item.id);
+                  }}
                   className={`
                     relative flex items-center gap-1.5 px-3.5 py-1.5 rounded-full
                     text-xs font-bold uppercase tracking-wider transition-all duration-200 cursor-pointer
@@ -118,16 +137,19 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onNavigate }) => {
                   aria-current={isActive ? 'page' : undefined}
                 >
                   {item.label}
-                </button>
+                </a>
               );
             })}
           </nav>
 
           {/* ── Desktop Right CTAs ── */}
           <div className="hidden lg:flex items-center gap-2.5 shrink-0">
-            <button
-              type="button"
-              onClick={() => handleNavClick('results')}
+            <a
+              href="/results"
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick('results');
+              }}
               className={`text-xs font-semibold px-3 py-1.5 rounded-full transition-colors cursor-pointer ${
                 isHeroMode
                   ? 'text-white/85 hover:text-white hover:bg-white/15'
@@ -135,35 +157,41 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onNavigate }) => {
               }`}
             >
               My Results
-            </button>
-            <button
-              type="button"
-              onClick={() => handleNavClick('symptoms')}
+            </a>
+            <a
+              href="/symptoms"
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick('symptoms');
+              }}
               className={`btn-pill text-xs px-5 py-2 font-bold transition-all shadow-md cursor-pointer flex items-center gap-1.5 ${
                 isHeroMode
                   ? 'btn-pill-white text-[#d81e5b]'
                   : 'btn-pill-coral text-white'
               }`}
             >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Start Free</span>
-            </button>
+              <Activity className="w-3.5 h-3.5" />
+              <span>Begin Triage</span>
+            </a>
           </div>
 
           {/* ── Mobile / Tablet CTA + Hamburger ── */}
           <div className="flex lg:hidden items-center gap-2 shrink-0">
-            <button
-              type="button"
-              onClick={() => handleNavClick('symptoms')}
+            <a
+              href="/symptoms"
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick('symptoms');
+              }}
               className={`btn-pill text-xs px-3.5 py-1.5 font-bold transition-all shadow-sm cursor-pointer flex items-center gap-1 ${
                 isHeroMode
                   ? 'btn-pill-white text-[#d81e5b]'
                   : 'btn-pill-coral text-white'
               }`}
             >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Start</span>
-            </button>
+              <Activity className="w-3.5 h-3.5" />
+              <span>Triage</span>
+            </a>
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}

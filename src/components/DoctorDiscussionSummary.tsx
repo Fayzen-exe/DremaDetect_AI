@@ -108,12 +108,27 @@ export const DoctorDiscussionSummary: React.FC<DoctorSummaryProps> = ({
     }
   };
 
+  function escapeHtml(str: string): string {
+    return String(str || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
   const handlePrint = () => {
+    const safePatientName = escapeHtml(patientName);
+    const safePatientAge = escapeHtml(patientAge);
+    const safePatientGender = escapeHtml(patientGender);
+    const safeCurrentDate = escapeHtml(currentDate);
+    const safeSummaryText = escapeHtml(buildSummaryText());
+
     const htmlContent = `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8" />
-  <title>Doctor Visit Summary — ${patientName}</title>
+  <title>Doctor Visit Summary — ${safePatientName}</title>
   <style>
     body { font-family: 'Inter', -apple-system, sans-serif; color: #17253B; padding: 28px; line-height: 1.55; }
     h1 { color: #10264D; font-size: 20px; margin: 0 0 4px; }
@@ -126,12 +141,12 @@ export const DoctorDiscussionSummary: React.FC<DoctorSummaryProps> = ({
 <body>
   <h1>DermaDetect AI — Doctor Discussion Summary Sheet</h1>
   <div class="meta">
-    <strong>Patient Name:</strong> ${patientName} &nbsp;|&nbsp;
-    <strong>Age:</strong> ${patientAge} &nbsp;|&nbsp;
-    <strong>Gender:</strong> ${patientGender} &nbsp;|&nbsp;
-    <strong>Date:</strong> ${currentDate}
+    <strong>Patient Name:</strong> ${safePatientName} &nbsp;|&nbsp;
+    <strong>Age:</strong> ${safePatientAge} &nbsp;|&nbsp;
+    <strong>Gender:</strong> ${safePatientGender} &nbsp;|&nbsp;
+    <strong>Date:</strong> ${safeCurrentDate}
   </div>
-  <pre>${buildSummaryText()}</pre>
+  <pre>${safeSummaryText}</pre>
 </body>
 </html>`;
     triggerIframeSafePrint(htmlContent);
@@ -174,7 +189,7 @@ export const DoctorDiscussionSummary: React.FC<DoctorSummaryProps> = ({
               </h3>
               <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#FA4B4B]/10 text-[#FA4B4B] border border-[#FA4B4B]/20 text-[11px] font-semibold">
                 <Sparkles className="w-3 h-3 text-[#FA4B4B]" />
-                <span>AI-Generated</span>
+                <span>Clinical Summary</span>
               </span>
             </div>
             <p className="text-xs text-[#64748B]">

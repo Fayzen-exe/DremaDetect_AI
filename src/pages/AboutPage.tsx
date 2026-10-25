@@ -118,7 +118,7 @@ export const AboutPage: React.FC = () => {
               <p className="text-xs font-bold text-orange-600 uppercase tracking-wider">Full-Stack AI &amp; Infrastructure Security</p>
             </div>
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              Engineered the Google Gemini multimodal pipeline, server proxy hardening, adversarial boundary isolation, deterministic offline fallback engine, and high-resolution PDF generation.
+              Engineered the clinical multimodal vision pipeline, server proxy hardening, adversarial boundary isolation, deterministic offline fallback engine, and high-resolution PDF generation.
             </p>
           </div>
         </div>

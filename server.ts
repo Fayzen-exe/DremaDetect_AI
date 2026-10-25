@@ -904,68 +904,70 @@ app.route('/api/analyze-skin')
 
       let resolvedImage = String(imageBase64 || '').trim();
 
-      // Check if imageBase64 is a file URL or path (e.g. from reference cases or demo case loading)
+      // Check if imageBase64 is a local file asset path (from precomputed demo cases)
       if (
         !resolvedImage.startsWith('data:') &&
         (resolvedImage.startsWith('/') ||
           resolvedImage.startsWith('./') ||
-          resolvedImage.startsWith('http://') ||
-          resolvedImage.startsWith('https://') ||
           resolvedImage.includes('assets/') ||
           resolvedImage.includes('.jpg') ||
           resolvedImage.includes('.jpeg') ||
           resolvedImage.includes('.png') ||
           resolvedImage.includes('.webp'))
       ) {
+        // Strict anti-SSRF guard: remote URL schemes are disallowed
+        if (resolvedImage.startsWith('http://') || resolvedImage.startsWith('https://')) {
+          return res.status(400).json({
+            success: false,
+            message: 'Remote image URLs are not supported for security reasons. Please upload image directly as base64.',
+          });
+        }
+
         try {
           const fs = await import('fs');
           const path = await import('path');
           const cleanPath = resolvedImage.replace(/^[/\\]+/, '').split('?')[0];
           const fileName = path.basename(cleanPath);
-          const candidateDirs = [
-            path.resolve(process.cwd(), 'src/assets/images'),
-            path.resolve(process.cwd(), 'dist/assets'),
-            path.resolve(process.cwd(), 'public'),
-            process.cwd(),
-          ];
 
-          let resolved = false;
-          for (const cDir of candidateDirs) {
-            if (fs.existsSync(cDir)) {
-              // Direct check
-              const directFile = path.resolve(cDir, fileName);
-              if (fs.existsSync(directFile) && fs.statSync(directFile).isFile()) {
-                const buf = fs.readFileSync(directFile);
-                resolvedImage = `data:image/jpeg;base64,${buf.toString('base64')}`;
-                resolved = true;
-                break;
-              }
-              // Prefix / match check (for Vite hashed names)
-              const files = fs.readdirSync(cDir);
-              const basePrefix = fileName.replace(/\.[^.]+$/, '').split('-')[0];
-              const match = files.find(
-                (f) =>
-                  f.toLowerCase().includes(basePrefix.toLowerCase()) ||
-                  basePrefix.toLowerCase().includes(f.toLowerCase().replace(/\.[^.]+$/, '').split('-')[0])
-              );
-              if (match) {
-                const fullMatch = path.resolve(cDir, match);
-                if (fs.statSync(fullMatch).isFile()) {
-                  const buf = fs.readFileSync(fullMatch);
+          const allowedExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif'];
+          const ext = path.extname(fileName).toLowerCase();
+
+          if (allowedExtensions.includes(ext)) {
+            const candidateDirs = [
+              path.resolve(process.cwd(), 'src/assets/images'),
+              path.resolve(process.cwd(), 'dist/assets'),
+              path.resolve(process.cwd(), 'public/assets'),
+            ];
+
+            let resolved = false;
+            for (const cDir of candidateDirs) {
+              if (fs.existsSync(cDir)) {
+                // Direct check with directory containment check (anti-path traversal)
+                const directFile = path.resolve(cDir, fileName);
+                if (directFile.startsWith(cDir) && fs.existsSync(directFile) && fs.statSync(directFile).isFile()) {
+                  const buf = fs.readFileSync(directFile);
                   resolvedImage = `data:image/jpeg;base64,${buf.toString('base64')}`;
                   resolved = true;
                   break;
                 }
+                // Prefix / match check (for Vite hashed names)
+                const files = fs.readdirSync(cDir);
+                const basePrefix = fileName.replace(/\.[^.]+$/, '').split('-')[0];
+                const match = files.find(
+                  (f) =>
+                    f.toLowerCase().includes(basePrefix.toLowerCase()) ||
+                    basePrefix.toLowerCase().includes(f.toLowerCase().replace(/\.[^.]+$/, '').split('-')[0])
+                );
+                if (match) {
+                  const fullMatch = path.resolve(cDir, match);
+                  if (fullMatch.startsWith(cDir) && fs.statSync(fullMatch).isFile()) {
+                    const buf = fs.readFileSync(fullMatch);
+                    resolvedImage = `data:image/jpeg;base64,${buf.toString('base64')}`;
+                    resolved = true;
+                    break;
+                  }
+                }
               }
-            }
-          }
-
-          if (!resolved && (resolvedImage.startsWith('http://') || resolvedImage.startsWith('https://'))) {
-            const fetchRes = await fetch(resolvedImage);
-            if (fetchRes.ok) {
-              const arrayBuf = await fetchRes.arrayBuffer();
-              const buf = Buffer.from(arrayBuf);
-              resolvedImage = `data:image/jpeg;base64,${buf.toString('base64')}`;
             }
           }
         } catch (err) {

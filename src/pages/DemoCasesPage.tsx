@@ -22,18 +22,18 @@ export const DemoCasesPage: React.FC<DemoCasesPageProps> = ({ onLoadIntoScanner 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-10">
       {/* Header Banner */}
-      <div className="relative bg-[#10264D] text-white rounded-3xl p-8 sm:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.06)] overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-[#2458F5]/25 via-transparent to-transparent rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
+      <div className="relative sunset-subpage-banner text-white p-8 sm:p-12 shadow-xl overflow-hidden">
+        <div className="absolute inset-0 bg-dot-grid-white opacity-20 pointer-events-none" />
 
         <div className="relative max-w-3xl space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-[#EAF2FF] text-xs font-semibold backdrop-blur-sm border border-white/15">
-            <Sparkles className="w-3.5 h-3.5 text-[#2458F5]" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/20 text-white text-xs font-semibold backdrop-blur-md border border-white/30">
+            <Sparkles className="w-3.5 h-3.5" />
             <span>Interactive Clinical Case Reference Library</span>
           </div>
-          <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white font-display">
-            Explore Verified Clinical Cases & 12-Section Reports
+          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white font-display leading-[1.15]">
+            Explore Verified Clinical Cases &amp; 12-Section Reports
           </h1>
-          <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
+          <p className="text-white/90 text-sm sm:text-base leading-relaxed font-medium">
             Select any sample dermatology or systemic symptom case below to review its complete 12-section educational health report, or load the case directly into the live AI analyzer.
           </p>
         </div>
@@ -56,8 +56,8 @@ export const DemoCasesPage: React.FC<DemoCasesPageProps> = ({ onLoadIntoScanner 
                 onClick={() => setSelectedCaseId(demo.id)}
                 className={`p-5 rounded-2xl border transition-all cursor-pointer space-y-3.5 ${
                   isSelected
-                    ? 'bg-white border-[#2458F5] ring-2 ring-[#2458F5]/20 shadow-[0_4px_20px_rgba(36,88,245,0.08)]'
-                    : 'bg-white border-[#E7EDF5] hover:border-[#2458F5]/50 hover:shadow-xs'
+                    ? 'bg-white border-[#d81e5b] ring-2 ring-rose-500/20 shadow-md'
+                    : 'bg-white border-slate-200/80 hover:border-slate-300 hover:shadow-xs'
                 }`}
               >
                 <div className="flex items-start justify-between gap-2">

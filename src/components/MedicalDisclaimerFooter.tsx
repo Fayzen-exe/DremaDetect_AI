@@ -179,15 +179,22 @@ export const MedicalDisclaimerFooter: React.FC<FooterProps> = ({ onNavigate }) =
           </div>
         </div>
 
+        {/* ── Giant Brand Watermark (Reference Style) ── */}
+        <div className="relative overflow-hidden w-full select-none pointer-events-none pt-4 pb-2 text-center">
+          <span className="footer-watermark block tracking-tighter uppercase font-display font-black text-white/[0.04]">
+            DermaDetect
+          </span>
+        </div>
+
         {/* ── Bottom Bar ── */}
-        <div className="mt-12 pt-6 border-t border-white/8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#64748B]">
+        <div className="pt-6 border-t border-white/8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#64748B]">
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-center sm:text-left">
             <p>© {new Date().getFullYear()} DermaDetect AI. All rights reserved.</p>
             <span className="hidden sm:inline text-white/15">|</span>
             <p className="flex items-center gap-1.5">
-              Made with <Heart className="w-3 h-3 text-red-400 fill-red-400" /> by{' '}
-              <strong className="text-white/70">Fizza Amin</strong> &amp;{' '}
-              <strong className="text-white/70">Muhammad Faizan Ud Din</strong>
+              Made with <Heart className="w-3 h-3 text-rose-400 fill-rose-400" /> by{' '}
+              <strong className="text-white/80">Fizza Amin</strong> &amp;{' '}
+              <strong className="text-white/80">Muhammad Faizan Ud Din</strong>
             </p>
           </div>
 

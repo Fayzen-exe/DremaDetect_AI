@@ -33,30 +33,32 @@ export const HealthSafetyPage: React.FC<HealthSafetyPageProps> = ({
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45 }}
-        className="bg-white border border-[#E7EDF5] rounded-3xl p-8 sm:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.03)] space-y-5 flex flex-col items-center text-center medical-grid-pattern relative overflow-hidden"
+        className="relative sunset-subpage-banner p-8 sm:p-12 text-white overflow-hidden shadow-xl space-y-5 flex flex-col items-center text-center"
       >
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EAF2FF] border border-[#2458F5]/20 text-[#2458F5] text-xs font-semibold tracking-wide uppercase">
+        <div className="absolute inset-0 bg-dot-grid-white opacity-20 pointer-events-none" />
+
+        <div className="relative inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-semibold tracking-wide uppercase">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>Clinical Governance · Patient Safety Standards</span>
+          <span>Clinical Governance • Patient Safety Standards</span>
         </div>
         <h1
-          className="text-3xl sm:text-5xl font-extrabold text-[#10264D] tracking-tight font-display text-center max-w-3xl mx-auto leading-[1.15]"
+          className="relative text-3xl sm:text-5xl font-extrabold text-white tracking-tight font-display text-center max-w-3xl mx-auto leading-[1.15]"
           style={{ textWrap: 'balance' }}
         >
-          Health Information and Safety Guidelines
+          Health Information &amp; Safety Guidelines
         </h1>
-        <p className="text-base text-[#64748B] leading-relaxed max-w-2xl mx-auto text-center">
+        <p className="relative text-base text-white/90 leading-relaxed max-w-2xl mx-auto text-center font-medium">
           DermaDetect AI is engineered with strict clinical boundaries, calibrated differential probabilities, and red-flag triage protocols to ensure safe, responsible health education.
         </p>
-        <div className="pt-2">
-          <MedicalButton
-            variant="urgent"
-            size="md"
-            icon={<ShieldAlert className="w-4 h-4" />}
+        <div className="relative pt-2">
+          <button
+            type="button"
             onClick={onOpenEmergencyModal}
+            className="btn-pill bg-white text-rose-600 hover:bg-neutral-50 px-6 py-3 text-xs sm:text-sm font-bold shadow-md cursor-pointer flex items-center gap-2 transition-transform hover:scale-105"
           >
-            View Emergency Red-Flag Checklist
-          </MedicalButton>
+            <ShieldAlert className="w-4 h-4 text-rose-600" />
+            <span>View Emergency Red-Flag Checklist</span>
+          </button>
         </div>
       </motion.div>
 

@@ -580,3 +580,112 @@
   border-radius: var(--radius-md);
 }
 
+/* ============================================================
+   RADIANT SUNSET MESH & UNIQUE SAAS STYLING (REFERENCE DESIGN)
+   ============================================================ */
+
+.sunset-hero-bg {
+  background: radial-gradient(circle at 50% -12%, #d81e5b 0%, #ec2c5a 18%, #fa4b4b 38%, #ff7843 60%, #ffa85a 78%, #fff4ed 92%, #ffffff 100%);
+  position: relative;
+}
+
+.sunset-card-gradient {
+  background: linear-gradient(135deg, #d81e5b 0%, #fa4b4b 35%, #ff7843 70%, #ffa85a 100%);
+}
+
+.sunset-subpage-banner {
+  background: linear-gradient(135deg, #d81e5b 0%, #ec2c5a 25%, #fa4b4b 55%, #ff7843 85%, #ffa85a 100%);
+  position: relative;
+  overflow: hidden;
+  border-radius: 2rem;
+  box-shadow: 0 16px 48px -12px rgba(216, 30, 91, 0.28);
+}
+
+.sunset-glow {
+  box-shadow: 0 20px 60px -15px rgba(230, 42, 90, 0.35);
+}
+
+.sunset-glow-sm {
+  box-shadow: 0 8px 24px -6px rgba(230, 42, 90, 0.28);
+}
+
+.pill-nav-glass {
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(24px) saturate(1.8);
+  -webkit-backdrop-filter: blur(24px) saturate(1.8);
+  border: 1px solid rgba(255, 255, 255, 0.32);
+}
+
+.pill-nav-light {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(24px) saturate(1.8);
+  -webkit-backdrop-filter: blur(24px) saturate(1.8);
+  border: 1px solid rgba(226, 232, 240, 0.85);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
+}
+
+.bg-dot-grid {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.07) 1.25px, transparent 1.25px);
+  background-size: 20px 20px;
+}
+
+.bg-dot-grid-white {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.25) 1.25px, transparent 1.25px);
+  background-size: 20px 20px;
+}
+
+.btn-pill {
+  border-radius: 9999px;
+  font-weight: 600;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.btn-pill-white {
+  background: #ffffff;
+  color: #d81e5b;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+.btn-pill-white:hover {
+  background: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+}
+
+.btn-pill-glass {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.btn-pill-glass:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.7);
+  transform: translateY(-2px);
+}
+
+.btn-pill-coral {
+  background: linear-gradient(135deg, #d81e5b 0%, #fa4b4b 60%, #ff7843 100%);
+  color: #ffffff;
+  box-shadow: 0 6px 20px rgba(230, 42, 90, 0.3);
+}
+.btn-pill-coral:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(230, 42, 90, 0.42);
+}
+
+.footer-watermark {
+  font-size: clamp(5rem, 15vw, 13rem);
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  font-weight: 900;
+  color: rgba(216, 30, 91, 0.035);
+  user-select: none;
+  pointer-events: none;
+}
+
+

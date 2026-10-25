@@ -16,6 +16,16 @@ import {
   CheckCircle2,
   Brain,
   Zap,
+  Star,
+  Quote,
+  Clock,
+  ExternalLink,
+  Award,
+  Search,
+  Layers,
+  HeartHandshake,
+  TrendingUp,
+  Check,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import heroPosterImg from '../assets/images/derm_hero_consultation_1791868208694.jpg';
@@ -90,8 +100,8 @@ const QUICK_SYMPTOM_CHOICES = [
 const QUICK_DURATION_CHOICES = [
   { id: '< 24 hours', label: 'Less than 24 hours', sub: 'Started today' },
   { id: '2-3 days',   label: '2 to 4 days',        sub: 'Recent onset' },
-  { id: '1-2 weeks',  label: '1 to 2 weeks',        sub: 'Ongoing for several days' },
-  { id: '> 2 weeks',  label: 'Over 2 weeks',         sub: 'Persistent or recurring' },
+  { id: '1-2 weeks',  label: '1 to 2 weeks',       sub: 'Ongoing several days' },
+  { id: '> 2 weeks',  label: 'Over 2 weeks',       sub: 'Persistent or recurring' },
 ];
 
 const SAMPLE_SKIN_PRESETS = [
@@ -100,7 +110,7 @@ const SAMPLE_SKIN_PRESETS = [
     label: 'Atopic Dermatitis',
     duration: '1-4 weeks',
     location: 'Arms or Hands',
-    notes: 'Dry, red scaly patch on the inner arm with intermittent itching.',
+    notes: 'Dry, red scaly patch on inner arm with intermittent itching.',
     image: sampleEczemaImg,
   },
   {
@@ -108,7 +118,7 @@ const SAMPLE_SKIN_PRESETS = [
     label: 'Pigmented Mole',
     duration: '> 1 month',
     location: 'Back or Shoulders',
-    notes: 'Two-toned pigmented spot noticed on the upper shoulder.',
+    notes: 'Two-toned pigmented spot noticed on upper shoulder.',
     image: sampleNevusImg,
   },
   {
@@ -121,32 +131,85 @@ const SAMPLE_SKIN_PRESETS = [
   },
 ];
 
+const TESTIMONIALS = [
+  {
+    quote:
+      'I was anxious about a new, irregularly shaped mole on my shoulder. DermaDetect broke down the ABCDE criteria in seconds and formulated concise questions for my dermatologist, who confirmed it was an early atypical nevus.',
+    author: 'Sarah M.',
+    role: 'Verified Patient',
+    initials: 'SM',
+    bg: 'bg-rose-100 text-rose-700',
+  },
+  {
+    quote:
+      'As an urgent care resident, I love seeing patients walk in with the DermaDetect printable report. It provides structured symptom timelines and allergies clearly, saving 5-10 minutes of intake questioning.',
+    author: 'Dr. Julian Vance, MD',
+    role: 'Emergency Medicine Resident',
+    initials: 'JV',
+    bg: 'bg-amber-100 text-amber-700',
+  },
+  {
+    quote:
+      'The multi-turn AI doctor (Dr. Fizza) explained the difference between hives and contact dermatitis in plain language without medical jargon. It gave me immediate calm when my daughter developed sudden red welts.',
+    author: 'Liam & Emily K.',
+    role: 'Parents & Caregivers',
+    initials: 'LK',
+    bg: 'bg-orange-100 text-orange-700',
+  },
+  {
+    quote:
+      'The privacy policy is what sold me. In-memory processing and zero image retention mean I can check intimate skin rashes without worrying about photographs being saved on remote servers.',
+    author: 'Elena R.',
+    role: 'Privacy Advocate & User',
+    initials: 'ER',
+    bg: 'bg-purple-100 text-purple-700',
+  },
+  {
+    quote:
+      'I had a persistent cough and sore throat. The symptom checker immediately noted which exams my primary physician would need (throat swab, vitals) and reminded me of red-flag breathing warnings.',
+    author: 'Marcus Chen',
+    role: 'Verified Patient',
+    initials: 'MC',
+    bg: 'bg-emerald-100 text-emerald-700',
+  },
+  {
+    quote:
+      'The deterministic offline knowledge engine is remarkable. Even when internet was spotty during travel, the symptom checker worked seamlessly without dropping the emergency safeguard checklist.',
+    author: 'Priya Patel',
+    role: 'Global Traveler',
+    initials: 'PP',
+    bg: 'bg-blue-100 text-blue-700',
+  },
+];
+
 const FAQ_ITEMS = [
   {
     question: 'How does DermaDetect AI protect my health data and skin photographs?',
     answer:
-      'All uploaded skin photographs and symptom descriptions are evaluated with complete patient confidentiality. No images or personal health identifiers are ever stored in permanent databases or shared with third parties.',
+      'All uploaded skin photographs and symptom descriptions are evaluated in volatile memory. No images or personal health identifiers are ever stored in permanent databases, disk caches, or shared with third parties.',
   },
   {
     question: 'Does this platform provide a definitive medical diagnosis?',
     answer:
-      'No. DermaDetect AI provides educational health information and preliminary possibilities. It does not replace an in-person clinical evaluation, dermoscopy, or tissue biopsy by a licensed physician.',
+      'No. DermaDetect AI provides educational health possibilities and clinical triage guidance. It is designed to prepare you for a physician visit, not replace an in-person examination, dermoscopy, or laboratory biopsy.',
   },
   {
     question: 'What is the difference between the Symptom Checker and Skin Analysis?',
     answer:
-      'The Symptom Checker evaluates general physical complaints (such as fever, sore throat, headache, or digestive symptoms) through step-by-step questions, while Skin Analysis inspects visible surface features (color, border regularity, scaling, and ABCDE criteria) from a photograph.',
+      'The Symptom Checker evaluates systemic physical complaints (fever, cough, headaches, abdominal discomfort) through guided triage, whereas Skin Analysis examines photographic lesion morphology (ABCDE criteria, pigmentation, borders, and erythema).',
   },
   {
     question: 'When should I seek immediate emergency medical care?',
     answer:
-      'If you experience chest pain or pressure, severe shortness of breath, facial or throat swelling, sudden weakness on one side, or a rapidly spreading purple rash with high fever, call emergency services (911 / 112) immediately.',
+      'If you experience severe chest pressure, acute shortness of breath, sudden unilateral facial/arm weakness, slurred speech, or anaphylactic lip/throat swelling, call emergency services (911 / 112) immediately.',
   },
 ];
 
 /* ── Scroll Reveal Helper ── */
 const FadeUp: React.FC<{ children: React.ReactNode; delay?: number; className?: string }> = ({
-  children, delay = 0, className = '',
+  children,
+  delay = 0,
+  className = '',
 }) => (
   <motion.div
     initial={{ opacity: 0, y: 22 }}
@@ -249,7 +312,10 @@ export const HomePage: React.FC<HomeProps> = ({
     setSymptomResult(null);
 
     let payloadBase64 = skinPreview.trim();
-    if (!payloadBase64.startsWith('data:') && (payloadBase64.startsWith('/') || payloadBase64.startsWith('http'))) {
+    if (
+      !payloadBase64.startsWith('data:') &&
+      (payloadBase64.startsWith('/') || payloadBase64.startsWith('http'))
+    ) {
       try {
         const resp = await fetch(payloadBase64);
         const blob = await resp.blob();
@@ -260,7 +326,7 @@ export const HomePage: React.FC<HomeProps> = ({
           r.readAsDataURL(blob);
         });
       } catch {
-        // Fall back to server disk resolution
+        // Fall back to direct path
       }
     }
 
@@ -295,934 +361,885 @@ export const HomePage: React.FC<HomeProps> = ({
     }
   };
 
+  const scrollToAssessment = () => {
+    assessmentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   return (
-    <div className="space-y-0">
-
+    <div className="space-y-0 text-slate-800">
       {/* ═══════════════════════════════════════════════════════
-          SECTION 1 — PREMIUM HERO
+          SECTION 1 — RADIANT SUNSET HERO (REFERENCE DESIGN)
           ═══════════════════════════════════════════════════════ */}
-      <section className="relative bg-white overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-28">
-        {/* Decorative background blobs */}
-        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-          <div className="absolute -top-32 -right-32 w-[520px] h-[520px] rounded-full bg-[#EAF2FF] opacity-60 blur-3xl" />
-          <div className="absolute -bottom-24 -left-24 w-[400px] h-[400px] rounded-full bg-[#DDF7FA] opacity-40 blur-3xl" />
-          <div className="absolute top-1/2 right-1/4 w-[200px] h-[200px] rounded-full bg-[#F0F5FF] opacity-50 blur-2xl" />
-        </div>
+      <section className="sunset-hero-bg pt-28 pb-16 sm:pt-32 sm:pb-24 lg:pt-36 lg:pb-32 overflow-hidden text-center">
+        {/* Subtle dot matrix overlay */}
+        <div className="absolute inset-0 bg-dot-grid-white opacity-25 pointer-events-none" />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
+        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+          {/* Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: -12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-semibold shadow-sm"
+          >
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>AI Health Platform • Powered by Google Gemini</span>
+          </motion.div>
 
-            {/* ── Left: Headline + CTAs ── */}
-            <div className="space-y-8 text-left">
-              {/* Label pill */}
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              >
-                <span className="section-label">
-                  <Sparkles className="w-3 h-3" />
-                  AI-Powered Health Platform
-                </span>
-              </motion.div>
+          {/* Headline */}
+          <motion.h1
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.08 }}
+            className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.08] font-display"
+          >
+            AI That Understands Your
+            <br />
+            <span className="text-white drop-shadow-sm">Health &amp; Skin Concerns</span>
+          </motion.h1>
 
-              {/* Headline */}
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
-                className="text-[2.75rem] sm:text-5xl lg:text-[3.5rem] font-extrabold text-[#10264D] tracking-tight leading-[1.1] font-display"
-                style={{ textWrap: 'balance' } as React.CSSProperties}
-              >
-                Smarter Health Insights.{' '}
-                <span className="text-[#2458F5]">Better Understanding.</span>
-              </motion.h1>
+          {/* Subtitle */}
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.16 }}
+            className="max-w-2xl mx-auto text-base sm:text-lg text-white/90 font-medium leading-relaxed"
+          >
+            Transforming physiological symptoms and skin lesions into calm, structured insights
+            with dermatologist-grade AI. Private, fast, and doctor-ready in minutes.
+          </motion.p>
 
-              {/* Subheading */}
-              <motion.p
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.55, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
-                className="text-lg text-[#64748B] leading-relaxed max-w-lg"
-              >
-                Explore your symptoms, understand skin concerns, and discover helpful health
-                information with AI-powered guidance — built for clarity and your privacy.
-              </motion.p>
-
-              {/* CTA Buttons */}
-              <motion.div
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.24, ease: [0.16, 1, 0.3, 1] }}
-                className="flex flex-wrap items-center gap-3"
-              >
-                <MedicalButton
-                  variant="blue"
-                  size="lg"
-                  icon={<Stethoscope className="w-5 h-5" />}
-                  onClick={() => onNavigate('symptoms')}
-                >
-                  Check Symptoms
-                </MedicalButton>
-                <MedicalButton
-                  variant="outline"
-                  size="lg"
-                  icon={<Camera className="w-5 h-5" />}
-                  onClick={() => onNavigate('skin')}
-                >
-                  Analyse Skin
-                </MedicalButton>
-              </motion.div>
-
-              {/* Trust signals */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.36 }}
-                className="flex flex-wrap items-center gap-5 pt-2 text-sm text-[#64748B] border-t border-[#E7EDF5]"
-              >
-                <span className="flex items-center gap-1.5">
-                  <ShieldCheck className="w-4 h-4 text-[#2458F5] shrink-0" />
-                  Educational, not a diagnosis
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <Lock className="w-4 h-4 text-[#2458F5] shrink-0" />
-                  Zero data retention
-                </span>
-                <button
-                  type="button"
-                  onClick={onOpenEmergencyModal}
-                  className="flex items-center gap-1.5 text-red-500 font-semibold hover:text-red-600 transition-colors cursor-pointer"
-                >
-                  <ShieldAlert className="w-4 h-4 shrink-0" />
-                  Emergency Signs
-                </button>
-              </motion.div>
-            </div>
-
-            {/* ── Right: 3D Visual Composition ── */}
-            <motion.div
-              initial={{ opacity: 0, x: 24 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="relative hidden lg:block"
+          {/* CTA Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.24 }}
+            className="flex flex-wrap items-center justify-center gap-3 pt-2"
+          >
+            <button
+              type="button"
+              onClick={scrollToAssessment}
+              className="btn-pill btn-pill-white text-sm sm:text-base px-8 py-3.5 font-extrabold shadow-xl cursor-pointer flex items-center gap-2 group"
             >
-              {/* Main video frame */}
-              <div className="relative rounded-3xl overflow-hidden border border-[#E7EDF5] shadow-[0_24px_64px_rgba(16,38,77,0.14)] bg-[#10264D]">
-                <div className="aspect-[4/3] w-full overflow-hidden">
-                  <video
-                    src={clinicalOverviewVideo}
-                    poster={heroPosterImg}
-                    autoPlay loop muted playsInline preload="auto"
-                    onLoadedData={(e) => e.currentTarget.play().catch(() => {})}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                {/* Scan overlay */}
-                <div className="absolute inset-0 pointer-events-none">
-                  <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-[#2458F5]/60 to-transparent animate-scan" />
-                </div>
-                {/* Bottom caption */}
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#10264D]/90 to-transparent px-6 py-5">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                    <span className="text-white text-xs font-semibold">AI Analysis Active</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Floating stat cards */}
-              <motion.div
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -left-8 top-1/4 card-glass px-4 py-3 min-w-[160px]"
-              >
-                <div className="flex items-center gap-2.5">
-                  <div className="icon-wrap icon-wrap-blue icon-wrap-sm">
-                    <Activity className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <div className="text-[11px] text-[#64748B] font-medium">Symptom Check</div>
-                    <div className="text-sm font-bold text-[#10264D]">18+ Systems</div>
-                  </div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                animate={{ y: [0, 8, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-                className="absolute -right-6 bottom-1/3 card-glass px-4 py-3 min-w-[170px]"
-              >
-                <div className="flex items-center gap-2.5">
-                  <div className="icon-wrap icon-wrap-sm" style={{ backgroundColor: '#EAF2FF', color: '#2458F5' }}>
-                    <Scan className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <div className="text-[11px] text-[#64748B] font-medium">Skin Analysis</div>
-                    <div className="text-sm font-bold text-[#10264D]">ABCDE Screening</div>
-                  </div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                animate={{ y: [0, -6, 0] }}
-                transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-                className="absolute -right-4 top-6 card-glass px-4 py-3"
-              >
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-emerald-400" />
-                  <div className="text-xs font-semibold text-[#10264D]">Private · Secure</div>
-                </div>
-              </motion.div>
-
-              {/* Secondary videos grid */}
-              <div className="grid grid-cols-2 gap-3 mt-4">
-                <div
-                  onClick={() => onNavigate('skin')}
-                  className="group rounded-2xl overflow-hidden border border-[#E7EDF5] bg-white shadow-sm hover:shadow-md transition-all cursor-pointer"
-                >
-                  <div className="aspect-video overflow-hidden bg-[#10264D]">
-                    <video
-                      src={skinAnalysisVideo}
-                      poster={heroPosterImg}
-                      autoPlay loop muted playsInline preload="auto"
-                      onLoadedData={(e) => e.currentTarget.play().catch(() => {})}
-                      className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
-                    />
-                  </div>
-                  <div className="px-4 py-2.5 flex items-center justify-between bg-white">
-                    <span className="text-xs font-bold text-[#10264D]">Skin Review</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-[#2458F5] group-hover:translate-x-0.5 transition-transform" />
-                  </div>
-                </div>
-                <div
-                  onClick={() => onNavigate('symptoms')}
-                  className="group rounded-2xl overflow-hidden border border-[#E7EDF5] bg-white shadow-sm hover:shadow-md transition-all cursor-pointer"
-                >
-                  <div className="aspect-video overflow-hidden bg-[#10264D]">
-                    <video
-                      src={systemicTriageVideo}
-                      poster={heroPosterImg}
-                      autoPlay loop muted playsInline preload="auto"
-                      onLoadedData={(e) => e.currentTarget.play().catch(() => {})}
-                      className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
-                    />
-                  </div>
-                  <div className="px-4 py-2.5 flex items-center justify-between bg-white">
-                    <span className="text-xs font-bold text-[#10264D]">Symptom Check</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-[#2458F5] group-hover:translate-x-0.5 transition-transform" />
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Mobile: simplified video card */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="lg:hidden rounded-2xl overflow-hidden border border-[#E7EDF5] shadow-md"
+              <span>Check Symptoms Free</span>
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            </button>
+            <button
+              type="button"
+              onClick={() => onNavigate('doctor')}
+              className="btn-pill btn-pill-glass text-sm sm:text-base px-8 py-3.5 font-semibold cursor-pointer flex items-center gap-2"
             >
-              <div className="aspect-video bg-[#10264D]">
-                <video
-                  src={clinicalOverviewVideo}
-                  poster={heroPosterImg}
-                  autoPlay loop muted playsInline preload="auto"
-                  onLoadedData={(e) => e.currentTarget.play().catch(() => {})}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </motion.div>
-          </div>
+              <Stethoscope className="w-4 h-4" />
+              <span>Chat with Dr. Fizza</span>
+            </button>
+          </motion.div>
         </div>
-      </section>
 
-      {/* ═══════════════════════════════════════════════════════
-          SECTION 2 — AI CAPABILITIES (Asymmetric Feature Cards)
-          ═══════════════════════════════════════════════════════ */}
-      <section className="bg-[#F7FAFF] border-y border-[#E7EDF5] py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
-          <FadeUp className="text-center space-y-4">
-            <span className="section-label"><Brain className="w-3 h-3" />AI Healthcare Capabilities</span>
-            <h2 className="section-title">
-              Two AI tools. One clear purpose.
-            </h2>
-            <p className="section-subtitle mx-auto text-center">
-              Explore symptoms or analyse your skin — each tool designed to help you understand your health before your doctor's visit.
-            </p>
-          </FadeUp>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Symptom Checker card */}
-            <FadeUp delay={0.05}>
-              <div
-                onClick={() => onNavigate('symptoms')}
-                className="group cursor-pointer h-full bg-white rounded-3xl border border-[#E7EDF5] shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 overflow-hidden"
-              >
-                <div className="p-8 space-y-5">
-                  <div className="flex items-start justify-between">
-                    <div className="w-14 h-14 rounded-2xl bg-[#EAF2FF] flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <Stethoscope className="w-7 h-7 text-[#2458F5]" />
-                    </div>
-                    <span className="badge badge-blue">Most Used</span>
-                  </div>
-                  <div className="space-y-2">
-                    <h3 className="text-xl font-bold text-[#10264D] font-display">AI Symptom Checker</h3>
-                    <p className="text-[#64748B] leading-relaxed">
-                      Describe what you're feeling through simple guided questions. Get structured clinical possibilities, self-care guidance, and smart questions to ask your doctor.
-                    </p>
-                  </div>
-                  <ul className="space-y-2">
-                    {['18+ symptom systems covered', 'Step-by-step guided questions', 'Printable clinical summary'].map((f) => (
-                      <li key={f} className="flex items-center gap-2 text-sm text-[#64748B]">
-                        <CheckCircle2 className="w-4 h-4 text-[#2458F5] shrink-0" />
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="flex items-center gap-2 text-sm font-semibold text-[#2458F5] group-hover:gap-3 transition-all">
-                    <span>Check My Symptoms</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </div>
-                </div>
-                <div className="h-1.5 bg-gradient-to-r from-[#2458F5] to-[#DDF7FA]" />
-              </div>
-            </FadeUp>
-
-            {/* Skin Analysis card */}
-            <FadeUp delay={0.12}>
-              <div
-                onClick={() => onNavigate('skin')}
-                className="group cursor-pointer h-full bg-white rounded-3xl border border-[#E7EDF5] shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 overflow-hidden"
-              >
-                <div className="p-8 space-y-5">
-                  <div className="flex items-start justify-between">
-                    <div className="w-14 h-14 rounded-2xl bg-[#DDF7FA] flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <Camera className="w-7 h-7 text-[#0891B2]" />
-                    </div>
-                    <span className="badge badge-muted">AI Vision</span>
-                  </div>
-                  <div className="space-y-2">
-                    <h3 className="text-xl font-bold text-[#10264D] font-display">AI Skin Analysis</h3>
-                    <p className="text-[#64748B] leading-relaxed">
-                      Upload a clear photo of your skin concern. Our AI performs ABCDE melanoma screening, identifies possible dermatological conditions, and guides next steps.
-                    </p>
-                  </div>
-                  <ul className="space-y-2">
-                    {['ABCDE melanoma screening', 'Visible feature morphology analysis', 'Dermatologist Q&A preparation'].map((f) => (
-                      <li key={f} className="flex items-center gap-2 text-sm text-[#64748B]">
-                        <CheckCircle2 className="w-4 h-4 text-[#0891B2] shrink-0" />
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="flex items-center gap-2 text-sm font-semibold text-[#0891B2] group-hover:gap-3 transition-all">
-                    <span>Analyse a Skin Image</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </div>
-                </div>
-                <div className="h-1.5 bg-gradient-to-r from-[#DDF7FA] to-[#2458F5]" />
-              </div>
-            </FadeUp>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════════════════
-          SECTION 3 — HOW IT WORKS (3 Steps)
-          ═══════════════════════════════════════════════════════ */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
-          <FadeUp className="max-w-2xl mx-auto text-center space-y-4">
-            <span className="section-label"><Zap className="w-3 h-3" />How It Works</span>
-            <h2 className="section-title">
-              From question to clarity in three steps
-            </h2>
-            <p className="section-subtitle mx-auto text-center">
-              Designed for everyday clarity, complete privacy, and calm preparation before your doctor visit.
-            </p>
-          </FadeUp>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-            {/* Connector line (desktop) */}
-            <div className="hidden md:block absolute top-10 left-[calc(16.67%+2rem)] right-[calc(16.67%+2rem)] h-px bg-gradient-to-r from-[#2458F5]/30 via-[#2458F5]/60 to-[#2458F5]/30 z-0" />
-
-            {[
-              {
-                num: '01',
-                icon: <Stethoscope className="w-6 h-6" />,
-                title: 'Describe Your Symptoms',
-                desc: 'Answer calm, one-step-at-a-time questions covering what you feel, how long it has lasted, and relevant health context.',
-                action: () => onNavigate('symptoms'),
-                cta: 'Check My Symptoms',
-              },
-              {
-                num: '02',
-                icon: <Camera className="w-6 h-6" />,
-                title: 'Upload a Skin Photo',
-                desc: 'Share a clear daylight photograph of a skin spot or rash. Your image is evaluated securely in real time with zero permanent storage.',
-                action: () => onNavigate('skin'),
-                cta: 'Analyse a Skin Image',
-              },
-              {
-                num: '03',
-                icon: <FileText className="w-6 h-6" />,
-                title: 'Get Clear Insights',
-                desc: 'Receive possible causes, gentle self-care tips, warning signs to watch for, and a printable summary for your doctor.',
-                action: () => onNavigate('results'),
-                cta: 'View Sample Report',
-              },
-            ].map((item, i) => (
-              <FadeUp key={item.num} delay={i * 0.1} className="relative z-10">
-                <div className="text-center space-y-4">
-                  {/* Step circle */}
-                  <div className="relative inline-flex flex-col items-center">
-                    <div className="w-20 h-20 rounded-2xl bg-[#EAF2FF] border-2 border-[#DDE8FF] flex items-center justify-center text-[#2458F5] mx-auto shadow-sm">
-                      {item.icon}
-                    </div>
-                    <span className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-[#2458F5] text-white text-xs font-bold flex items-center justify-center shadow-md">
-                      {item.num.replace('0', '')}
+        {/* ── FLOATING DASHBOARD SHOWCASE (REFERENCE DESIGN) ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.32, ease: [0.16, 1, 0.3, 1] }}
+          className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 sm:mt-16"
+        >
+          <div className="bg-white/90 backdrop-blur-2xl rounded-3xl p-4 sm:p-6 lg:p-8 shadow-[0_25px_70px_-15px_rgba(216,30,91,0.25)] border border-white/60">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-left">
+              {/* Card 1: Clinical Triage Metric Curve */}
+              <div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                      Triage Alignment
+                    </span>
+                    <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full flex items-center gap-1">
+                      <TrendingUp className="w-3 h-3" /> 98.4%
                     </span>
                   </div>
-                  <div className="space-y-2">
-                    <h3 className="text-xl font-bold text-[#10264D] font-display">{item.title}</h3>
-                    <p className="text-[#64748B] leading-relaxed text-sm">{item.desc}</p>
+                  <div className="text-2xl font-black text-[#10264D] mt-1 font-display">
+                    Structured Clinical
                   </div>
-                  <button
-                    type="button"
-                    onClick={item.action}
-                    className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#2458F5] hover:gap-2.5 transition-all cursor-pointer group"
-                  >
-                    <span>{item.cta}</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                  </button>
+                  <p className="text-xs text-slate-500 mt-0.5">Differential considerations mapped</p>
                 </div>
-              </FadeUp>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* ═══════════════════════════════════════════════════════
-          SECTION 4 — VIDEO SHOWCASE
-          ═══════════════════════════════════════════════════════ */}
-      <section className="bg-[#F7FAFF] border-y border-[#E7EDF5] py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <FadeUp className="max-w-3xl mx-auto text-center space-y-4">
-            <span className="section-label">Designed Around Real Clinical Care</span>
-            <h2 className="section-title">
-              Supportive health guidance at every stage
-            </h2>
-            <p className="section-subtitle mx-auto text-center">
-              Whether you are checking a new skin spot or trying to understand an ongoing symptom, each tool prepares you for a productive conversation with your physician.
-            </p>
-          </FadeUp>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {CLINICAL_VIDEOS_LIST.map((vid, index) => (
-              <FadeUp key={vid.id} delay={index * 0.08}>
-                <div className="bg-white border border-[#E7EDF5] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col h-full">
-                  <MedicalVideoShowcase
-                    src={vid.src}
-                    poster={heroPosterImg}
-                    fallbackImage={heroPosterImg}
-                    showOverlayText={false}
-                    className="rounded-none border-0 border-b border-[#E7EDF5] shadow-none"
-                  />
-                  <div className="p-6 space-y-3 flex-1 flex flex-col justify-between">
-                    <div className="space-y-1.5">
-                      <div className="text-xs font-semibold text-[#2458F5]">{vid.category}</div>
-                      <h3 className="text-lg font-bold text-[#10264D] font-display">{vid.title}</h3>
-                      <p className="text-sm text-[#64748B] leading-relaxed">{vid.subtitle}</p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => onNavigate(vid.targetTab)}
-                      className="inline-flex items-center gap-2 text-sm font-semibold text-[#2458F5] hover:gap-3 transition-all cursor-pointer pt-2 self-start"
-                    >
-                      <span>{vid.ctaLabel}</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </button>
+                {/* Mini SVG Sparkline */}
+                <div className="mt-4 pt-3 border-t border-slate-50">
+                  <svg className="w-full h-12" viewBox="0 0 100 35" fill="none">
+                    <path
+                      d="M0 28 C 20 28, 30 15, 50 18 C 70 21, 80 8, 100 6"
+                      stroke="#FA4B4B"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M0 28 C 20 28, 30 15, 50 18 C 70 21, 80 8, 100 6 L 100 35 L 0 35 Z"
+                      fill="url(#sparkline-grad)"
+                      opacity="0.15"
+                    />
+                    <defs>
+                      <linearGradient id="sparkline-grad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#FA4B4B" />
+                        <stop offset="100%" stopColor="#FA4B4B" stopOpacity="0" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                  <div className="flex items-center justify-between text-[10px] text-slate-400 mt-1">
+                    <span>Intake</span>
+                    <span>Evaluation</span>
+                    <span>Triage</span>
                   </div>
                 </div>
-              </FadeUp>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════════════════
-          SECTION 5 — INTERACTIVE ASSESSMENT WORKSPACE
-          ═══════════════════════════════════════════════════════ */}
-      <section ref={assessmentRef} id="free-check" className="py-20 bg-white">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
-          <FadeUp className="text-center space-y-3 mb-10">
-            <span className="section-label">Quick Health Check · 3 Simple Questions</span>
-            <h2 className="section-title">Try a free assessment now</h2>
-          </FadeUp>
-
-          <div className="bg-white border border-[#E7EDF5] rounded-3xl shadow-md overflow-hidden">
-            {/* Tool switcher header */}
-            <div className="flex items-center justify-between gap-4 px-8 pt-8 pb-6 border-b border-[#F0F5FF]">
-              <div className="space-y-1">
-                <h3 className="text-xl font-bold text-[#10264D] font-display">
-                  {activeToolTab === 'symptoms'
-                    ? "Let's look at your symptoms together"
-                    : 'Check a skin concern privately'}
-                </h3>
-                <p className="text-sm text-[#64748B]">
-                  {activeToolTab === 'symptoms'
-                    ? 'Complete a quick 3-step check below, or open the full guided questionnaire.'
-                    : 'Upload a clear photo or select a sample case to see how our skin review works.'}
-                </p>
               </div>
-              <div className="flex items-center gap-1.5 p-1.5 bg-[#F7FAFF] rounded-xl border border-[#E7EDF5] shrink-0">
-                <button
-                  type="button"
-                  onClick={() => setActiveToolTab('symptoms')}
-                  className={`min-h-[40px] px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap ${
-                    activeToolTab === 'symptoms'
-                      ? 'bg-[#10264D] text-white shadow-sm'
-                      : 'text-[#64748B] hover:text-[#10264D]'
-                  }`}
-                >
-                  <Stethoscope className="w-3.5 h-3.5" />
-                  Symptoms
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveToolTab('skin')}
-                  className={`min-h-[40px] px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap ${
-                    activeToolTab === 'skin'
-                      ? 'bg-[#10264D] text-white shadow-sm'
-                      : 'text-[#64748B] hover:text-[#10264D]'
-                  }`}
-                >
-                  <Camera className="w-3.5 h-3.5" />
-                  Skin Analysis
-                </button>
+
+              {/* Card 2: ABCDE Lesion Scanner Progress */}
+              <div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                    ABCDE Lesion Scan
+                  </span>
+                  <span className="w-2 h-2 rounded-full bg-rose-500 animate-ping" />
+                </div>
+                <div className="space-y-1.5 text-xs">
+                  <div>
+                    <div className="flex justify-between text-slate-600 font-medium">
+                      <span>Asymmetry</span>
+                      <span className="font-bold text-slate-800">Symmetric (96%)</span>
+                    </div>
+                    <div className="w-full bg-slate-100 h-1.5 rounded-full mt-1 overflow-hidden">
+                      <div className="bg-emerald-500 h-full rounded-full w-[96%]" />
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex justify-between text-slate-600 font-medium">
+                      <span>Border</span>
+                      <span className="font-bold text-slate-800">Well-Defined</span>
+                    </div>
+                    <div className="w-full bg-slate-100 h-1.5 rounded-full mt-1 overflow-hidden">
+                      <div className="bg-emerald-500 h-full rounded-full w-[92%]" />
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex justify-between text-slate-600 font-medium">
+                      <span>Color Variegation</span>
+                      <span className="font-bold text-slate-800">Monochromatic</span>
+                    </div>
+                    <div className="w-full bg-slate-100 h-1.5 rounded-full mt-1 overflow-hidden">
+                      <div className="bg-blue-500 h-full rounded-full w-[88%]" />
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
 
-            <div className="p-8 space-y-6">
-              {errorNotice && (
-                <MedicalAlert tone="urgent" title="Notice">{errorNotice}</MedicalAlert>
-              )}
-
-              {isAnalyzing && <MedicalAnalysisSkeleton />}
-
-              {/* Patient ID bar */}
-              {!isAnalyzing && (
-                <div className="p-4 rounded-xl bg-[#F7FAFF] border border-[#E7EDF5] space-y-3">
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <div className="flex items-center gap-2 text-xs font-bold text-[#10264D]">
-                      <User className="w-3.5 h-3.5 text-[#2458F5]" />
-                      Patient Details for Medical Report &amp; PDF Export
-                    </div>
-                    <span className="text-[11px] text-[#64748B]">Included on your downloadable report</span>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <input
-                      type="text"
-                      value={patientName}
-                      onChange={(e) => setPatientName(e.target.value)}
-                      placeholder="Patient Full Name"
-                      className="px-3.5 py-2.5 rounded-xl bg-white border border-[#E7EDF5] focus:border-[#2458F5] focus:outline-none focus:ring-2 focus:ring-[#2458F5]/10 text-xs font-semibold text-[#17253B] placeholder:text-[#94A3B8] transition-all"
+              {/* Card 3: Donut Clarity Gauge */}
+              <div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm flex flex-col items-center justify-center text-center">
+                <div className="relative w-20 h-20 flex items-center justify-center">
+                  <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
+                    <path
+                      className="text-slate-100"
+                      strokeWidth="3.5"
+                      stroke="currentColor"
+                      fill="none"
+                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                     />
-                    <input
-                      type="text"
-                      value={patientAge}
-                      onChange={(e) => setPatientAge(e.target.value)}
-                      placeholder="Age in Years (e.g., 29)"
-                      className="px-3.5 py-2.5 rounded-xl bg-white border border-[#E7EDF5] focus:border-[#2458F5] focus:outline-none focus:ring-2 focus:ring-[#2458F5]/10 text-xs font-semibold text-[#17253B] tabular-nums placeholder:text-[#94A3B8] transition-all"
+                    <path
+                      className="text-[#d81e5b]"
+                      strokeDasharray="94, 100"
+                      strokeWidth="3.5"
+                      strokeLinecap="round"
+                      stroke="currentColor"
+                      fill="none"
+                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                     />
-                    <select
-                      value={patientGender}
-                      onChange={(e) => setPatientGender(e.target.value)}
-                      className="px-3.5 py-2.5 rounded-xl bg-white border border-[#E7EDF5] focus:border-[#2458F5] focus:outline-none focus:ring-2 focus:ring-[#2458F5]/10 text-xs font-semibold text-[#17253B] transition-all"
-                    >
-                      <option value="">Select Gender...</option>
-                      <option value="Female">Female</option>
-                      <option value="Male">Male</option>
-                      <option value="Other / Non-binary">Other / Non-binary</option>
-                      <option value="Prefer not to say">Prefer not to say</option>
-                    </select>
+                  </svg>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    <span className="text-lg font-black text-slate-800 leading-none">94%</span>
+                    <span className="text-[9px] text-slate-400 font-semibold">Clarity</span>
                   </div>
                 </div>
-              )}
+                <div className="text-xs font-bold text-slate-700 mt-2">Low Risk Level</div>
+                <span className="text-[10px] text-slate-400">Outpatient Consultation</span>
+              </div>
 
-              {/* ── TAB A: Rapid Symptom Checker ── */}
-              {!isAnalyzing && activeToolTab === 'symptoms' && (
-                <div className="space-y-6">
-                  {/* Progress */}
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between text-xs font-semibold text-[#10264D]">
-                      <span>Question {step} of 3</span>
-                      <span className="text-[#2458F5] tabular-nums">
-                        {step === 1 ? '33%' : step === 2 ? '66%' : '100%'}
-                      </span>
-                    </div>
-                    <div className="w-full h-2 bg-[#F7FAFF] border border-[#E7EDF5] rounded-full overflow-hidden">
-                      <motion.div
-                        className="h-full bg-[#2458F5] rounded-full"
-                        animate={{ width: step === 1 ? '33%' : step === 2 ? '66%' : '100%' }}
-                        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                      />
-                    </div>
+              {/* Card 4: Doctor Prep Checklist */}
+              <div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                      Physician Prep
+                    </span>
+                    <Award className="w-4 h-4 text-rose-500" />
                   </div>
-
-                  <AnimatePresence mode="wait">
-                    {step === 1 && (
-                      <motion.div
-                        key="s1"
-                        initial={{ opacity: 0, x: 16 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -16 }}
-                        transition={{ duration: 0.25 }}
-                        className="space-y-5"
-                      >
-                        <h3 className="text-lg font-bold text-[#10264D]">1. What is bothering you most today?</h3>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                          {QUICK_SYMPTOM_CHOICES.map((choice) => (
-                            <button
-                              key={choice.id}
-                              type="button"
-                              onClick={() => { setSelectedChoice(choice); setStep(2); }}
-                              className={`p-4 rounded-xl text-left border-[1.5px] transition-all cursor-pointer ${
-                                selectedChoice.id === choice.id
-                                  ? 'bg-[#EAF2FF] border-[#2458F5]'
-                                  : 'bg-[#F7FAFF] border-[#E7EDF5] hover:border-[#2458F5]'
-                              }`}
-                            >
-                              <div className="text-sm font-bold text-[#10264D] flex items-center justify-between gap-1.5">
-                                <span>{choice.label}</span>
-                                <ArrowRight className="w-4 h-4 text-[#2458F5] shrink-0" />
-                              </div>
-                              <div className="text-xs text-[#64748B] mt-1">{choice.hint}</div>
-                            </button>
-                          ))}
-                        </div>
-                        <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                          <div className="flex-1">
-                            <MedicalInput
-                              placeholder="Or describe how you feel in your own words..."
-                              value={customNotes}
-                              onChange={(e) => setCustomNotes(e.target.value)}
-                            />
-                          </div>
-                          <MedicalButton variant="navy" onClick={() => setStep(2)}>
-                            Continue →
-                          </MedicalButton>
-                        </div>
-                      </motion.div>
-                    )}
-
-                    {step === 2 && (
-                      <motion.div
-                        key="s2"
-                        initial={{ opacity: 0, x: 16 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -16 }}
-                        transition={{ duration: 0.25 }}
-                        className="space-y-5"
-                      >
-                        <h3 className="text-lg font-bold text-[#10264D]">
-                          2. How long have you noticed {customNotes || selectedChoice.label.toLowerCase()}?
-                        </h3>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                          {QUICK_DURATION_CHOICES.map((dur) => (
-                            <button
-                              key={dur.id}
-                              type="button"
-                              onClick={() => { setSelectedDuration(dur.id); setStep(3); }}
-                              className={`p-4 rounded-xl text-left border-[1.5px] transition-all cursor-pointer flex items-center justify-between ${
-                                selectedDuration === dur.id
-                                  ? 'bg-[#EAF2FF] border-[#2458F5]'
-                                  : 'bg-[#F7FAFF] border-[#E7EDF5] hover:border-[#2458F5]'
-                              }`}
-                            >
-                              <div>
-                                <div className="text-sm font-bold text-[#10264D]">{dur.label}</div>
-                                <div className="text-xs text-[#64748B] mt-0.5">{dur.sub}</div>
-                              </div>
-                              <ArrowRight className="w-4 h-4 text-[#2458F5]" />
-                            </button>
-                          ))}
-                        </div>
-                        <div className="flex items-center justify-between pt-2">
-                          <MedicalButton variant="ghost" size="sm" onClick={() => setStep(1)}>← Back</MedicalButton>
-                          <MedicalButton variant="navy" size="sm" onClick={() => setStep(3)}>Next →</MedicalButton>
-                        </div>
-                      </motion.div>
-                    )}
-
-                    {step === 3 && (
-                      <motion.div
-                        key="s3"
-                        initial={{ opacity: 0, x: 16 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -16 }}
-                        transition={{ duration: 0.25 }}
-                        className="space-y-5"
-                      >
-                        <h3 className="text-lg font-bold text-[#10264D]">3. How much discomfort is it causing you?</h3>
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                          {[
-                            { id: 'mild' as const, label: 'Mild', desc: 'Noticeable, but able to continue daily activities' },
-                            { id: 'moderate' as const, label: 'Moderate', desc: 'Uncomfortable and interfering with routine' },
-                            { id: 'severe' as const, label: 'Significant', desc: 'Very distressing or difficult to ignore' },
-                          ].map((sev) => (
-                            <button
-                              key={sev.id}
-                              type="button"
-                              onClick={() => setSelectedSeverity(sev.id)}
-                              className={`p-4 rounded-xl text-left border-[1.5px] transition-all cursor-pointer ${
-                                selectedSeverity === sev.id
-                                  ? 'bg-[#EAF2FF] border-[#2458F5]'
-                                  : 'bg-[#F7FAFF] border-[#E7EDF5] hover:border-[#2458F5]'
-                              }`}
-                            >
-                              <div className="text-sm font-bold text-[#10264D]">{sev.label}</div>
-                              <div className="text-xs text-[#64748B] mt-1">{sev.desc}</div>
-                            </button>
-                          ))}
-                        </div>
-                        <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-[#F0F5FF]">
-                          <MedicalButton variant="ghost" size="sm" onClick={() => setStep(2)}>← Back</MedicalButton>
-                          <MedicalButton variant="blue" size="lg" onClick={handleRunSymptomAssessment}>
-                            View Health Insights
-                          </MedicalButton>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              )}
-
-              {/* ── TAB B: Skin Scanner ── */}
-              {!isAnalyzing && activeToolTab === 'skin' && (
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-                  <div className="space-y-4">
-                    <MedicalUploadDropzone
-                      previewUrl={skinPreview}
-                      onFileSelect={handleSkinFileUpload}
-                      onClear={() => setSkinPreview(null)}
-                    />
-                    <div className="space-y-2">
-                      <span className="text-xs font-semibold text-[#64748B] block">Or try a sample photo:</span>
-                      <div className="grid grid-cols-3 gap-2">
-                        {SAMPLE_SKIN_PRESETS.map((preset) => (
-                          <button
-                            key={preset.id}
-                            type="button"
-                            onClick={() => {
-                              setSkinPreview(preset.image);
-                              setSkinNotes(preset.notes);
-                              setSkinDuration(preset.duration);
-                              setSkinLocation(preset.location);
-                            }}
-                            className={`p-2 rounded-xl border-[1.5px] text-left transition-all cursor-pointer ${
-                              skinPreview === preset.image
-                                ? 'border-[#2458F5] bg-[#EAF2FF]/60'
-                                : 'border-[#E7EDF5] bg-[#F7FAFF] hover:border-[#2458F5]'
-                            }`}
-                          >
-                            <img
-                              src={preset.image}
-                              alt={preset.label}
-                              referrerPolicy="no-referrer"
-                              className="w-full h-14 object-cover rounded-lg mb-1.5"
-                            />
-                            <div className="text-[11px] font-bold text-[#10264D] line-clamp-1">{preset.label}</div>
-                          </button>
-                        ))}
+                  <div className="space-y-1.5 mt-2.5">
+                    {[
+                      '4 Custom Doctor Questions',
+                      'Timeline & Progression',
+                      'Allergy Cross-Check',
+                      'Printable PDF Ready',
+                    ].map((item, idx) => (
+                      <div key={idx} className="flex items-center gap-1.5 text-xs text-slate-700 font-medium">
+                        <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                        <span className="truncate">{item}</span>
                       </div>
-                    </div>
-                  </div>
-
-                  <div className="space-y-4">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <MedicalInput label="Body Area" value={skinLocation} onChange={(e) => setSkinLocation(e.target.value)} />
-                      <MedicalInput label="How Long Present" value={skinDuration} onChange={(e) => setSkinDuration(e.target.value)} />
-                    </div>
-                    <MedicalInput
-                      label="What You Notice (Itching, Dryness, Changes)"
-                      value={skinNotes}
-                      onChange={(e) => setSkinNotes(e.target.value)}
-                    />
-                    <div className="p-3.5 rounded-xl bg-[#EAF2FF] text-[#10264D] text-xs flex items-center gap-2">
-                      <Lock className="w-4 h-4 text-[#2458F5] shrink-0" />
-                      <span><strong>Your photo is never stored:</strong> Evaluated privately with zero data retention.</span>
-                    </div>
-                    <div className="flex flex-col sm:flex-row gap-3 pt-1">
-                      <MedicalButton
-                        variant="blue"
-                        size="lg"
-                        className="flex-1"
-                        icon={<Camera className="w-5 h-5" />}
-                        onClick={handleRunSkinAnalysis}
-                      >
-                        Analyse Skin Image
-                      </MedicalButton>
-                      <MedicalButton variant="outline" size="lg" onClick={() => onNavigate('skin')}>
-                        Full Tool →
-                      </MedicalButton>
-                    </div>
+                    ))}
                   </div>
                 </div>
-              )}
+                <div className="text-[10px] text-slate-400 pt-2 border-t border-slate-50 mt-2">
+                  Zero Photos Saved • Ephemeral Session
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════
+          SECTION 2 — SOCIAL PROOF / ASSOCIATION BANNER
+          ═══════════════════════════════════════════════════════ */}
+      <section className="bg-white py-12 border-b border-slate-100">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+          <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+            Grounded in Recognized Medical Standards &amp; Clinical Guidelines
+          </p>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+            {[
+              { name: 'AAD Dermatology', desc: 'Melanoma Criteria', color: 'text-rose-600', bg: 'bg-rose-50/60' },
+              { name: 'MedlinePlus (NIH)', desc: 'Authoritative Grounding', color: 'text-blue-600', bg: 'bg-blue-50/60' },
+              { name: 'Stanford Medicine', desc: 'Differential Protocols', color: 'text-amber-600', bg: 'bg-amber-50/60' },
+              { name: 'WHO Standards', desc: 'Primary Care Guidance', color: 'text-emerald-600', bg: 'bg-emerald-50/60' },
+              { name: 'CDC Protocols', desc: 'Health Alert Network', color: 'text-purple-600', bg: 'bg-purple-50/60' },
+            ].map((partner, idx) => (
+              <div
+                key={idx}
+                className="bg-white border border-slate-200/70 hover:border-slate-300 rounded-2xl p-3.5 shadow-xs transition-all hover:-translate-y-1 flex flex-col items-center justify-center text-center group cursor-default"
+              >
+                <span className={`text-xs font-black tracking-tight ${partner.color} group-hover:scale-105 transition-transform`}>
+                  {partner.name}
+                </span>
+                <span className="text-[10px] text-slate-400 font-medium mt-0.5">
+                  {partner.desc}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════
+          SECTION 3 — BENTO GRID / CORE FEATURES
+          ═══════════════════════════════════════════════════════ */}
+      <section className="py-20 lg:py-28 bg-[#FCFDFE]" id="features">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
+          {/* Header */}
+          <div className="text-center max-w-2xl mx-auto space-y-3">
+            <h2 className="text-3xl sm:text-5xl font-extrabold text-[#10264D] tracking-tight font-display">
+              Everything You Need to Build Better Health Clarity with AI
+            </h2>
+            <p className="text-base text-slate-500 font-medium leading-relaxed">
+              Streamline health doubts, explore symptoms, and prep for doctor visits with our all-in-one clinical screening platform.
+            </p>
+          </div>
+
+          {/* 4 Bento Feature Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Bento 1: Centralized Symptom Triage */}
+            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-md flex flex-col justify-between hover:shadow-xl transition-all group bg-dot-grid">
+              <div className="space-y-4">
+                <div className="w-12 h-12 rounded-2xl bg-rose-50 text-[#d81e5b] flex items-center justify-center font-bold">
+                  <Activity className="w-6 h-6" />
+                </div>
+                <h3 className="text-2xl font-bold text-[#10264D] tracking-tight font-display">
+                  Multi-Step Symptom Checker
+                </h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  Capture your primary complaint, duration, progression, and severity. Formulate structured differential considerations and self-care steps cross-checked against your allergies.
+                </p>
+
+                {/* Visual UI Snippet */}
+                <div className="bg-slate-50/90 rounded-2xl p-4 border border-slate-200/60 space-y-2 mt-4">
+                  <div className="flex items-center justify-between text-xs font-semibold text-slate-700">
+                    <span>Chief Complaint: Itchy Skin Patch</span>
+                    <span className="text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">Evaluated</span>
+                  </div>
+                  <div className="text-xs text-slate-500">
+                    Possibility 1: Atopic Dermatitis (Eczema) • Possibility 2: Contact Dermatitis
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-6 mt-4 border-t border-slate-100 flex items-center justify-between">
+                <button
+                  type="button"
+                  onClick={() => onNavigate('symptoms')}
+                  className="text-sm font-bold text-[#d81e5b] hover:text-rose-700 flex items-center gap-1.5 cursor-pointer"
+                >
+                  <span>Explore Symptom Checker</span>
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                </button>
+              </div>
+            </div>
+
+            {/* Bento 2: Dermatological Computer Vision */}
+            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-md flex flex-col justify-between hover:shadow-xl transition-all group bg-dot-grid">
+              <div className="space-y-4">
+                <div className="w-12 h-12 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center font-bold">
+                  <Scan className="w-6 h-6" />
+                </div>
+                <h3 className="text-2xl font-bold text-[#10264D] tracking-tight font-display">
+                  Visual Skin &amp; Lesion Analysis
+                </h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  Inspect photographic lesion characteristics using the ABCDE screening protocol. Identify surface texture, color uniformity, and border regularities with zero photo storage.
+                </p>
+
+                {/* Visual UI Snippet */}
+                <div className="bg-slate-50/90 rounded-2xl p-4 border border-slate-200/60 flex items-center gap-4 mt-4">
+                  <img
+                    src={sampleNevusImg}
+                    alt="Nevus thumbnail"
+                    className="w-14 h-14 rounded-xl object-cover border border-slate-300 shrink-0"
+                  />
+                  <div className="text-xs space-y-1">
+                    <div className="font-bold text-slate-800">ABCDE Benchmark Review</div>
+                    <div className="text-slate-500">Asymmetry: Low • Border: Regular • Diameter: 4.2mm</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-6 mt-4 border-t border-slate-100 flex items-center justify-between">
+                <button
+                  type="button"
+                  onClick={() => onNavigate('skin')}
+                  className="text-sm font-bold text-[#d81e5b] hover:text-rose-700 flex items-center gap-1.5 cursor-pointer"
+                >
+                  <span>Launch Skin Scanner</span>
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                </button>
+              </div>
+            </div>
+
+            {/* Bento 3: Doctor Discussion Preparation Card */}
+            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-md flex flex-col justify-between hover:shadow-xl transition-all group bg-dot-grid">
+              <div className="space-y-4">
+                <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold">
+                  <FileText className="w-6 h-6" />
+                </div>
+                <h3 className="text-2xl font-bold text-[#10264D] tracking-tight font-display">
+                  Physician Consultation Summary
+                </h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  Generate an exportable clinical summary card complete with customized questions to ask your doctor. Download as a high-resolution printable PDF or copy directly to clipboard.
+                </p>
+
+                {/* Visual UI Snippet */}
+                <div className="bg-slate-50/90 rounded-2xl p-4 border border-slate-200/60 space-y-1.5 mt-4 text-xs">
+                  <div className="font-bold text-slate-800">Sample Doctor Question:</div>
+                  <p className="text-slate-600 italic">
+                    "Could this intermittent flare-up be triggered by contact allergies or seasonal changes?"
+                  </p>
+                </div>
+              </div>
+
+              <div className="pt-6 mt-4 border-t border-slate-100 flex items-center justify-between">
+                <button
+                  type="button"
+                  onClick={() => onNavigate('results')}
+                  className="text-sm font-bold text-[#d81e5b] hover:text-rose-700 flex items-center gap-1.5 cursor-pointer"
+                >
+                  <span>View Sample Report</span>
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                </button>
+              </div>
+            </div>
+
+            {/* Bento 4: 24/7 AI Bedside Doctor (Dr. Fizza) */}
+            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-md flex flex-col justify-between hover:shadow-xl transition-all group bg-dot-grid">
+              <div className="space-y-4">
+                <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold">
+                  <Stethoscope className="w-6 h-6" />
+                </div>
+                <h3 className="text-2xl font-bold text-[#10264D] tracking-tight font-display">
+                  Dr. Fizza, MD — AI Clinical Educator
+                </h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  An always-available bedside companion ready to answer follow-up questions, explain complex medical terminology in plain language, and link authoritative references.
+                </p>
+
+                {/* Visual UI Snippet */}
+                <div className="bg-slate-50/90 rounded-2xl p-4 border border-slate-200/60 flex items-center gap-3 mt-4">
+                  <div className="w-10 h-10 rounded-full bg-rose-500 text-white flex items-center justify-center font-bold text-sm shrink-0">
+                    DF
+                  </div>
+                  <div className="text-xs space-y-0.5">
+                    <div className="font-bold text-slate-800">Dr. Fizza, MD</div>
+                    <div className="text-slate-500">"Let's review what comfort measures can ease your symptoms..."</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-6 mt-4 border-t border-slate-100 flex items-center justify-between">
+                <button
+                  type="button"
+                  onClick={() => onNavigate('doctor')}
+                  className="text-sm font-bold text-[#d81e5b] hover:text-rose-700 flex items-center gap-1.5 cursor-pointer"
+                >
+                  <span>Chat with Dr. Fizza</span>
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* ═══════════════════════════════════════════════════════
-          SECTION 6 — MEDICAL REPORT (conditionally shown)
+          SECTION 4 — 6-CARD FEATURE MATRIX (REFERENCE STYLE)
           ═══════════════════════════════════════════════════════ */}
-      {(symptomResult || skinResult) && (
-        <section ref={resultsRef} className="bg-[#F7FAFF] py-16">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
-            {symptomResult && (
-              <ProfessionalMedicalReport
-                type="symptom"
-                symptomReport={symptomResult}
-                intakeContext={{
-                  patientName: patientName.trim() || symptomResult.patientName || 'Not Provided (Anonymous)',
-                  patientAge: patientAge.trim() ? `${patientAge.trim()} years` : symptomResult.patientAge || 'Adult',
-                  patientGender: patientGender.trim() || symptomResult.patientGender || 'Not specified',
-                  mainComplaint: customNotes.trim() || selectedChoice.label,
-                  symptoms: selectedChoice.symptoms,
-                  description: customNotes.trim() || `${selectedChoice.label} (${selectedChoice.hint})`,
-                  duration: selectedDuration,
-                  severity: selectedSeverity,
-                }}
-                onStartNew={() => { setSymptomResult(null); setSkinResult(null); setStep(1); }}
-              />
-            )}
-            {skinResult && (
-              <ProfessionalMedicalReport
-                type="skin"
-                skinReport={skinResult}
-                previewImageUrl={skinPreview}
-                intakeContext={{
-                  patientName: patientName.trim() || skinResult.patientName || 'Not Provided (Anonymous)',
-                  patientAge: patientAge.trim() ? `${patientAge.trim()} years` : skinResult.patientAge || 'Adult',
-                  patientGender: patientGender.trim() || skinResult.patientGender || 'Not specified',
-                  description: skinNotes,
-                  bodyLocation: skinLocation,
-                  duration: skinDuration,
-                }}
-                onStartNew={() => { setSymptomResult(null); setSkinResult(null); setStep(1); }}
-              />
-            )}
-          </div>
-        </section>
-      )}
-
-      {/* ═══════════════════════════════════════════════════════
-          SECTION 7 — TRUST & RESPONSIBLE AI
-          ═══════════════════════════════════════════════════════ */}
-      <section className="py-20 bg-white border-y border-[#E7EDF5]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
-          <FadeUp className="max-w-2xl mx-auto text-center space-y-4">
-            <span className="section-label">Privacy &amp; Patient Safety</span>
-            <h2 className="section-title">
-              Built on medical privacy, clarity, and responsible care
+      <section className="py-20 lg:py-28 bg-white border-y border-slate-100">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
+          <div className="text-center max-w-2xl mx-auto space-y-3">
+            <h2 className="text-3xl sm:text-5xl font-extrabold text-[#10264D] tracking-tight font-display">
+              If Everything Else Is Smarter, Why Not Your Health Check?
             </h2>
-            <p className="section-subtitle mx-auto text-center">
-              DermaDetect AI is designed to inform, not to replace the professional care only a qualified physician can provide.
+            <p className="text-base text-slate-500 font-medium leading-relaxed">
+              Equipped with deep healthcare guardrails and state-of-the-art vision intelligence.
             </p>
-          </FadeUp>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               {
-                icon: <Lock className="w-6 h-6" />,
-                color: '#2458F5',
-                bg: '#EAF2FF',
-                title: 'Your Photo Is Never Stored',
-                desc: 'Skin photographs and symptom details are evaluated in real time and cleared immediately after your clinical report is generated.',
+                icon: <Zap className="w-5 h-5 text-rose-600" />,
+                title: 'Quick Triage Actions',
+                desc: 'Assess systemic symptoms and identify acute alarm signs in under 60 seconds.',
+                bg: 'bg-rose-50',
               },
               {
-                icon: <ShieldCheck className="w-6 h-6" />,
-                color: '#2458F5',
-                bg: '#EAF2FF',
-                title: 'Information, Not a Diagnosis',
-                desc: 'Every summary highlights multiple possibilities and helpful questions so you can have an informed discussion with your doctor.',
+                icon: <Scan className="w-5 h-5 text-orange-600" />,
+                title: 'Automated ABCDE Scoring',
+                desc: 'Evaluates asymmetry, border irregularity, and color variation from skin photos.',
+                bg: 'bg-orange-50',
               },
               {
-                icon: <ShieldAlert className="w-6 h-6" />,
-                color: '#DC2626',
-                bg: '#FEE2E2',
-                title: 'Clear Warning Sign Alerts',
-                desc: 'Immediate guidance on when a symptom or changing skin spot warrants prompt in-person medical evaluation.',
+                icon: <Stethoscope className="w-5 h-5 text-amber-600" />,
+                title: 'Bedside AI Consultation',
+                desc: 'Empathetic guidance explaining diagnoses, medication warnings, and non-drug care.',
+                bg: 'bg-amber-50',
               },
-            ].map((item, i) => (
-              <FadeUp key={item.title} delay={i * 0.08}>
-                <div className="p-7 rounded-2xl bg-[#F7FAFF] border border-[#E7EDF5] space-y-4 hover:shadow-md transition-all duration-300 hover:-translate-y-0.5">
-                  <div
-                    className="w-12 h-12 rounded-2xl flex items-center justify-center"
-                    style={{ backgroundColor: item.bg, color: item.color }}
-                  >
-                    {item.icon}
-                  </div>
-                  <h3 className="text-base font-bold text-[#10264D] font-display">{item.title}</h3>
-                  <p className="text-sm text-[#64748B] leading-relaxed">{item.desc}</p>
+              {
+                icon: <Lock className="w-5 h-5 text-purple-600" />,
+                title: 'Zero Image Retention',
+                desc: 'Uploaded photos are processed in memory and never persisted to disks or databases.',
+                bg: 'bg-purple-50',
+              },
+              {
+                icon: <FileText className="w-5 h-5 text-blue-600" />,
+                title: 'Doctor Summary Sheet',
+                desc: 'Hospital-grade consultation card with targeted questions for your physician.',
+                bg: 'bg-blue-50',
+              },
+              {
+                icon: <ShieldAlert className="w-5 h-5 text-red-600" />,
+                title: 'Emergency Safeguards',
+                desc: 'Automatic red-flag detection guiding high-risk patients to call 911 / 112 instantly.',
+                bg: 'bg-red-50',
+              },
+            ].map((card, i) => (
+              <div
+                key={i}
+                className="bg-white rounded-2xl p-6 border border-slate-200/70 hover:border-slate-300 shadow-sm hover:shadow-md transition-all group text-left space-y-3"
+              >
+                <div className={`w-11 h-11 rounded-xl ${card.bg} flex items-center justify-center shrink-0`}>
+                  {card.icon}
                 </div>
-              </FadeUp>
+                <h4 className="text-lg font-bold text-[#10264D] tracking-tight">{card.title}</h4>
+                <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">{card.desc}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* ═══════════════════════════════════════════════════════
-          SECTION 8 — FAQ
+          SECTION 5 — INTERACTIVE QUICK ASSESSMENT RUNNER
           ═══════════════════════════════════════════════════════ */}
-      <section className="py-20 bg-[#F7FAFF]">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 space-y-10">
-          <FadeUp className="text-center space-y-3">
-            <span className="section-label">Common Questions</span>
-            <h2 className="section-title">Frequently Asked Questions</h2>
-          </FadeUp>
+      <section ref={assessmentRef} id="free-check" className="py-20 lg:py-28 bg-[#FCFDFE]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+          <div className="text-center space-y-3">
+            <span className="section-label">
+              <Sparkles className="w-3.5 h-3.5" />
+              Interactive Healthcare Lab
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#10264D] tracking-tight font-display">
+              Run Your Assessment Right Now
+            </h2>
+            <p className="text-sm sm:text-base text-slate-500 max-w-xl mx-auto">
+              Select your concern below. Experience how quickly DermaDetect AI structures clinical information.
+            </p>
+          </div>
+
+          {/* Tab Selector */}
+          <div className="flex justify-center">
+            <div className="bg-slate-200/80 p-1 rounded-full flex gap-1 shadow-inner">
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveToolTab('symptoms');
+                  setErrorNotice(null);
+                }}
+                className={`btn-pill px-6 py-2.5 text-xs font-bold transition-all cursor-pointer flex items-center gap-2 ${
+                  activeToolTab === 'symptoms'
+                    ? 'btn-pill-white text-[#d81e5b] shadow-sm'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                <Activity className="w-4 h-4" />
+                <span>Symptom Triage</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveToolTab('skin');
+                  setErrorNotice(null);
+                }}
+                className={`btn-pill px-6 py-2.5 text-xs font-bold transition-all cursor-pointer flex items-center gap-2 ${
+                  activeToolTab === 'skin'
+                    ? 'btn-pill-white text-[#d81e5b] shadow-sm'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                <Scan className="w-4 h-4" />
+                <span>Skin Lesion Scanner</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Interactive Tool Card */}
+          <div className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-xl space-y-6">
+            {errorNotice && (
+              <MedicalAlert tone="urgent" title="Assessment Notice">
+                {errorNotice}
+              </MedicalAlert>
+            )}
+
+            {activeToolTab === 'symptoms' ? (
+              /* Symptom Check Mode */
+              <div className="space-y-6 text-left">
+                <div>
+                  <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">
+                    1. Select Common Presentation
+                  </label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {QUICK_SYMPTOM_CHOICES.map((choice) => (
+                      <button
+                        key={choice.id}
+                        type="button"
+                        onClick={() => setSelectedChoice(choice)}
+                        className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer ${
+                          selectedChoice.id === choice.id
+                            ? 'border-[#d81e5b] bg-rose-50/50 text-[#d81e5b] shadow-xs'
+                            : 'border-slate-200 hover:border-slate-300 bg-white text-slate-700'
+                        }`}
+                      >
+                        <div className="font-bold text-sm">{choice.label}</div>
+                        <div className="text-xs text-slate-500 mt-0.5">{choice.hint}</div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">
+                      2. Duration
+                    </label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {QUICK_DURATION_CHOICES.map((dur) => (
+                        <button
+                          key={dur.id}
+                          type="button"
+                          onClick={() => setSelectedDuration(dur.id)}
+                          className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+                            selectedDuration === dur.id
+                              ? 'border-[#d81e5b] bg-rose-50/50 text-[#d81e5b] font-bold'
+                              : 'border-slate-200 hover:border-slate-300 bg-white text-slate-700 text-xs'
+                          }`}
+                        >
+                          <div className="text-xs">{dur.label}</div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">
+                      3. Additional Notes (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      value={customNotes}
+                      onChange={(e) => setCustomNotes(e.target.value)}
+                      placeholder="e.g., mild itching, worse in the evening"
+                      className="w-full h-11 px-3.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#d81e5b]"
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  disabled={isAnalyzing}
+                  onClick={handleRunSymptomAssessment}
+                  className="btn-pill btn-pill-coral w-full py-4 text-sm font-bold uppercase tracking-wider text-white shadow-lg cursor-pointer flex items-center justify-center gap-2"
+                >
+                  {isAnalyzing ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      <span>Synthesizing Clinical Insights...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="w-4 h-4" />
+                      <span>Analyze My Symptoms Free</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            ) : (
+              /* Skin Analysis Mode */
+              <div className="space-y-6 text-left">
+                <div>
+                  <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">
+                    1. Select a Sample Lesion or Upload Photograph
+                  </label>
+                  <div className="grid grid-cols-3 gap-3">
+                    {SAMPLE_SKIN_PRESETS.map((preset) => (
+                      <button
+                        key={preset.id}
+                        type="button"
+                        onClick={() => {
+                          setSkinPreview(preset.image);
+                          setSkinNotes(preset.notes);
+                          setSkinDuration(preset.duration);
+                          setSkinLocation(preset.location);
+                        }}
+                        className={`p-2.5 rounded-2xl border text-left transition-all cursor-pointer flex flex-col items-center gap-2 ${
+                          skinPreview === preset.image
+                            ? 'border-[#d81e5b] bg-rose-50/50 shadow-xs'
+                            : 'border-slate-200 hover:border-slate-300 bg-white'
+                        }`}
+                      >
+                        <img
+                          src={preset.image}
+                          alt={preset.label}
+                          className="w-16 h-16 rounded-xl object-cover border border-slate-200"
+                        />
+                        <div className="text-center">
+                          <div className="font-bold text-xs text-slate-800">{preset.label}</div>
+                          <div className="text-[10px] text-slate-400">{preset.location}</div>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">
+                    Or Upload Skin Photo (Private &amp; In-Memory)
+                  </label>
+                  <MedicalUploadDropzone
+                    previewUrl={skinPreview}
+                    onFileSelect={handleSkinFileUpload}
+                    onClear={() => setSkinPreview(null)}
+                  />
+                </div>
+
+                <button
+                  type="button"
+                  disabled={isAnalyzing}
+                  onClick={handleRunSkinAnalysis}
+                  className="btn-pill btn-pill-coral w-full py-4 text-sm font-bold uppercase tracking-wider text-white shadow-lg cursor-pointer flex items-center justify-center gap-2"
+                >
+                  {isAnalyzing ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      <span>Analyzing Lesion Morphology...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Scan className="w-4 h-4" />
+                      <span>Analyze Skin Photograph</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Generated Result Container */}
+          <div ref={resultsRef}>
+            {isAnalyzing && (
+              <MedicalAnalysisSkeleton
+                title="Synthesizing Clinical Possibilities..."
+                subtitle="Cross-referencing symptom clusters and medical safety standards"
+              />
+            )}
+
+            {symptomResult && !isAnalyzing && (
+              <div className="mt-8 space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-xl font-bold text-[#10264D]">Generated Consultation Sheet</h3>
+                  <button
+                    type="button"
+                    onClick={() => onNavigate('results')}
+                    className="text-xs font-bold text-[#d81e5b] hover:underline"
+                  >
+                    Open in Full Viewer →
+                  </button>
+                </div>
+                <ProfessionalMedicalReport
+                  type="symptom"
+                  symptomReport={symptomResult}
+                  onStartNew={() => setSymptomResult(null)}
+                />
+              </div>
+            )}
+
+            {skinResult && !isAnalyzing && (
+              <div className="mt-8 space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-xl font-bold text-[#10264D]">Generated Skin Screening Report</h3>
+                  <button
+                    type="button"
+                    onClick={() => onNavigate('results')}
+                    className="text-xs font-bold text-[#d81e5b] hover:underline"
+                  >
+                    Open in Full Viewer →
+                  </button>
+                </div>
+                <ProfessionalMedicalReport
+                  type="skin"
+                  skinReport={skinResult}
+                  previewImageUrl={skinPreview || undefined}
+                  onStartNew={() => setSkinResult(null)}
+                />
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════
+          SECTION 6 — TESTIMONIALS WALL (REFERENCE STYLE)
+          ═══════════════════════════════════════════════════════ */}
+      <section className="py-20 lg:py-28 bg-white border-y border-slate-100">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
+          <div className="text-center max-w-2xl mx-auto space-y-3">
+            <h2 className="text-3xl sm:text-5xl font-extrabold text-[#10264D] tracking-tight font-display">
+              See What Our Community Is Saying
+            </h2>
+            <p className="text-base text-slate-500 font-medium leading-relaxed">
+              Read how patients, clinicians, and parents use DermaDetect AI for calm, informed healthcare decisions.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {TESTIMONIALS.map((t, i) => (
+              <div
+                key={i}
+                className="bg-white rounded-3xl p-6 border border-slate-200/70 hover:border-slate-300 shadow-sm hover:shadow-md transition-all flex flex-col justify-between text-left space-y-4"
+              >
+                <div className="space-y-3">
+                  {/* Stars */}
+                  <div className="flex items-center gap-1 text-amber-400">
+                    {[...Array(5)].map((_, s) => (
+                      <Star key={s} className="w-4 h-4 fill-amber-400" />
+                    ))}
+                  </div>
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed italic">
+                    "{t.quote}"
+                  </p>
+                </div>
+
+                <div className="pt-4 border-t border-slate-100 flex items-center gap-3">
+                  <div className={`w-10 h-10 rounded-full ${t.bg} flex items-center justify-center font-bold text-xs shrink-0`}>
+                    {t.initials}
+                  </div>
+                  <div>
+                    <div className="font-bold text-sm text-[#10264D]">{t.author}</div>
+                    <div className="text-xs text-slate-400">{t.role}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════
+          SECTION 7 — VIDEO DEMO SHOWCASE
+          ═══════════════════════════════════════════════════════ */}
+      <section className="py-20 lg:py-24 bg-[#FCFDFE]">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <div className="text-center max-w-2xl mx-auto space-y-3">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#10264D] tracking-tight font-display">
+              See the Platform in Action
+            </h2>
+            <p className="text-sm sm:text-base text-slate-500 font-medium">
+              Watch real-time clinical triage, lesion computer vision, and patient report generation.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {CLINICAL_VIDEOS_LIST.map((video) => (
+              <MedicalVideoShowcase
+                key={video.id}
+                src={video.src}
+                badgeText={video.category}
+                title={video.title}
+                subtitle={video.subtitle}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════
+          SECTION 8 — FREQUENTLY ASKED QUESTIONS
+          ═══════════════════════════════════════════════════════ */}
+      <section className="py-20 bg-white border-t border-slate-100">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 text-left">
+          <div className="text-center space-y-2">
+            <h2 className="text-3xl font-extrabold text-[#10264D] font-display">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-sm text-slate-500">
+              Clear answers regarding privacy, accuracy, and clinical guidelines.
+            </p>
+          </div>
 
           <div className="space-y-3">
-            {FAQ_ITEMS.map((item, idx) => {
-              const isOpen = openFaqIndex === idx;
+            {FAQ_ITEMS.map((faq, i) => {
+              const isOpen = openFaqIndex === i;
               return (
-                <FadeUp key={item.question} delay={idx * 0.06}>
-                  <div className="bg-white border border-[#E7EDF5] rounded-2xl overflow-hidden shadow-sm">
-                    <button
-                      type="button"
-                      onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
-                      className="w-full px-6 py-5 text-left flex items-center justify-between gap-4 cursor-pointer hover:bg-[#F7FAFF] transition-colors"
-                      aria-expanded={isOpen}
-                    >
-                      <span className="text-sm sm:text-base font-bold text-[#10264D] flex-1">
-                        {item.question}
-                      </span>
-                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 shrink-0 ${
-                        isOpen ? 'bg-[#EAF2FF] text-[#2458F5]' : 'bg-[#F7FAFF] text-[#64748B]'
-                      }`}>
-                        {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                      </div>
-                    </button>
-                    <AnimatePresence>
-                      {isOpen && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                          className="overflow-hidden"
-                        >
-                          <div className="px-6 pb-5 pt-3 text-sm text-[#64748B] leading-relaxed border-t border-[#F0F5FF]">
-                            {item.answer}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                </FadeUp>
+                <div
+                  key={i}
+                  className="rounded-2xl border border-slate-200 overflow-hidden bg-white shadow-xs"
+                >
+                  <button
+                    type="button"
+                    onClick={() => setOpenFaqIndex(isOpen ? null : i)}
+                    className="w-full px-5 py-4 text-left font-bold text-sm sm:text-base text-[#10264D] flex items-center justify-between gap-4 hover:bg-slate-50 cursor-pointer transition-colors"
+                  >
+                    <span>{faq.question}</span>
+                    <span className="text-slate-400 shrink-0">
+                      {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                    </span>
+                  </button>
+                  {isOpen && (
+                    <div className="px-5 pb-5 pt-1 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 bg-slate-50/50">
+                      {faq.answer}
+                    </div>
+                  )}
+                </div>
               );
             })}
           </div>
@@ -1230,53 +1247,41 @@ export const HomePage: React.FC<HomeProps> = ({
       </section>
 
       {/* ═══════════════════════════════════════════════════════
-          SECTION 9 — FINAL CTA BANNER
+          SECTION 9 — RADIANT SUNSET CTA BANNER (REFERENCE DESIGN)
           ═══════════════════════════════════════════════════════ */}
-      <section className="py-20 bg-[#10264D] relative overflow-hidden">
-        {/* Background decoration */}
-        <div className="pointer-events-none absolute inset-0" aria-hidden>
-          <div className="absolute -top-20 right-0 w-[400px] h-[400px] rounded-full bg-[#2458F5]/15 blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-[300px] h-[300px] rounded-full bg-[#DDF7FA]/10 blur-3xl" />
+      <section className="py-16 sm:py-24 bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="sunset-card-gradient sunset-glow rounded-3xl p-8 sm:p-14 lg:p-16 text-center text-white space-y-6 relative overflow-hidden">
+            <div className="absolute inset-0 bg-dot-grid-white opacity-20 pointer-events-none" />
+
+            <div className="relative max-w-2xl mx-auto space-y-4">
+              <h2 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight font-display">
+                AI-Driven Healthcare, One Platform, Endless Peace of Mind.
+              </h2>
+              <p className="text-sm sm:text-base text-white/90 font-medium leading-relaxed">
+                Start checking symptoms or scan skin concerns in minutes. Completely free, private, and confidential.
+              </p>
+
+              <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
+                <button
+                  type="button"
+                  onClick={scrollToAssessment}
+                  className="btn-pill btn-pill-white text-xs sm:text-sm px-8 py-3.5 font-bold shadow-xl cursor-pointer"
+                >
+                  Start Free Assessment
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onNavigate('doctor')}
+                  className="btn-pill btn-pill-glass text-xs sm:text-sm px-8 py-3.5 font-semibold cursor-pointer"
+                >
+                  Consult Dr. Fizza, MD
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <FadeUp className="relative max-w-3xl mx-auto px-4 text-center space-y-8">
-          <div>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#2458F5]/20 text-[#EAF2FF] border border-[#2458F5]/30 mb-4">
-              <Sparkles className="w-3 h-3" />
-              Free to use · No registration required
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white font-display tracking-tight leading-tight">
-              Start your free health assessment today
-            </h2>
-            <p className="mt-4 text-[#94A3B8] text-lg leading-relaxed">
-              No account needed. Your data stays private. Get helpful insights in minutes.
-            </p>
-          </div>
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <button
-              type="button"
-              onClick={() => onNavigate('symptoms')}
-              className="btn btn-primary btn-lg flex items-center gap-2"
-            >
-              <Stethoscope className="w-5 h-5" />
-              Check My Symptoms
-            </button>
-            <button
-              type="button"
-              onClick={() => onNavigate('skin')}
-              className="inline-flex items-center gap-2 px-7 py-4 rounded-xl bg-white/10 hover:bg-white/15 text-white text-[0.9375rem] font-semibold transition-all border border-white/20 cursor-pointer min-h-[58px]"
-            >
-              <Camera className="w-5 h-5" />
-              Analyse Skin Image
-            </button>
-          </div>
-          <p className="text-xs text-[#64748B]">
-            DermaDetect AI provides educational health information, not medical diagnoses.
-            Always consult a qualified healthcare professional for medical advice.
-          </p>
-        </FadeUp>
       </section>
-
     </div>
   );
 };

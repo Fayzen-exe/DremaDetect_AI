@@ -11,20 +11,21 @@ export const PrivacyPage: React.FC = () => {
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45 }}
-        className="relative bg-[#10264D] text-white rounded-3xl p-8 sm:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.06)] space-y-4 flex flex-col items-center text-center overflow-hidden"
+        className="relative sunset-subpage-banner p-8 sm:p-12 text-white overflow-hidden shadow-xl space-y-4 flex flex-col items-center text-center"
       >
-        <div className="absolute top-0 right-0 w-80 h-80 bg-[#2458F5]/25 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
-        <div className="w-14 h-14 rounded-2xl bg-white/10 text-[#EAF2FF] flex items-center justify-center mx-auto border border-white/15 shadow-sm">
-          <Lock className="w-7 h-7 text-[#2458F5]" />
+        <div className="absolute inset-0 bg-dot-grid-white opacity-20 pointer-events-none" />
+
+        <div className="relative w-14 h-14 rounded-2xl bg-white/20 text-white flex items-center justify-center mx-auto border border-white/30 shadow-sm">
+          <Lock className="w-7 h-7" />
         </div>
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-[#EAF2FF] text-xs font-semibold tracking-wide uppercase border border-white/15">
-          <Sparkles className="w-3.5 h-3.5 text-[#2458F5]" />
-          <span>Patient Trust · Zero Data Retention Architecture</span>
+        <div className="relative inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/20 text-white text-xs font-semibold tracking-wide uppercase border border-white/30 backdrop-blur-md">
+          <Sparkles className="w-3.5 h-3.5" />
+          <span>Patient Trust • Zero Data Retention Architecture</span>
         </div>
-        <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight font-display text-center leading-[1.15]">
-          Privacy Policy & Data Protection
+        <h1 className="relative text-3xl sm:text-5xl font-extrabold text-white tracking-tight font-display text-center leading-[1.15]">
+          Privacy Policy &amp; Data Protection
         </h1>
-        <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl mx-auto text-center">
+        <p className="relative text-sm sm:text-base text-white/90 leading-relaxed max-w-2xl mx-auto text-center font-medium">
           We treat health inquiries and cutaneous photographs with the highest standard of medical confidentiality. Below is our transparent disclosure of privacy protections and clinical boundaries.
         </p>
       </motion.div>
@@ -32,54 +33,54 @@ export const PrivacyPage: React.FC = () => {
       {/* 3 Core Privacy Pillars */}
       <section className="space-y-6 text-center">
         <div className="space-y-2 max-w-2xl mx-auto">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EAF2FF] text-[#2458F5] text-xs font-bold uppercase tracking-wider mx-auto">
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-rose-50 text-[#d81e5b] text-xs font-bold uppercase tracking-wider mx-auto">
             <ShieldCheck className="w-3.5 h-3.5" />
             Core Privacy Guarantee
           </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-[#10264D] text-center font-display">
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-[#10264D] text-center font-display">
             Confidential Real-Time Processing
           </h2>
-          <p className="text-sm text-[#64748B] text-center">
+          <p className="text-sm text-slate-500 text-center">
             DermaDetect AI does not store, archive, or retain your uploaded skin photographs or symptom responses in any database or disk storage.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <MedicalCard className="space-y-3.5 flex flex-col items-center text-center rounded-3xl p-6 border-[#E7EDF5] shadow-[0_4px_20px_rgb(0,0,0,0.02)]">
-            <div className="w-13 h-13 rounded-2xl bg-[#EAF2FF] text-[#2458F5] flex items-center justify-center mx-auto shadow-2xs">
+          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-md hover:shadow-xl transition-all space-y-3.5 flex flex-col items-center text-center">
+            <div className="w-13 h-13 rounded-2xl bg-rose-50 text-[#d81e5b] flex items-center justify-center mx-auto shadow-2xs">
               <UserX className="w-6 h-6" />
             </div>
             <h3 className="text-base font-bold text-[#10264D] text-center font-display">
               No User Accounts Required
             </h3>
-            <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed text-center">
+            <p className="text-xs sm:text-sm text-slate-500 leading-relaxed text-center">
               No passwords, personal identity numbers, or medical record identifiers are requested to use our screening tools.
             </p>
-          </MedicalCard>
+          </div>
 
-          <MedicalCard className="space-y-3.5 flex flex-col items-center text-center rounded-3xl p-6 border-[#E7EDF5] shadow-[0_4px_20px_rgb(0,0,0,0.02)]">
-            <div className="w-13 h-13 rounded-2xl bg-[#EAF2FF] text-[#2458F5] flex items-center justify-center mx-auto shadow-2xs">
+          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-md hover:shadow-xl transition-all space-y-3.5 flex flex-col items-center text-center">
+            <div className="w-13 h-13 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center mx-auto shadow-2xs">
               <EyeOff className="w-6 h-6" />
             </div>
             <h3 className="text-base font-bold text-[#10264D] text-center font-display">
               Zero Advertising Trackers
             </h3>
-            <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed text-center">
+            <p className="text-xs sm:text-sm text-slate-500 leading-relaxed text-center">
               We never embed third-party behavioral advertising cookies or commercial health profiling pixels.
             </p>
-          </MedicalCard>
+          </div>
 
-          <MedicalCard className="space-y-3.5 flex flex-col items-center text-center rounded-3xl p-6 border-[#E7EDF5] shadow-[0_4px_20px_rgb(0,0,0,0.02)]">
-            <div className="w-13 h-13 rounded-2xl bg-[#EAF2FF] text-[#2458F5] flex items-center justify-center mx-auto shadow-2xs">
+          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-md hover:shadow-xl transition-all space-y-3.5 flex flex-col items-center text-center">
+            <div className="w-13 h-13 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center mx-auto shadow-2xs">
               <ServerOff className="w-6 h-6" />
             </div>
             <h3 className="text-base font-bold text-[#10264D] text-center font-display">
               Zero Permanent Storage
             </h3>
-            <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed text-center">
+            <p className="text-xs sm:text-sm text-slate-500 leading-relaxed text-center">
               Photographs are evaluated securely during your session solely to generate your clinical report and are never stored or saved.
             </p>
-          </MedicalCard>
+          </div>
         </div>
       </section>
 

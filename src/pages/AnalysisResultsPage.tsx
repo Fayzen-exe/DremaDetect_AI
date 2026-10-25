@@ -62,38 +62,42 @@ export const AnalysisResultsPage: React.FC<AnalysisResultsPageProps> = ({
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45 }}
-        className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#E7EDF5] pb-8"
+        className="relative sunset-subpage-banner p-8 sm:p-12 text-white overflow-hidden shadow-xl"
       >
-        <div className="max-w-2xl space-y-3 text-left">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EAF2FF] border border-[#2458F5]/20 text-[#2458F5] text-xs font-semibold tracking-wide">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>AI-Generated Clinical Report Explorer · 12-Section Architecture</span>
-          </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-[#10264D] tracking-tight font-display">
-            Analysis Results & Clinical Reports
-          </h1>
-          <p className="text-base text-[#64748B] leading-relaxed">
-            Review and export your comprehensive 12-section health report as an official clinical document or digital summary—complete with clinical findings, patient context, care guidance, and red flag warnings.
-          </p>
-        </div>
+        <div className="absolute inset-0 bg-dot-grid-white opacity-20 pointer-events-none" />
 
-        <div className="flex flex-wrap gap-3">
-          <MedicalButton
-            variant="blue"
-            size="md"
-            onClick={() => onNavigate('symptoms')}
-            icon={<Stethoscope className="w-4 h-4" />}
-          >
-            New Symptom Check
-          </MedicalButton>
-          <MedicalButton
-            variant="navy"
-            size="md"
-            onClick={() => onNavigate('skin')}
-            icon={<Camera className="w-4 h-4 text-[#EAF2FF]" />}
-          >
-            New Skin Analysis
-          </MedicalButton>
+        <div className="relative flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="max-w-2xl space-y-3 text-left">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-semibold tracking-wide">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>AI-Generated Clinical Report Explorer • 12-Section Architecture</span>
+            </div>
+            <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight font-display leading-[1.15]">
+              Analysis Results &amp; Clinical Reports
+            </h1>
+            <p className="text-base text-white/90 leading-relaxed font-medium">
+              Review and export your comprehensive 12-section health report as an official clinical document or digital summary—complete with clinical findings, patient context, care guidance, and red flag warnings.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-3">
+            <button
+              type="button"
+              onClick={() => onNavigate('symptoms')}
+              className="btn-pill btn-pill-white text-xs sm:text-sm px-5 py-2.5 font-bold shadow-md cursor-pointer flex items-center gap-2 hover:scale-105 transition-all"
+            >
+              <Stethoscope className="w-4 h-4 text-[#d81e5b]" />
+              <span>New Symptom Check</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => onNavigate('skin')}
+              className="btn-pill btn-pill-glass text-xs sm:text-sm px-5 py-2.5 font-semibold cursor-pointer flex items-center gap-2 hover:scale-105 transition-all"
+            >
+              <Camera className="w-4 h-4 text-white" />
+              <span>New Skin Analysis</span>
+            </button>
+          </div>
         </div>
       </motion.div>
 

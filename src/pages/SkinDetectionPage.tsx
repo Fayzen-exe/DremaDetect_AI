@@ -368,37 +368,36 @@ export const SkinDetectionPage: React.FC<SkinDetectionPageProps> = ({
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className="relative bg-white border border-[#E7EDF5] rounded-3xl p-8 sm:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden"
+        className="relative sunset-subpage-banner p-8 sm:p-12 text-white overflow-hidden shadow-xl"
       >
-        {/* Subtle decorative glow */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-[#2458F5]/10 via-[#EAF2FF]/30 to-transparent rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
+        <div className="absolute inset-0 bg-dot-grid-white opacity-20 pointer-events-none" />
 
         <div className="relative max-w-3xl mx-auto space-y-4 flex flex-col items-center text-center">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EAF2FF] border border-[#2458F5]/20 text-[#2458F5] text-xs font-semibold tracking-wide">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-semibold tracking-wide">
             <Camera className="w-3.5 h-3.5" />
             <span>Dermatology Observation & ABCDE Analysis</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-[#10264D] tracking-tight font-display leading-[1.15]">
-            Private AI Skin & Lesion Analysis
+          <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight font-display leading-[1.15]">
+            Private AI Skin &amp; Lesion Analysis
           </h1>
 
-          <p className="text-base text-[#64748B] max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base text-white/90 max-w-2xl mx-auto leading-relaxed font-medium">
             Upload a clear photograph of a skin spot, mole, or rash. Our clinical vision engine reviews morphology, ABCDE criteria, and prepares thoughtful questions for your dermatologist.
           </p>
 
           <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium text-[#10264D] bg-[#F7FAFF] border border-[#E7EDF5] rounded-full">
-              <ShieldCheck className="w-4 h-4 text-[#2458F5]" />
+            <span className="inline-flex items-center gap-1.5 px-4 py-1.5 text-xs font-semibold text-white bg-white/20 backdrop-blur-md border border-white/30 rounded-full">
+              <ShieldCheck className="w-4 h-4 text-emerald-300" />
               <span>Zero-Retention Architecture · Never Stored</span>
             </span>
 
             <button
               type="button"
               onClick={onOpenEmergencyModal}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-red-700 bg-red-50 hover:bg-red-100/80 border border-red-200 rounded-full transition-colors cursor-pointer"
+              className="btn-pill bg-white text-rose-600 hover:bg-neutral-50 px-5 py-2 text-xs font-bold shadow-md cursor-pointer flex items-center gap-1.5 transition-transform hover:scale-105"
             >
-              <AlertTriangle className="w-3.5 h-3.5 text-red-600" />
+              <AlertTriangle className="w-3.5 h-3.5 text-rose-600" />
               <span>Urgent Warning Signs</span>
             </button>
           </div>
@@ -804,10 +803,10 @@ export const SkinDetectionPage: React.FC<SkinDetectionPageProps> = ({
                 type="button"
                 onClick={handleAnalyze}
                 disabled={isAnalyzing || !formData.imageBase64 || !hasConsent}
-                className={`w-full min-h-[52px] py-4 px-6 rounded-2xl font-bold text-sm sm:text-base shadow-sm transition-all flex items-center justify-center gap-2.5 cursor-pointer ${
+                className={`w-full min-h-[52px] py-4 px-6 rounded-full font-bold text-sm sm:text-base shadow-sm transition-all flex items-center justify-center gap-2.5 cursor-pointer ${
                   isAnalyzing || !formData.imageBase64 || !hasConsent
                     ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
-                    : 'bg-[#2458F5] hover:bg-[#1a3fcc] text-white shadow-[0_4px_16px_rgba(36,88,245,0.3)] hover:shadow-[0_8px_28px_rgba(36,88,245,0.4)] hover:-translate-y-0.5'
+                    : 'btn-pill btn-pill-coral shadow-lg hover:shadow-xl hover:-translate-y-0.5'
                 }`}
               >
                 {isAnalyzing ? (

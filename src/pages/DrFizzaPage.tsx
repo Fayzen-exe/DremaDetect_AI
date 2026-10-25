@@ -42,18 +42,22 @@ export const DrFizzaPage: React.FC<DrFizzaPageProps> = ({
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className="space-y-4 max-w-3xl mx-auto flex flex-col items-center text-center"
+        className="relative sunset-subpage-banner p-8 sm:p-12 text-white overflow-hidden shadow-xl"
       >
-        <div className="inline-flex items-center justify-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EAF2FF] border border-[#2458F5]/20 text-[#2458F5] text-xs font-semibold tracking-wide">
-          <Stethoscope className="w-3.5 h-3.5" />
-          <span>Clinical Communicator & Health Educator</span>
+        <div className="absolute inset-0 bg-dot-grid-white opacity-20 pointer-events-none" />
+
+        <div className="relative max-w-3xl mx-auto space-y-4 flex flex-col items-center text-center">
+          <div className="inline-flex items-center justify-center gap-2 px-3.5 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-semibold tracking-wide">
+            <Stethoscope className="w-3.5 h-3.5" />
+            <span>Clinical Communicator &amp; Health Educator</span>
+          </div>
+          <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight font-display text-center leading-[1.15]">
+            Consult with Dr. Fizza, MD
+          </h1>
+          <p className="text-sm sm:text-base text-white/90 max-w-2xl mx-auto leading-relaxed text-center font-medium">
+            Ask questions in plain language to clarify medical terms, understand gentle home comfort measures, and prepare focused questions for your doctor visit.
+          </p>
         </div>
-        <h1 className="text-3xl sm:text-5xl font-extrabold text-[#10264D] tracking-tight font-display text-center leading-[1.15]">
-          Consult with Dr. Fizza, MD
-        </h1>
-        <p className="text-sm sm:text-base text-[#64748B] max-w-2xl mx-auto leading-relaxed text-center">
-          Ask questions in plain language to clarify medical terms, understand gentle home comfort measures, and prepare focused questions for your doctor visit.
-        </p>
       </motion.div>
 
       {/* Featured Clinical Video Showcase */}
@@ -68,35 +72,35 @@ export const DrFizzaPage: React.FC<DrFizzaPageProps> = ({
 
       {/* Feature Highlights Bar */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 text-xs">
-        <MedicalCard padding="md" className="flex flex-col items-center text-center space-y-2.5">
-          <div className="w-12 h-12 rounded-2xl bg-[#EAF2FF] text-[#2458F5] flex items-center justify-center mx-auto shadow-2xs">
+        <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-md hover:shadow-xl transition-all flex flex-col items-center text-center space-y-3">
+          <div className="w-12 h-12 rounded-2xl bg-rose-50 text-[#d81e5b] flex items-center justify-center mx-auto shadow-2xs">
             <Globe className="w-6 h-6" />
           </div>
           <div className="font-bold text-sm text-[#10264D] font-display">Evidence-Aligned References</div>
           <p className="text-[#64748B] leading-relaxed">
             Grounded in current medical literature to explain clinical terms clearly without confusing jargon.
           </p>
-        </MedicalCard>
+        </div>
 
-        <MedicalCard padding="md" className="flex flex-col items-center text-center space-y-2.5">
-          <div className="w-12 h-12 rounded-2xl bg-[#EAF2FF] text-[#2458F5] flex items-center justify-center mx-auto shadow-2xs">
+        <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-md hover:shadow-xl transition-all flex flex-col items-center text-center space-y-3">
+          <div className="w-12 h-12 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center mx-auto shadow-2xs">
             <MessageSquare className="w-6 h-6" />
           </div>
           <div className="font-bold text-sm text-[#10264D] font-display">Interactive Follow-Ups</div>
           <p className="text-[#64748B] leading-relaxed">
             Ask follow-up questions, request simpler explanations, and explore next steps comfortably.
           </p>
-        </MedicalCard>
+        </div>
 
-        <MedicalCard padding="md" className="flex flex-col items-center text-center space-y-2.5">
-          <div className="w-12 h-12 rounded-2xl bg-[#EAF2FF] text-[#2458F5] flex items-center justify-center mx-auto shadow-2xs">
+        <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-md hover:shadow-xl transition-all flex flex-col items-center text-center space-y-3">
+          <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center mx-auto shadow-2xs">
             <ShieldCheck className="w-6 h-6" />
           </div>
-          <div className="font-bold text-sm text-[#10264D] font-display">Safe & Confidential</div>
+          <div className="font-bold text-sm text-[#10264D] font-display">Safe &amp; Confidential</div>
           <p className="text-[#64748B] leading-relaxed">
             Zero chat persistence to external databases. Focused purely on patient empowerment.
           </p>
-        </MedicalCard>
+        </div>
       </div>
 
       {/* Optional Context Switcher if User Has Generated Reports */}

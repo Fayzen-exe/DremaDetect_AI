@@ -93,41 +93,42 @@ export default function App() {
       {/* ── Primary Navbar ── */}
       <Header currentTab={currentTab} onNavigate={handleNavigate} />
 
-      {/* ── Secondary Utility Bar ── */}
-      <div className="bg-[#F7FAFF] border-b border-[#E7EDF5] py-2 px-4 sm:px-6 lg:px-8 no-print">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-center sm:justify-between gap-2">
+      {/* ── Secondary Utility Bar (shown on subpages) ── */}
+      {currentTab !== 'home' && (
+        <div className="bg-[#F7FAFF] border-b border-[#E7EDF5] pt-[72px] pb-2 px-4 sm:px-6 lg:px-8 no-print">
+          <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-center sm:justify-between gap-2">
+            {/* Secondary links */}
+            <div className="flex flex-wrap items-center justify-center gap-0.5">
+              {secondaryNavItems.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => handleNavigate(item.id)}
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer whitespace-nowrap ${
+                    currentTab === item.id
+                      ? 'bg-rose-50 text-[#d81e5b] font-bold'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-white'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
 
-          {/* Secondary links */}
-          <div className="flex flex-wrap items-center justify-center gap-0.5">
-            {secondaryNavItems.map((item) => (
+            {/* Utility buttons */}
+            <div className="flex items-center gap-2 shrink-0">
               <button
-                key={item.id}
                 type="button"
-                onClick={() => handleNavigate(item.id)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer whitespace-nowrap ${
-                  currentTab === item.id
-                    ? 'bg-[#EAF2FF] text-[#2458F5] font-semibold'
-                    : 'text-[#64748B] hover:text-[#10264D] hover:bg-white'
-                }`}
+                onClick={() => setIsEmergencyModalOpen(true)}
+                className="px-3.5 py-1.5 rounded-full bg-red-50 text-red-600 border border-red-200 text-xs font-semibold flex items-center gap-1.5 hover:bg-red-100 transition-colors cursor-pointer"
               >
-                {item.label}
+                <ShieldAlert className="w-3.5 h-3.5" />
+                <span>Emergency Guide</span>
               </button>
-            ))}
-          </div>
-
-          {/* Utility buttons */}
-          <div className="flex items-center gap-2 shrink-0">
-            <button
-              type="button"
-              onClick={() => setIsEmergencyModalOpen(true)}
-              className="px-3.5 py-1.5 rounded-lg bg-red-50 text-red-600 border border-red-200 text-xs font-semibold flex items-center gap-1.5 hover:bg-red-100 transition-colors cursor-pointer"
-            >
-              <ShieldAlert className="w-3.5 h-3.5" />
-              <span>Emergency Guide</span>
-            </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* ── Page Content ── */}
       <main className="flex-1 bg-white">

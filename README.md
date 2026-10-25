@@ -47,10 +47,22 @@ Built from the ground up to address healthcare accessibility and patient anxiety
 
 ---
 
-## 🖼 Visual Walkthrough & Interface
+## 🖼 Visual Walkthrough & Modern UI/UX Architecture
+
+DermaDetect AI features a modern, radiant sunset aesthetic combining high-end SaaS fluidity with clinical healthcare empathy:
+
+- **Radiant Sunset Mesh Gradient**: Luminous berry-magenta, hot coral, and golden peach mesh glow (`#D81E5B` → `#FA4B4B` → `#FF7843` → `#FFA85A`) designed to eliminate clinical anxiety and inspire user calm.
+- **Floating Frosted Glass Pill Navbar**: Adaptive `backdrop-blur-2xl` pill navbar (`max-w-6xl rounded-full`) with smooth transitions between hero glass and scrolled light states.
+- **Floating Clinical Dashboard Cards**: Live interactive preview including Triage Alignment (98.4%), ABCDE lesion scan indicators, and Risk Level donut gauges.
+- **Social Proof / Medical Authority Ribbon**: Grounded in recognized clinical guidelines from AAD, MedlinePlus (NIH), Stanford Medicine, WHO, and CDC.
+- **Bento Feature Grid**: Four distinct bento cards with micro-dot grid textures, live UI previews, and direct assessment launchers.
+- **6-Card Capability Matrix**: Quick triage, automated ABCDE scoring, bedside AI chat, zero image retention, doctor summaries, and emergency safeguards.
+- **Testimonials Wall**: Authentic patient, clinician, and caregiver reviews in modern quote cards with star ratings.
+- **Unified Subpage Design Language**: Every subpage (`SymptomCheckerPage`, `SkinDetectionPage`, `DrFizzaPage`, `AnalysisResultsPage`, `DemoCasesPage`, `AboutPage`, `HealthSafetyPage`, `PrivacyPage`, `ContactPage`, `EmergencyChecklistModal`) features the `.sunset-subpage-banner` header, `.bg-dot-grid` micro-textures, `.rounded-3xl` cards, pastel badges, and `.btn-pill` button tokens.
+- **Radiant Sunset CTA & Watermark Footer**: Signature sunset card banner with dual pill buttons and a giant `DERMADETECT` brand watermark typography footer.
 
 ### 1. Hero Landing Experience
-The front door to patient health awareness: an empathetic, calm interface providing instant access to systemic symptom checks, visual skin analysis, and 24/7 AI physician consultation.
+The front door to patient health awareness: an empathetic, luminous interface providing instant access to systemic symptom checks, visual skin analysis, and 24/7 AI physician consultation.
 
 ![DermaDetect AI Hero Landing](docs/screenshots/hero-section.png)
 
